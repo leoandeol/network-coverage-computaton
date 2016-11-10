@@ -17,6 +17,12 @@ typedef boost::adjacency_list<boost::vecS,
 				Routeur,
 				Cable> network_graph_t;
 
+typedef boost::graph_traits<network_graph_t>::vertex_descriptor vertex_t;
+typedef boost::graph_traits<network_graph_t>::edge_descriptor edge_t;
+
+typedef std::vector<vertex_t> vertex_list_t;
+typedef std::vector<edge_t> edge_list_t;
+  
 class Network {
 public:
   Network();
@@ -33,7 +39,9 @@ public:
   int loadFromFile(std::string&);
   int saveToFile(std::string&);
 private:
-  network_graph_t graph;
+  network_graph_t network_graph;
+  vertex_list_t vertex_list;
+  edge_list_t edge_list;
 };
 
 #endif
