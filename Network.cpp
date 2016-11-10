@@ -10,6 +10,8 @@ Network::~Network()
 
 }
 
+
+
 int Network::loadFromFile(std::string& path)
 {
 	path = "hi";

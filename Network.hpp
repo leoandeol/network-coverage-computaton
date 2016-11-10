@@ -20,7 +20,16 @@ typedef boost::adjacency_list<boost::vecS,
 class Network {
 public:
   Network();
+  Network(int);
   ~Network();
+  int addRouteur(Routeur&);
+  int addCable(Cable&);
+  Routeur* getRouteur(int);
+  Cable* getCable(int);
+  int removeRouteur(int);
+  int removeRouteur(Routeur&);
+  int removeCable(int);
+  int removeCable(Cable&);
   int loadFromFile(std::string&);
   int saveToFile(std::string&);
 private:
