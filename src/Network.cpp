@@ -77,15 +77,20 @@ int Network::load_from_file(std::string path)
 {
 	std::ifstream in(path);
 	if(!read_graphviz(in, network_graph, dp, "name"))
-		{
-			std::cerr << "Error while reading the graph at : " << path << std::endl;
-		}
+	{
+		std::cerr << "Error while reading the graph at : " << path << std::endl;
+		return -1;
+	}
 	return 0;
 } 
 
 int Network::save_to_file(std::string path)
 {
 	std::ofstream out(path);
-	write_graphviz_dp(out, network_graph, dp, "name");
+	if(!write_graphviz_dp(out, network_graph, dp, "name"))
+	{
+		std::cerr << "Error while writing the graph at : " << path << std::endl;
+		return -1;
+	}
 	return 0;
 }
