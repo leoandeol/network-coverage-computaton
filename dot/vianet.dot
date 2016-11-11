@@ -1,0 +1,26 @@
+ diagraph vianet{
+	"London" -> "Amsterdam";
+	"London" -> "Frankfurt";
+	"London" -> "Paris";
+	"London" -> "Lisbon";
+	"Amsterdam" -> "Frankfurt";
+	"Amsterdam" -> "London";
+	"Paris" -> "London";
+	"Paris" -> "Frankfurt";
+	"Paris" -> "Barcelona";
+	"Frankfurt" -> "London";
+	"Frankfurt" -> "Amsterdam";
+	"Frankfurt" -> "Paris";
+	"Frankfurt" -> "Munich";
+	"Frankfurt" -> "Berlin";
+	"Berlin" -> "Frankfurt";
+	"Berlin" -> "Munich";
+	"Munich" -> "Berlin";
+	"Munich" -> "Frankfurt";
+	"Barcelona" -> "Paris";
+	"Barcelona" -> "Madrid";
+	"Madrid" -> "Barcelona";
+	"Madrid" -> "Lisbon";
+	"Lisbon" -> "Madrid";
+	"Lisbon" -> "London";
+ }

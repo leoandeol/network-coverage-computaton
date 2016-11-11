@@ -1,0 +1,54 @@
+http://www.av.it.pt/anp/on/refnet2.html
+
+#Europe
+vianet.dot
+http://www.av.it.pt/anp/on/figuras/vianet.jpg
+
+
+
+#Brasil
+Rede Nacional de Ensino e Pesquisa 
+rnep.dot
+http://www.av.it.pt/anp/on/figuras/rnp.jpg
+
+
+
+#USA
+CompuServe
+http://www.av.it.pt/anp/on/figuras/SINET.png
+
+
+
+Czech Education and Scientific Network (CESNET) 
+http://www.av.it.pt/anp/on/figuras/cesnet.jpg
+
+
+
+Italy Network (ITALY) 
+http://www.av.it.pt/anp/on/figuras/italy.jpg
+
+
+
+Austrian Academic Computer Network (ACONET)
+http://www.av.it.pt/anp/on/figuras/austria.jpg
+
+
+Germany Network (GERMANY) 
+http://www.av.it.pt/anp/on/figuras/germany.jpg
+
+
+
+###A faire
+
+National Telecommunication Network for Technology, Education and Research (RENATER) 
+http://www.av.it.pt/anp/on/figuras/renater.jpg
+
+
+
+Geant Backbone Topology (GEANT2) 
+http://www.av.it.pt/anp/on/figuras/geant2.jpg
+
+
+#un big
+Korotky's Prototypical Backbone Network (USA)
+http://www.av.it.pt/anp/on/figuras/usa100.jpg

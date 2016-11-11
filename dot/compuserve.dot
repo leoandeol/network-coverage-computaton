@@ -1,0 +1,30 @@
+ diagraph compuserv{
+	"Seatle" -> "SanFrancisco";
+	"Seatle" -> "Chicago";
+	"SanFrancisco" -> "Seatle";
+	"SanFrancisco" -> "LosAngeles";
+	"SanFrancisco" -> "Columbus";
+	"LosAngeles" -> "SanFrancisco";
+	"LosAngeles" -> "Dallas";
+	"Dallas" -> "LosAngeles";
+	"Dallas" -> "Houston";
+	"Dallas" -> "Columbus";
+	"Houston" -> "Dallas";
+	"Houston" -> "Atlanta";
+	"Atlanta" -> "Houston";
+	"Atlanta" -> "Washington,DC";
+	"Washington,DC" -> "Atlanta";
+	"Washington,DC" -> "NewYork";
+	"Washington,DC" -> "Columbus";
+	"NewYork" -> "Washington,DC";
+	"NewYork" -> "Boston";
+	"Boston" -> "NewYork";
+	"Boston" -> "Chicago";
+	"Chicago"-> "Boston";
+	"Chicago" -> "Seatle";
+	"Chicago" -> "Columbus";
+	"Columbus" -> "Chicago";
+	"Columbus" -> "Washington,DC";
+	"Columbus" -> "SanFrancisco";
+	"Columbus" -> "Dallas";
+ }
