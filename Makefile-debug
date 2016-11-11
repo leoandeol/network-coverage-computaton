@@ -1,16 +1,13 @@
 CC = g++
 LINK_FLAGS = -lboost_graph;
-CC_FLAGS = -Wall -Wextra -Werror -O3
-EXEC = main
+CC_FLAGS = -g
+EXEC = main-d
 SOURCES=$(wildcard *.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
 
 default: all clean
 
 all: $(EXEC)
-
-debug:
-	make -f Makefile-debug
 
 $(EXEC): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $(EXEC) $(LINK_FLAGS)

@@ -1,16 +1,18 @@
 #ifndef STRUCTS_HPP
 #define STRUCTS_HPP
 
+#include <string>
+
 typedef struct Routeur {
-  unsigned int id;
-  bool isMulticast;
+	unsigned int id;
+	std::string name;
+	bool isMulticast;
 } Routeur;
 
 typedef struct Cable {
-  unsigned int id;
-  unsigned int length;
-  struct Routeur* routeur1;
-  struct Routeur* routeur2;
+	unsigned int id;
+	std::string name;
+	unsigned int length;
 } Cable;
 
 #endif

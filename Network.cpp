@@ -2,7 +2,15 @@
 
 Network::Network()
 {
-
+	dp = boost::dynamic_properties(boost::ignore_other_properties);
+	
+	dp.property("id", boost::get(&Routeur::id, network_graph));
+	dp.property("name", boost::get(&Routeur::name, network_graph));
+	dp.property("isMulticast", boost::get(&Routeur::isMulticast, network_graph));
+	
+	dp.property("id", boost::get(&Cable::id, network_graph));
+	dp.property("name", boost::get(&Cable::name, network_graph)); 
+	dp.property("length", boost::get(&Cable::length, network_graph));
 }
 
 Network::~Network()
@@ -10,54 +18,74 @@ Network::~Network()
 
 }
 
-int Network::addRouteur(Routeur& r)
+int Network::add_routeur(Routeur& r)
 {
   
 }
 
-int Network::addCable(Cable& c)
+int Network::add_routeur(std::string& name)
 {
 
 }
 
-Routeur* Network::getRouteur(int id)
+int Network::add_cable(Cable& c)
+{
+	
+}
+
+int Network::add_cable(Routeur& src, Routeur& dest)
 {
 
 }
 
-Cable* Network::getCable(int id)
+int Network::add_cable(std::string& src, std::string& dest)
+{
+	
+}
+
+Routeur* Network::get_routeur(int id)
 {
 
 }
 
-int Network::removeRouteur(int id)
+Cable* Network::get_cable(int id)
 {
 
 }
 
-int Network::removeRouteur(Routeur& r)
+int Network::remove_routeur(int id)
 {
 
 }
 
-int Network::removeCable(int id)
+int Network::remove_routeur(Routeur& r)
 {
 
 }
 
-int Network::removeCable(Cable& c)
+int Network::remove_cable(int id)
 {
 
 }
 
-int Network::loadFromFile(std::string& path)
+int Network::remove_cable(Cable& c)
 {
-	path = "hi";
+
+}
+
+int Network::load_from_file(std::string path)
+{
+	std::ifstream in(path);
+	if(!read_graphviz(in, network_graph, dp, "name"))
+		{
+			std::cerr << "Error while reading the graph at : " << path << std::endl;
+		}
 	return 0;
 } 
 
-int Network::saveToFile(std::string& path)
+int Network::save_to_file(std::string path)
 {
-	path = "hi";
+	std::ofstream out(path);
+	write_graphviz_dp(out, network_graph, dp, "name");
 	return 0;
 }
