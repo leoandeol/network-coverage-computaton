@@ -30,30 +30,30 @@ int Network::add_cable(Cable&)
 
 int Network::add_cable(unsigned int id1, unsigned int id2)
 {
-  if(id1>=vertex_list.size())
-    {
-      Routeur r;
-      r.id = id1;
-      r.name = "add_cable";
-      r.isMulticast = true;
-      auto tmp = boost::add_vertex(r, network_graph);
-      vertex_list.push_back(tmp);
-    }
-  if(id2>=vertex_list.size())
-    {
-      Routeur r;
-      r.id = id2;
-      r.name = "add_cable";
-      r.isMulticast = true;
-      auto tmp = boost::add_vertex(r, network_graph);
-      vertex_list.push_back(tmp);
-    }
+  //if(id1>=vertex_list.size())
+  //  {
+  Routeur r;
+  r.id = id1;
+  r.name = "add_cable";
+  r.isMulticast = true;
+  auto tmp = boost::add_vertex(r, network_graph);
+  vertex_list.push_back(tmp);
+  //  }
+  //if(id2>=vertex_list.size())
+  //  {
+  Routeur r2;
+  r2.id = id2;
+  r2.name = "add_cable";
+  r2.isMulticast = true;
+  auto tmp2 = boost::add_vertex(r2, network_graph);
+  vertex_list.push_back(tmp2);
+  //  }
   Cable c;
   c.id = 42;
   c.name = "add_cable";
   c.length= 42;
-  auto tmp = boost::add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
-  edge_list.push_back(tmp.first);
+  auto tmp3 = boost::add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
+  edge_list.push_back(tmp3.first);
   return 0;
 }
 
@@ -90,6 +90,7 @@ int Network::load_from_file(std::string path)
 
 int Network::save_to_file(std::string path)
 {
+  std::cout << path << std::endl;
   std::ofstream out(path);
   write_graphviz_dp(std::cout, network_graph, dp, "name");
   // write returns void

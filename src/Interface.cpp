@@ -43,7 +43,6 @@ int Interface::create_graph_terminal()
 
 int Interface::export_graph(int id, std::string name)
 {
-  name += std::to_string(id);
-  name += FILE_EXTENSION;
-  return networks[id].save_to_file(DATA_FOLDER+name);
+  std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
+  return networks[id].save_to_file(path);
 }
