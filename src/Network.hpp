@@ -31,16 +31,12 @@ public:
   Network(int);
   ~Network();
   int add_routeur(Routeur&);
-  int add_routeur(std::string&);
   int add_cable(Cable&);
-  int add_cable(Routeur&,Routeur&);
-  int add_cable(std::string&,std::string&);
-  Routeur* get_routeur(int);
-  Cable* get_cable(int);
-  int remove_routeur(int);
-  int remove_routeur(Routeur&);
-  int remove_cable(int);
-  int remove_cable(Cable&);
+  int add_cable(unsigned int,unsigned int);
+  Routeur* get_routeur(unsigned int);
+  Cable* get_cable(unsigned int);
+  int remove_routeur(unsigned int);
+  int remove_cable(unsigned int);
   int load_from_file(std::string);
   int save_to_file(std::string);
 private:

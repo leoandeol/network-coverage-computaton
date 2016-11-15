@@ -18,59 +18,63 @@ Network::~Network()
 
 }
 
-int Network::add_routeur(Routeur& r)
+int Network::add_routeur(Routeur&)
 {
-  
+  return 0;
 }
 
-int Network::add_routeur(std::string& name)
+int Network::add_cable(Cable&)
 {
-
+  return 0;
 }
 
-int Network::add_cable(Cable& c)
+int Network::add_cable(unsigned int id1, unsigned int id2)
 {
-	
+  if(id1>=vertex_list.size())
+    {
+      Routeur r;
+      r.id = id1;
+      r.name = "add_cable";
+      r.isMulticast = true;
+      auto tmp = boost::add_vertex(r, network_graph);
+      vertex_list.push_back(tmp);
+    }
+  if(id2>=vertex_list.size())
+    {
+      Routeur r;
+      r.id = id2;
+      r.name = "add_cable";
+      r.isMulticast = true;
+      auto tmp = boost::add_vertex(r, network_graph);
+      vertex_list.push_back(tmp);
+    }
+  Cable c;
+  c.id = 42;
+  c.name = "add_cable";
+  c.length= 42;
+  auto tmp = boost::add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
+  edge_list.push_back(tmp.first);
+  return 0;
 }
 
-int Network::add_cable(Routeur& src, Routeur& dest)
+Routeur* Network::get_routeur(unsigned int)
 {
-
+  return NULL;
 }
 
-int Network::add_cable(std::string& src, std::string& dest)
+Cable* Network::get_cable(unsigned int)
 {
-	
+  return NULL;
 }
 
-Routeur* Network::get_routeur(int id)
+int Network::remove_routeur(unsigned int)
 {
-
+  return 0;
 }
 
-Cable* Network::get_cable(int id)
+int Network::remove_cable(unsigned int)
 {
-
-}
-
-int Network::remove_routeur(int id)
-{
-
-}
-
-int Network::remove_routeur(Routeur& r)
-{
-
-}
-
-int Network::remove_cable(int id)
-{
-
-}
-
-int Network::remove_cable(Cable& c)
-{
-
+  return 0;
 }
 
 int Network::load_from_file(std::string path)
@@ -87,10 +91,11 @@ int Network::load_from_file(std::string path)
 int Network::save_to_file(std::string path)
 {
   std::ofstream out(path);
-  if(!write_graphviz_dp(out, network_graph, dp, "name"))
-    {
+  write_graphviz_dp(std::cout, network_graph, dp, "name");
+  // write returns void
+  /* {
       std::cerr << "Error while writing the graph at : " << path << std::endl;
       return -1;
-    }
+    }*/
   return 0;
 }
