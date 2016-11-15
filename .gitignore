@@ -1,9 +1,8 @@
 *~
 \#*\#
 *.o
-*.png
-*.jpg
 *.ppm
 *-d
 *.swp
 data/
+*.mdj
