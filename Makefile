@@ -1,6 +1,6 @@
 CC = g++
 LINK_FLAGS = -lboost_graph;
-CC_FLAGS = -Wall -Wextra -Werror -O3
+CC_FLAGS = -Wall -Wextra -Werror -O3 -std=c++11
 EXEC = bin/main
 SOURCES=$(wildcard src/*.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
