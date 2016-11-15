@@ -4,4 +4,6 @@
 *.png
 *.jpg
 *.ppm
-*.dot
+*-d
+*.swp
+data/

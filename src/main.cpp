@@ -4,11 +4,12 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 
-#include "Network.hpp"
+#include "Interface.hpp"
 
 int main(int,char**)
 {
-  
-
-  return 0;
+	Interface i;
+	int id = i.create_graph_terminal();
+	i.export_graph(id);
+	return 0;
 }

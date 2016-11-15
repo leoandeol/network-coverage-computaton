@@ -1,0 +1,26 @@
+digraph RNEP{
+
+	"PortoAlegre" -> "Florianopolis";
+	"PortoAlegre" -> "Brasilia";
+	"Florianopolis" -> "PortoAlegre";
+	"Florianopolis" -> "Curitiba";
+	"Curitiba" -> "Florianopolis";
+	"Curitiba" -> "SaoPaulo";
+	"SaoPaulo" -> "Curitiba";
+	"SaoPaulo" -> "RioDeNajeiro";
+	"SaoPaulo" -> "Brasilia";
+	"RioDeNajeiro" -> "BeloHorizonte";
+	"RioDeNajeiro" -> "SaoPaulo";
+	"RioDeNajeiro" -> "Salvador";
+	"Salvador" -> "RioDeNajeiro";
+	"Salvador" -> "Recife";
+	"Recife" -> "Salvador";
+	"Recife" -> "Fortaleza";
+	"Fortaleza" -> "Recife";
+	"Fortaleza" -> "BeloHorizonte";
+	"BeloHorizonte" -> "Fortaleza";
+	"BeloHorizonte" -> "RioDeNajeiro";
+	"BeloHorizonte" -> "Brasilia";
+	"Brasilia" -> "BeloHorizonte";
+	"Brasilia" -> "PortoAlegre";
+}
