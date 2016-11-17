@@ -11,7 +11,6 @@ typedef struct Routeur {
 
 typedef struct Cable {
 	unsigned int id;
-	std::string name;
 	unsigned int length;
 } Cable;
 

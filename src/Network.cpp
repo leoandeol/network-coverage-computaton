@@ -1,16 +1,15 @@
 #include "Network.hpp"
 
-Network::Network()
+Network::Network() : vertex_list(2),edge_list(2)
 {
   dp = boost::dynamic_properties(boost::ignore_other_properties);
   
-  dp.property("id", boost::get(&Routeur::id, network_graph));
-  dp.property("name", boost::get(&Routeur::name, network_graph));
+  dp.property("node_id", boost::get(boost::vertex_index, network_graph));
+  dp.property("label", boost::get(&Routeur::name, network_graph));
   dp.property("isMulticast", boost::get(&Routeur::isMulticast, network_graph));
   
-  dp.property("id", boost::get(&Cable::id, network_graph));
-  dp.property("name", boost::get(&Cable::name, network_graph)); 
-  dp.property("length", boost::get(&Cable::length, network_graph));
+  dp.property("edge_id", boost::get(&Cable::id, network_graph));
+  dp.property("label", boost::get(&Cable::length, network_graph));
 }
 
 Network::~Network()
@@ -34,25 +33,24 @@ int Network::add_cable(unsigned int id1, unsigned int id2)
   //  {
   Routeur r;
   r.id = id1;
-  r.name = "add_cable";
+  r.name = std::string("add_cabler1");
   r.isMulticast = true;
-  auto tmp = boost::add_vertex(r, network_graph);
-  vertex_list.push_back(tmp);
+  auto tmp = add_vertex(r, network_graph);
+  vertex_list[0]=tmp;
   //  }
   //if(id2>=vertex_list.size())
   //  {
   Routeur r2;
   r2.id = id2;
-  r2.name = "add_cable";
+  r2.name = "add_cabler2";
   r2.isMulticast = true;
-  auto tmp2 = boost::add_vertex(r2, network_graph);
-  vertex_list.push_back(tmp2);
+  auto tmp2 = add_vertex(r2, network_graph);
+  vertex_list[1]=tmp2;
   //  }
   Cable c;
   c.id = 42;
-  c.name = "add_cable";
-  c.length= 42;
-  auto tmp3 = boost::add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
+  c.length= 420;
+  auto tmp3 = add_edge(vertex_list[0], vertex_list[1], c, network_graph);
   edge_list.push_back(tmp3.first);
   return 0;
 }
@@ -80,7 +78,7 @@ int Network::remove_cable(unsigned int)
 int Network::load_from_file(std::string path)
 {
   std::ifstream in(path);
-  if(!read_graphviz(in, network_graph, dp, "name"))
+  if(!read_graphviz(in, network_graph, dp, "node_id"))
     {
       std::cerr << "Error while reading the graph at : " << path << std::endl;
       return -1;
@@ -92,7 +90,7 @@ int Network::save_to_file(std::string path)
 {
   std::cout << path << std::endl;
   std::ofstream out(path);
-  write_graphviz_dp(std::cout, network_graph, dp, "name");
+  write_graphviz_dp(std::cout, network_graph, dp, "node_id");
   // write returns void
   /* {
       std::cerr << "Error while writing the graph at : " << path << std::endl;

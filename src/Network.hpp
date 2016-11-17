@@ -15,7 +15,7 @@
 
 typedef boost::adjacency_list<boost::vecS,
 			      boost::vecS,
-			      boost::directedS,
+			      boost::bidirectionalS,
 			      Routeur,
 			      Cable> network_graph_t;
 
