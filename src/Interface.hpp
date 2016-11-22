@@ -7,14 +7,15 @@
 class Interface
 {
 public:
-	Interface();
-	~Interface();
-	int create_graph_terminal();
-	int export_graph(int,std::string="export");
+  Interface();
+  ~Interface();
+  int create_graph_terminal();
+  int import_graph(std::string="import");
+  void export_graph(int,std::string="export");
 private:
-	std::vector<Network> networks;
-	const std::string DATA_FOLDER = "data/";
-	const std::string FILE_EXTENSION = ".dot";
+  std::vector<Network> networks;
+  const std::string DATA_FOLDER = "data/";
+  const std::string FILE_EXTENSION = ".dot";
 };
 
 #endif
