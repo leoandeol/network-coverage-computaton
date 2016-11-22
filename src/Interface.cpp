@@ -22,15 +22,20 @@ int Interface::create_graph_terminal()
 	
   while(true)
     {
-
+		
+	  //Ex: 1 -> 2
+	  
       std::cout << "Origin node : ";
+      //rentrer un chiffre
       std::cin >> input1;
       if(input1=="done") break;
 
       std::cout << "Destination node : ";
+      //rentrer chiffre
       std::cin >> input2;
       if(input2=="done") break;
       
+      //conversion des chiffres entrés de String vers Integer
       int i1 = std::stoi(input1,nullptr);
       int i2 = std::stoi(input2,nullptr);
 
