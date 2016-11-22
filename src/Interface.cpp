@@ -18,19 +18,19 @@ int Interface::create_graph_terminal()
   std::string input1, input2;
 
   std::cout << "Network creation assistant" << std::endl;
-  std::cout << "Type \"done\" anytime to finish the creation" << std::endl;
+  std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
 	
   while(true)
     {
 		
 	  //Ex: 1 -> 2
 	  
-      std::cout << "Origin node : ";
+      std::cout << "Node 1 : ";
       //rentrer un chiffre
       std::cin >> input1;
       if(input1=="done") break;
 
-      std::cout << "Destination node : ";
+      std::cout << "Node 2 : ";
       //rentrer chiffre
       std::cin >> input2;
       if(input2=="done") break;
