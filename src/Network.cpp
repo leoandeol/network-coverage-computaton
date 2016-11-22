@@ -4,7 +4,7 @@ Network::Network() : vertex_list(2),edge_list(2)
 {
   dp = boost::dynamic_properties(boost::ignore_other_properties);
   
-  dp.property("node_id", boost::get(boost::vertex_index, network_graph));
+  dp.property("node_id", boost::get(&Routeur::id, network_graph));
   dp.property("label", boost::get(&Routeur::name, network_graph));
   dp.property("isMulticast", boost::get(&Routeur::isMulticast, network_graph));
   
@@ -91,7 +91,7 @@ int Network::remove_cable(unsigned int)
 int Network::load_from_file(std::string path)
 {
   std::ifstream in(path);
-  if(!read_graphviz(in, network_graph, dp, "node_id"))
+  if(!read_graphviz(in, network_graph, dp))
     {
       std::cerr << "Error while reading the graph at : " << path << std::endl;
       return -1;
@@ -101,13 +101,8 @@ int Network::load_from_file(std::string path)
 
 int Network::save_to_file(std::string path)
 {
-  std::cout << path << std::endl;
-  std::ofstream out(path);
-  write_graphviz_dp(std::cout, network_graph, dp, "node_id");
-  // write returns void
-  /* {
-      std::cerr << "Error while writing the graph at : " << path << std::endl;
-      return -1;
-    }*/
+  std::ofstream out(path,std::ofstream::out);
+  write_graphviz_dp(std::cout, network_graph, dp);
+  out.close();
   return 0;
 }

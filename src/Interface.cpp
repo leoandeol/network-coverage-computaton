@@ -13,7 +13,7 @@ Interface::~Interface()
 int Interface::create_graph_terminal()
 {
   int id = networks.size();
-  Network n();
+  Network* n = new Network();
 
   std::string input1, input2;
 
@@ -39,26 +39,27 @@ int Interface::create_graph_terminal()
       int i1 = std::stoi(input1,nullptr);
       int i2 = std::stoi(input2,nullptr);
 
-      n.add_cable(i1,i2);
+      n->add_cable(i1,i2);
     }
 	
   networks.push_back(n);
+  
   return id;
 }
 
 int Interface::import_graph(std::string name)
 {
   std::string path = DATA_FOLDER + name + FILE_EXTENSION;
-  Network n();
+  Network* n = new Network();
   int i = networks.size();
   //todo test if found
-  n.open_from_file(path);
+  n->load_from_file(path);
   networks.push_back(n);
   return i;
 }
 
-int Interface::export_graph(int id, std::string name)
+void Interface::export_graph(int id, std::string name)
 {
   std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
-  networks[id].save_to_file(path);
+  networks[id]->save_to_file(path);
 }
