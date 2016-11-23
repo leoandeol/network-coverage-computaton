@@ -2,7 +2,7 @@
 
 // CLASS
 
-Network::Network() : vertex_list(10), vertex_exist(10), edge_list()
+Network::Network() : vertex_list(), vertex_exist(), edge_list()
 {
   dp = boost::dynamic_properties(boost::ignore_other_properties);
   
@@ -19,38 +19,24 @@ Network::~Network()
 
 }
 
-//TODO remove that and use the one by reference, because more the the id needs to be passed
-int Network::add_routeur(unsigned int id)
+int Network::add_routeur()
 {
-	if(id>(vertex_list.size()-1))
-	{
-		vertex_list.resize(id);
-		vertex_exist.resize(id);
-	}
-	if(vertex_exist[id]==false)
-	{
-		Routeur r;
-		r.id = id;
-		r.name = std::to_string(id);
-		r.isMulticast = true;
-		vertex_list[id]=add_vertex(r,network_graph);
-		vertex_exist[id]=true;
-		return 0;
-	}
-	else
-	{
-		return -1;
-	}
+  static unsigned int id_count = 0;
+  Routeur r;
+  r.id = id_count;
+  r.name = std::to_string(r.id);
+  r.isMulticast=true;
+  vertex_t v_desc = add_vertex(r,network_graph);
+  vertex_list.push_back(v_desc);
+  id_count++;
+  return r.id;
 }
 
-int Network::add_routeur(Routeur&)
+int Network::add_routeur(std::string& name)
 {
-  return 0;
-}
-
-int Network::add_cable(Cable&)
-{
-  return 0;
+  int id = add_routeur();
+  vertex_list[id].name = name;
+  return id;
 }
 
 int Network::add_cable(unsigned int id1, unsigned int id2)
