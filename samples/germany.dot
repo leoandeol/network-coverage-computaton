@@ -1,4 +1,4 @@
- diagraph germanhy{
+ digraph germanhy{
 	"Norden" -> "Bremen";
 	"Norden" -> "Dortmund";
 	"Dortmund" -> "Essen";
@@ -22,7 +22,7 @@
 	"Karlruhe" -> "Mannheim";
 	"Karlruhe" -> "Stuttgart";
 	"Stuttgart" -> "Karlruhe";
-	"Stuttgart" -> Numbery";
+	"Stuttgart" -> "Numbery";
 	"Stuttgart" -> "Ulm";
 	"Ulm" -> "Stuttgart";
 	"Ulm" -> "Munich";

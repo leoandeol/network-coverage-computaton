@@ -1,4 +1,4 @@
- diagraph italy{
+ digraph italy{
 	"Venice" -> "Trento";
 	"Venice" -> "Bologne";
 	"Venice" -> "Milan";

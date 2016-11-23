@@ -1,4 +1,4 @@
- diagraph compuserv{
+ digraph compuserv{
 	"Seatle" -> "SanFrancisco";
 	"Seatle" -> "Chicago";
 	"SanFrancisco" -> "Seatle";

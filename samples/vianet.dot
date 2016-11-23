@@ -1,4 +1,4 @@
- diagraph vianet{
+ digraph vianet{
 	"London" -> "Amsterdam";
 	"London" -> "Frankfurt";
 	"London" -> "Paris";
