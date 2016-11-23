@@ -1,14 +1,15 @@
 #include "Network.hpp"
 
-// CLASS
-
-Network::Network(NetworkInfo&) : vertex_list(), vertex_exist(), edge_list()
+Network::Network(NetworkInfo& n) : vertex_list(), vertex_exist(), edge_list()
 {
+  (boost::get(&NetworkInfo, network_graph))[network_graph].name = n.name;
+  (boost::get(&NetworkInfo, network_graph))[network_graph].location = n.location;
+  
   dp = boost::dynamic_properties(boost::ignore_other_properties);
   
   dp.property("node_id", boost::get(&Routeur::id, network_graph));
   dp.property("label", boost::get(&Routeur::name, network_graph));
-  dp.property("isMulticast", boost::get(&Routeur::isMulticast, network_graph));
+  dp.property("is_multicast", boost::get(&Routeur::is_multicast, network_graph));
   
   dp.property("edge_id", boost::get(&Cable::id, network_graph));
   dp.property("label", boost::get(&Cable::length, network_graph));
@@ -35,7 +36,7 @@ int Network::add_routeur()
 int Network::add_routeur(std::string& name)
 {
   int id = add_routeur();
-  vertex_list[id].name = name;
+  boost::get(&Routeur,network_graph,vertex_list[id]).name = name;
   return id;
 }
 
@@ -57,26 +58,26 @@ int Network::add_cable(unsigned int id1, unsigned int id2)
     }
   
   Cable c;
-  c.id=count;
+  c.id=id_count;
   c.length=default_cable_length;
   
   auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
   edge_list.push_back(tmp1.first);
   auto tmp2 = add_edge(vertex_list[id2], vertex_list[id1], c, network_graph);
   edge_list.push_back(tmp2.first);
-  count++;
+  id_count++;
   
   return (tmp1.second==false||tmp2.second==false)?c.id:-1;
 }
 
-Routeur* Network::get_routeur(unsigned int)
+Routeur* Network::get_routeur(unsigned int id)
 {
-  return NULL;
+  return (boost::get(&Routeur,network_graph,vertex_list[id]));
 }
 
-Cable* Network::get_cable(unsigned int)
+Cable* Network::get_cable(unsigned int id)
 {
-  return NULL;
+  return (boost::get(&Cable,network_graph,edge_list[id]));
 }
 
 int Network::remove_routeur(unsigned int)
@@ -89,7 +90,7 @@ int Network::remove_cable(unsigned int)
   return 0;
 }
 
-int Network::load_from_file(std::string path)
+int Network::load_from_file(std::string& path)
 {
   std::ifstream in(path);
   if(!read_graphviz(in, network_graph, dp))
@@ -101,7 +102,7 @@ int Network::load_from_file(std::string path)
   return 0;
 } 
 
-int Network::save_to_file(std::string path)
+void Network::save_to_file(std::string& path)
 {
   std::ofstream out(path,std::ofstream::out);
   write_graphviz_dp(out, network_graph, dp);

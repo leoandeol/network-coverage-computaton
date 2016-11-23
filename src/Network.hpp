@@ -17,7 +17,7 @@ typedef boost::adjacency_list<boost::vecS,
 			      boost::vecS,
 			      boost::bidirectionalS,
 			      Routeur,
-			      Cable> network_graph_t;
+			      Cable, NetworkInfo> network_graph_t;
 
 typedef boost::graph_traits<network_graph_t>::vertex_descriptor vertex_t;
 typedef boost::graph_traits<network_graph_t>::edge_descriptor edge_t;
@@ -96,7 +96,7 @@ private:
   std::vector<bool> vertex_exist;/**< A boolean array used to check if the vertex at the said coordinates exist, because the array can be wider than the number of vertices it contains */
   edge_list_t edge_list;/**< The list of edge descriptors, of network_graph's edges*/
   boost::dynamic_properties dp;/**< The dynamic properties of our graph, to link the structs to the import/export format*/
-  unsigned bool default_routeur_is_multicast = true;/**< Default value for is_multicast when creating a new routeur*/
+  bool default_routeur_is_multicast = true;/**< Default value for is_multicast when creating a new routeur*/
   unsigned int default_cable_length = 1;/**< Default value for length when creating a new cable*/
 };
 
