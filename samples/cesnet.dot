@@ -1,4 +1,4 @@
- diagraph cesnet{
+ digraph cesnet{
 	"Usti" -> "Liberec";
 	"Usti" -> "Praga";
 	"Liberec" -> "Usti";

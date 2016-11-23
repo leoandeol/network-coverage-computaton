@@ -1,6 +1,8 @@
 #include "Network.hpp"
 
-Network::Network() : vertex_list(2),edge_list(2)
+// CLASS
+
+Network::Network() : vertex_list(10), vertex_exist(10), edge_list()
 {
   dp = boost::dynamic_properties(boost::ignore_other_properties);
   
@@ -17,6 +19,30 @@ Network::~Network()
 
 }
 
+//TODO remove that and use the one by reference, because more the the id needs to be passed
+int Network::add_routeur(unsigned int id)
+{
+	if(id>(vertex_list.size()-1))
+	{
+		vertex_list.resize(id);
+		vertex_exist.resize(id);
+	}
+	if(vertex_exist[id]==false)
+	{
+		Routeur r;
+		r.id = id;
+		r.name = std::to_string(id);
+		r.isMulticast = true;
+		vertex_list[id]=add_vertex(r,network_graph);
+		vertex_exist[id]=true;
+		return 0;
+	}
+	else
+	{
+		return -1;
+	}
+}
+
 int Network::add_routeur(Routeur&)
 {
   return 0;
@@ -29,43 +55,23 @@ int Network::add_cable(Cable&)
 
 int Network::add_cable(unsigned int id1, unsigned int id2)
 {
-  //if(id1>=vertex_list.size())
-  //  {
-  
-  //Initialisation du routeur 1
-  Routeur r;
-  r.id = id1;
-  r.name = std::string("add_cabler1");
-  r.isMulticast = true;
-  //Transformation du routeur en sommet (dans un graphe) + ajout dans la liste de sommet vertex_list en 1ere position
-  //+ ajouteur au graph
-  auto tmp = add_vertex(r, network_graph);
-  vertex_list[0]=tmp;
-  //  }
-  //if(id2>=vertex_list.size())
-  //  {
-  
-  //Initialisation du routeur 2
-  Routeur r2;
-  r2.id = id2;
-  r2.name = "add_cabler2";
-  r2.isMulticast = true;
-  //Transformation du routeur en sommet (dans un graphe) + ajout dans la liste de sommet vertex_list en 2e position
-  //+ ajouteur au graph
-  auto tmp2 = add_vertex(r2, network_graph);
-  vertex_list[1]=tmp2;
-  //  }
-  
-  //Initialisation du "cable" liant le routeur 1 et le routeur 2
-  Cable c;
-  c.id = 42;
-  c.length= 420;
-  
-  //Liaison des deux routeurs dans vertex_list via c
-  //+Ajout dans le graph
-  auto tmp3 = add_edge(vertex_list[0], vertex_list[1], c, network_graph);
-  edge_list.push_back(tmp3.first);
-  return 0;
+	static int count = 1;
+
+	add_routeur(id1);
+	add_routeur(id2);
+	
+	Cable c;
+	c.id=count;
+	//TBD
+	c.length=1;
+
+	auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
+	edge_list.push_back(tmp1.first);
+	auto tmp2 = add_edge(vertex_list[id2], vertex_list[id1], c, network_graph);
+	edge_list.push_back(tmp2.first);
+	count++;
+	
+	return (tmp1.second==false||tmp2.second==false)?0:-1;
 }
 
 Routeur* Network::get_routeur(unsigned int)
@@ -96,13 +102,14 @@ int Network::load_from_file(std::string path)
       std::cerr << "Error while reading the graph at : " << path << std::endl;
       return -1;
     }
+  in.close();
   return 0;
 } 
 
 int Network::save_to_file(std::string path)
 {
   std::ofstream out(path,std::ofstream::out);
-  write_graphviz_dp(std::cout, network_graph, dp);
+  write_graphviz_dp(out, network_graph, dp);
   out.close();
   return 0;
 }

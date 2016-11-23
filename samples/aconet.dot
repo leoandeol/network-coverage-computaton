@@ -1,4 +1,4 @@
-digraph aconet{
+ digraph aconet{
 	
 	A12 -> A14;
 	A12 -> A13;
@@ -9,7 +9,7 @@ digraph aconet{
 	A14 -> A13;
 	A14 -> A1;
 	A8 -> A9;
-	A8 -> A3;
+	A8 -> A3; ###############
 	A9 -> A9;
 	A9 -> A1;
 	A3 -> A8;
