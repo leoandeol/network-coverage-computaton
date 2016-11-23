@@ -28,9 +28,10 @@ typedef std::vector<edge_t> edge_list_t;
 class Network {
 public:
   /**
-     \brief Default constructor
+     \brief Constructor
+     \param i struct containing informations about the graph such as its name
   */
-  Network();
+  Network(NetworkInfo& i);
   /**
      \brief Destructr
   */
@@ -50,7 +51,7 @@ public:
      \brief Creates a new cable between two routeurs, and returns its id
      \param id1 A routeur's ID
      \param id2 Another routeur's ID
-     \return The new cable's ID or -1 if there was an error (non existent routeur for exemple)
+     \return The new cable's ID or -1 if there was an error (non existent routeur or identical routeurs for exemple)
   */
   int add_cable(unsigned int id1,unsigned int id2);
   /**
@@ -95,7 +96,8 @@ private:
   std::vector<bool> vertex_exist;/**< A boolean array used to check if the vertex at the said coordinates exist, because the array can be wider than the number of vertices it contains */
   edge_list_t edge_list;/**< The list of edge descriptors, of network_graph's edges*/
   boost::dynamic_properties dp;/**< The dynamic properties of our graph, to link the structs to the import/export format*/
-  // TODO default values for routeurs and acbles
+  unsigned bool default_routeur_is_multicast = true;/**< Default value for is_multicast when creating a new routeur*/
+  unsigned int default_cable_length = 1;/**< Default value for length when creating a new cable*/
 };
 
 #endif

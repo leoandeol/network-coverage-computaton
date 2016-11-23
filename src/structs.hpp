@@ -3,10 +3,16 @@
 
 #include <string>
 
+typedef struct NetworkInfo
+{
+  std::string name;
+  std::string location;
+} NetworkInfo;
+
 typedef struct Routeur {
 	unsigned int id;
 	std::string name;
-	bool isMulticast;
+	bool is_multicast;
 } Routeur;
 
 typedef struct Cable {
