@@ -27,11 +27,15 @@ typedef std::vector<edge_t> edge_list_t;
 
 class Network {
 public:
+  /** 
+      \brief Default Constructor, calls the other constructor with default parameters
+  */
+  Network();
   /**
      \brief Constructor
      \param i struct containing informations about the graph such as its name
   */
-  Network(NetworkInfo& i);
+  Network(NetworkInfo i);
   /**
      \brief Destructr
   */
@@ -55,21 +59,23 @@ public:
   */
   int add_cable(unsigned int id1,unsigned int id2);
   /**
-     \brief Gives a pointer to the routeur with the given ID
-     \param id The routeur's ID
-     \return A pointer to the wanted routeur, or nullptr if non-existent
+     \brief Gives the value of an attribute of an element, of type Structure
+     \param id The element's ID
+     \return A reference to the attribute's value
    */
-  Routeur* get_routeur(unsigned int id);
+  template<typename Structure, typename Attribute>
+  Attribute& get_attribute(unsigned int id);
+  /**
+     \brief Sets the value of an attribute of an element, of type Structure
+     \param id The element's ID
+     \param value The new value of the attribute
+  */
+  template <typename Structure, typename Attribute>
+  void set_attribute(unsigned int id, Attribute value);
   /**
      \brief Gives a pointer to the cable with the given ID
      \param id The cable's ID
      \return A pointer to the wanted cable, or nullptr if non-existent
-   */
-  Cable* get_cable(unsigned int id);
-  /**
-     \brief Removes the routeur with the given ID
-     \param id The routeur's ID
-     \return 0 if successfully removed, else -1
    */
   int remove_routeur(unsigned int id);
   /**

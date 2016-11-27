@@ -1,9 +1,14 @@
 #include "Network.hpp"
 
-Network::Network(NetworkInfo& n) : vertex_list(), vertex_exist(), edge_list()
+Network::Network() : Network(NetworkInfo("GraphPropertyName","GraphPropertyLocation"))
 {
-  (boost::get(&NetworkInfo, network_graph))[network_graph].name = n.name;
-  (boost::get(&NetworkInfo, network_graph))[network_graph].location = n.location;
+}
+
+Network::Network(NetworkInfo n) : network_graph(0,n), vertex_list(), vertex_exist(), edge_list()
+{
+  //deprecated
+  //(boost::get(&NetworkInfo, network_graph))[network_graph].name = n.name;
+  //(boost::get(&NetworkInfo, network_graph))[network_graph].location = n.location;
   
   dp = boost::dynamic_properties(boost::ignore_other_properties);
   
@@ -36,7 +41,7 @@ int Network::add_routeur()
 int Network::add_routeur(std::string& name)
 {
   int id = add_routeur();
-  boost::get(&Routeur,network_graph,vertex_list[id]).name = name;
+  boost::put(&Routeur::name,network_graph,vertex_list[id],name);
   return id;
 }
 
@@ -48,7 +53,7 @@ int Network::add_cable(unsigned int id1, unsigned int id2)
   
   if((id1>=nb_vert||id2>=nb_vert))
     {
-      std::cerr << "Routeur " << id1 << " or " << id2 << " do not exist." << std::endl;
+      std::cerr << "Routeur " << id1 << " or " << id2 << " does not exist." << std::endl;
       return -1;
     }
   if(id1==id2)
@@ -70,14 +75,16 @@ int Network::add_cable(unsigned int id1, unsigned int id2)
   return (tmp1.second==false||tmp2.second==false)?c.id:-1;
 }
 
-Routeur* Network::get_routeur(unsigned int id)
+template <typename Structure, typename Attribute>
+Attribute& Network::get_attribute(unsigned int id)
 {
-  return (boost::get(&Routeur,network_graph,vertex_list[id]));
+  return boost::get(&Structure::Attribute,network_graph,vertex_list[id]);
 }
 
-Cable* Network::get_cable(unsigned int id)
+template <typename Structure, typename Attribute>
+void Network::set_attribute(unsigned int id, Attribute value)
 {
-  return (boost::get(&Cable,network_graph,edge_list[id]));
+  boost::put(&Structure::Attribute,network_graph,vertex_list[id], value);
 }
 
 int Network::remove_routeur(unsigned int)
@@ -107,5 +114,4 @@ void Network::save_to_file(std::string& path)
   std::ofstream out(path,std::ofstream::out);
   write_graphviz_dp(out, network_graph, dp);
   out.close();
-  return 0;
 }

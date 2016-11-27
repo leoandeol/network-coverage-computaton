@@ -41,7 +41,7 @@ int Interface::create_graph_terminal()
 
       n->add_cable(i1,i2);
     }
-	
+  
   networks.push_back(n);
   
   return id;

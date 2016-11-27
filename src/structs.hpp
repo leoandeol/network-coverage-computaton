@@ -7,6 +7,11 @@ typedef struct NetworkInfo
 {
   std::string name;
   std::string location;
+  NetworkInfo(std::string s, std::string l)
+  {
+    name = s;
+    location = l;
+  }
 } NetworkInfo;
 
 typedef struct Routeur {
