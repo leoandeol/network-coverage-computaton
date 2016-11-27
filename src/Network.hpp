@@ -21,6 +21,9 @@ typedef boost::adjacency_list<boost::vecS,
 
 typedef boost::graph_traits<network_graph_t>::vertex_descriptor vertex_t;
 typedef boost::graph_traits<network_graph_t>::edge_descriptor edge_t;
+typedef boost::property_map<network_graph_t,boost::vertex_index_t>::type IndexMap;
+typedef boost::iterator_property_map<vertex_t*,IndexMap,vertex_t,vertex_t&>PredecessorMap;
+typedef boost::iterator_property_map<unsigned int*,IndexMap,unsigned int,unsigned int&>DistanceMap;
 
 typedef std::vector<vertex_t> vertex_list_t;
 typedef std::vector<edge_t> edge_list_t;
@@ -78,6 +81,13 @@ public:
      \return 0 if successfully cable, else -1
    */
   int remove_cable(unsigned int id);
+  /**
+    \brief calculates the shortest path between two routeurs of the network
+    \param id The source's ID
+    \param id The destination's ID
+    \return a vector that represents the path between those routeurs
+  */
+  std::vector<unsigned> get_path(unsigned int source, unsigned int destination);
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param s The path to the .dot file
