@@ -89,11 +89,11 @@ public:
   int remove_cable(unsigned int id);
   /**
     \brief calculates the shortest path between two routeurs of the network
-    \param id The source's ID
-    \param id The destination's ID
+    \param source The source's ID
+    \param destination The destination's ID
     \return a vector that represents the path between those routeurs
   */
-  std::vector<unsigned> get_path(unsigned int source, unsigned int destination);
+  std::vector<unsigned int> get_path(unsigned int source, unsigned int destination);
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param s The path to the .dot file
