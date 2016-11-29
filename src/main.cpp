@@ -13,6 +13,14 @@ int main(int,char**)
 	//i.export_graph(id);
 	int id = i.create();
 	i.export_graph(id);
+	
+	bool boule = i.is_connected(id);
+
+	if(boule){
+		std::cout << "Le graphe est bien connecté. " << std::endl;
+	}else{
+		std::cout << "Le graphe n'est pas connecté. " << std::endl;
+	}
 
 	return 0;
 }

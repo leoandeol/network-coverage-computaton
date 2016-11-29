@@ -106,6 +106,13 @@ public:
      \param s The path to the wanted .dot file
   */
   void save_to_file(std::string& s);
+
+  /**
+    \brief Return a boolean if the graph is connected or not
+    \param No parameters
+    \return true if the graph is connected, else return false
+  */
+  bool is_connected();
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
   vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/

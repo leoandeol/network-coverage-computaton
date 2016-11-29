@@ -116,7 +116,6 @@ int Network::load_from_file(std::string& path)
       std::cerr << "Error while reading the graph at : " << path << std::endl;
       return -1;
     }
-std::cout << "Reussi ?" << std::endl;
   in.close();
   return 0;
 }
@@ -126,4 +125,11 @@ void Network::save_to_file(std::string& path)
   std::ofstream out(path,std::ofstream::out);
   write_graphviz_dp(out, network_graph, dp, "label");
   out.close();
+}
+
+bool Network::is_connected(){
+
+//	edge_list_t::iterator it;	
+	
+	return true;
 }
