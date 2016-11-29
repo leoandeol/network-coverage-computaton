@@ -96,7 +96,7 @@ int Network::remove_cable(unsigned int)
   return 0;
 }
 
-std::vector<std::string> Network::get_path(std::string source, std::string destination)
+std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
 {
     vertex_t start_node = vertex_list[source];
     vertex_t end_node = vertex_list[destination];
@@ -113,9 +113,9 @@ std::vector<std::string> Network::get_path(std::string source, std::string desti
     typedef std::vector<std::string> path_t;
     path_t path;
 
-    for(vertex_t u = predecessors[end_node]; u != end_node ; end_node = u, u = predecessors[end_node])
+    for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
       {
-        path.push_back(vertex_list[u].name);
+	path.push_back(network_graph[u].name);
       }
 
     return path;
