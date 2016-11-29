@@ -95,7 +95,7 @@ int Network::remove_cable(unsigned int)
 {
   return 0;
 }
-
+/*
 std::vector<unsigned int> Network::get_path(unsigned int source, unsigned int destination)
 {
     vertex_t start_node = vertex_list[source];
@@ -112,7 +112,7 @@ std::vector<unsigned int> Network::get_path(unsigned int source, unsigned int de
     path_t path;
 
     for(vertex_t u = end_node;)
-}
+}*/
 
 int Network::load_from_file(std::string& path)
 {
@@ -122,6 +122,7 @@ int Network::load_from_file(std::string& path)
       std::cerr << "Error while reading the graph at : " << path << std::endl;
       return -1;
     }
+std::cout << "Reussi ?" << std::endl;
   in.close();
   return 0;
 }

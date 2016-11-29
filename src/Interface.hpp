@@ -12,6 +12,7 @@ public:
   int create_graph_terminal();
   int import_graph(std::string="import");
   void export_graph(int,std::string="export");
+  int create();
 private:
   std::vector<Network*> networks;
   const std::string DATA_FOLDER = "data/";
