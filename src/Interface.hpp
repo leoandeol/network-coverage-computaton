@@ -13,6 +13,7 @@ public:
   int import_graph(std::string="import");
   void export_graph(int,std::string="export");
   int create();
+  bool is_connected(int id);
 private:
   std::vector<Network*> networks;
   const std::string DATA_FOLDER = "data/";

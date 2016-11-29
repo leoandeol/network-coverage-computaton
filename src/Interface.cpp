@@ -9,7 +9,7 @@ Interface::~Interface()
 {
 
 }
-
+/*
 int Interface::create_graph_terminal()
 {
   int id = networks.size();
@@ -44,7 +44,7 @@ int Interface::create_graph_terminal()
   networks.push_back(n);
   
   return id;
-}
+}*/
 
 int Interface::import_graph(std::string name)
 {
@@ -60,7 +60,6 @@ int Interface::import_graph(std::string name)
 void Interface::export_graph(int id, std::string name)
 {
   std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
-std::cout <<path <<std::endl;
   networks[id]->save_to_file(path);
 }
 
@@ -78,37 +77,38 @@ int Interface::create(){
 	std::string G = "G";
 //	std::string Z = "Z";
 
-	int a = net->add_routeur(A);
-	int b = net->add_routeur(B);
-	int c = net->add_routeur(C);
-	int d = net->add_routeur(D);
-	int e = net->add_routeur(E);
-	int f = net->add_routeur(F);
-	int g = net->add_routeur(G);
+	net->add_routeur(A);
+	net->add_routeur(B);
+	net->add_routeur(C);
+	net->add_routeur(D);
+	net->add_routeur(E);
+	net->add_routeur(F);
+	net->add_routeur(G);
 //	int z = net->add_routeur("Z");
 
-	net->add_cable(a, b);
-	net->add_cable(b, a);
-	net->add_cable(a, c);
-	net->add_cable(a, d);
-	net->add_cable(a, e);
-	net->add_cable(a, f);
-	net->add_cable(a, g);
-	net->add_cable(b, c);
-	net->add_cable(b, d);
-	net->add_cable(b, f);
-	net->add_cable(f, b);
-	net->add_cable(b, d);
-	net->add_cable(c, b);
-	net->add_cable(e, f);
-	net->add_cable(g, b);
-	net->add_cable(d, e);
+	net->add_cable(A, B);
+	net->add_cable(A, C);
+	net->add_cable(A, D);
+	net->add_cable(A, E);
+	net->add_cable(A, F);
+	net->add_cable(A, G);
+	net->add_cable(B, C);
+	net->add_cable(B, D);
+	net->add_cable(B, F);
+	net->add_cable(F, B);
+	net->add_cable(E, F);
+	net->add_cable(G, B);
+	net->add_cable(D, E);
 	
-	networks.push_back(net);
+//	networks.push_back(net);
 	
 	return id;
 }
 
 
+bool Interface::is_connected(int id){
 
+//	bool boule = networ[id].is_connected();
+	return id == id;
+}
 

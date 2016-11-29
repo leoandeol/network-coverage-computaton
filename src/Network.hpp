@@ -94,7 +94,7 @@ public:
     \param destination The destination's name
     \return a vector that represents the path between those routeurs
   */
-  std::vector<unsigned int> get_path(unsigned int source, unsigned int destination);
+  std::vector<std::string> get_path(std::string source,std::string destination);
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param s The path to the .dot file
@@ -106,6 +106,13 @@ public:
      \param s The path to the wanted .dot file
   */
   void save_to_file(std::string& s);
+
+  /**
+    \brief Return a boolean if the graph is connected or not
+    \param No parameters
+    \return true if the graph is connected, else return false
+  */
+  bool is_connected();
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
   vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/
