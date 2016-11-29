@@ -6,6 +6,7 @@
 #include <utility>
 #include <algorithm> // std::find
 #include <string> // std::string
+#include <unordered_map>
 #include <boost/graph/graph_traits.hpp> // vertex and edge descriptors
 #include <boost/graph/adjacency_list.hpp> // adjacency_list
 #include <boost/graph/dijkstra_shortest_paths.hpp> // djikstra shortest paths
@@ -25,8 +26,8 @@ typedef boost::property_map<network_graph_t,boost::vertex_index_t>::type IndexMa
 typedef boost::iterator_property_map<vertex_t*,IndexMap,vertex_t,vertex_t&>PredecessorMap;
 typedef boost::iterator_property_map<unsigned int*,IndexMap,unsigned int,unsigned int&>DistanceMap;
 
-typedef std::vector<vertex_t> vertex_list_t;
-typedef std::vector<edge_t> edge_list_t;
+typedef std::unordered_map<std::string, vertex_t> vertex_list_t;
+typedef std::unordered_map<std::string, edge_t> edge_list_t;
 
 class Network {
 public:
@@ -45,52 +46,52 @@ public:
   ~Network();
   /**
      \brief Creates a new routeur and returns its id
-     \return The new routeur's ID or -1 if there was an error
+     \return The new routeur's name or -1 if there was an error
   */
-  int add_routeur();
+  std::string& add_routeur();
   /**
      \brief Creates a new routeur with a set name and returns its id
      \param s The new routeur's name
-     \return The new routeur's ID or -1 if there was an error
+     \return 0 in case of success, else -1
   */
   int add_routeur(std::string& s);
   /**
      \brief Creates a new cable between two routeurs, and returns its id
-     \param id1 A routeur's ID
-     \param id2 Another routeur's ID
-     \return The new cable's ID or -1 if there was an error (non existent routeur or identical routeurs for exemple)
+     \param id1 A routeur's name
+     \param id2 Another routeur's name
+     \return 0 in case of success, else -1
   */
-  int add_cable(unsigned int id1,unsigned int id2);
+  int add_cable(std::string& id1,std::string& id2);
   /**
      \brief Gives the value of an attribute of an element, of type Structure
-     \param id The element's ID
+     \param id The element's name
      \return A reference to the attribute's value
    */
   template<typename Structure, typename Attribute>
-  Attribute& get_attribute(unsigned int id);
+  Attribute& get_attribute(std::string& id);
   /**
      \brief Sets the value of an attribute of an element, of type Structure
-     \param id The element's ID
+     \param id The element's name
      \param value The new value of the attribute
   */
   template <typename Structure, typename Attribute>
-  void set_attribute(unsigned int id, Attribute value);
+  void set_attribute(std::string& id, Attribute value);
   /**
      \brief Gives a pointer to the cable with the given ID
-     \param id The cable's ID
+     \param id The cable's name
      \return A pointer to the wanted cable, or nullptr if non-existent
    */
-  int remove_routeur(unsigned int id);
+  int remove_routeur(std::string& id);
   /**
      \brief Removes the cable with the given ID
-     \param id The cable's ID
+     \param id The cable's name
      \return 0 if successfully cable, else -1
    */
-  int remove_cable(unsigned int id);
+  int remove_cable(std::string& id);
   /**
     \brief calculates the shortest path between two routeurs of the network
-    \param source The source's ID
-    \param destination The destination's ID
+    \param source The source's name
+    \param destination The destination's name
     \return a vector that represents the path between those routeurs
   */
   std::vector<std::string> get_path(std::string source,std::string destination);

@@ -15,14 +15,12 @@ typedef struct NetworkInfo
 } NetworkInfo;
 
 typedef struct Routeur {
-	unsigned int id;
-	std::string name;
-	bool is_multicast;
+  std::string name;
+  bool is_multicast;
 } Routeur;
 
 typedef struct Cable {
-	unsigned int id;
-	unsigned int length;
+  unsigned int length;
 } Cable;
 
 #endif

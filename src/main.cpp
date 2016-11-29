@@ -9,7 +9,10 @@
 int main(int,char**)
 {
 	Interface i;
-	int id = i.create_graph_terminal();
+	//int id = i.create_graph_terminal();
+	//i.export_graph(id);
+	int id = i.create();
 	i.export_graph(id);
+
 	return 0;
 }
