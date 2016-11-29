@@ -96,22 +96,29 @@ int Network::remove_cable(unsigned int)
   return 0;
 }
 
-std::vector<unsigned int> Network::get_path(unsigned int source, unsigned int destination)
+std::vector<std::string> Network::get_path(std::string source, std::string destination)
 {
     vertex_t start_node = vertex_list[source];
     vertex_t end_node = vertex_list[destination];
 
+    IndexMap id_map = boost::get(boost::vertex_index,network_graph);
+
     std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
-    std::vector<unsigned int> distances(boost::num_vertices(network_graph));
+    std::vector<int> distances(boost::num_vertices(network_graph));
 
     boost::dijkstra_shortest_paths(network_graph,start_node,boost::weight_map(boost::get(&Cable::length,network_graph))
-				   .distance_map(boost::make_iterator_property_map(distances.begin(),boost::get(boost::vertex_index,network_graph)))
-				   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),boost::get(boost::vertex_index,network_graph))));
+				   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
+				   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
 
-    typedef std::vector<unsigned int> path_t;
+    typedef std::vector<std::string> path_t;
     path_t path;
 
-    for(vertex_t u = end_node;)
+    for(vertex_t u = predecessors[end_node]; u != end_node ; end_node = u, u = predecessors[end_node])
+      {
+        path.push_back(vertex_list[u].name);
+      }
+
+    return path;
 }
 
 int Network::load_from_file(std::string& path)
