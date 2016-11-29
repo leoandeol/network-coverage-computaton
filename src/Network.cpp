@@ -63,7 +63,8 @@ int Network::add_cable(std::string& id1, std::string& id2)
   auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
   edge_list.push_back(tmp1.first);
   auto tmp2 = add_edge(vertex_list[id2], vertex_list[id1], c, network_graph);
-  edge_list.push_back(tmp2.first);
+  //todo rder by name ? or id ?
+  edge_listtmp2.first;
 
   return (tmp1.second==false||tmp2.second==false)?0:-1;
 }
