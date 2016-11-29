@@ -24,27 +24,29 @@ Network::~Network()
 
 }
 
-int Network::add_routeur()
+std::string& Network::add_routeur()
 {
   static unsigned int id_count = 0;
   Routeur r;
-  r.id = id_count;
-  r.name = std::to_string(r.id);
+  r.name = std::to_string(id_count);
   r.is_multicast=default_routeur_is_multicast;
   vertex_t v_desc = add_vertex(r,network_graph);
   vertex_list.push_back(v_desc);
   id_count++;
-  return r.id;
+  return r.name;
 }
 
 int Network::add_routeur(std::string& name)
 {
-  int id = add_routeur();
-  boost::put(&Routeur::name,network_graph,vertex_list[id],name);
-  return id;
+  Routeur r;
+  r.name = name;
+  r.is_multicast=default_routeur_is_multicast;
+  vertex_t v_desc = add_vertex(r,network_graph);
+  vertex_list.push_back(v_desc);
+  return 0;
 }
 
-int Network::add_cable(unsigned int id1, unsigned int id2)
+int Network::add_cable(std::string id1, std::string id2)
 {
   static int id_count = 0;
 
