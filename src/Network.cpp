@@ -6,16 +6,11 @@ Network::Network() : Network(NetworkInfo("GraphPropertyName","GraphPropertyLocat
 
 Network::Network(NetworkInfo n) : network_graph(0,n), vertex_list(), vertex_exist(), edge_list()
 {
-  //deprecated
-  //(boost::get(&NetworkInfo, network_graph))[network_graph].name = n.name;
-  //(boost::get(&NetworkInfo, network_graph))[network_graph].location = n.location;
   dp = boost::dynamic_properties(boost::ignore_other_properties);
 
-  dp.property("node_id", boost::get(&Routeur::id, network_graph));
   dp.property("label", boost::get(&Routeur::name, network_graph));
   dp.property("is_multicast", boost::get(&Routeur::is_multicast, network_graph));
 
-  dp.property("edge_id", boost::get(&Cable::id, network_graph));
   dp.property("label", boost::get(&Cable::length, network_graph));
 }
 
@@ -31,7 +26,7 @@ std::string& Network::add_routeur()
   r.name = std::to_string(id_count);
   r.is_multicast=default_routeur_is_multicast;
   vertex_t v_desc = add_vertex(r,network_graph);
-  vertex_list.push_back(v_desc);
+  vertex_list[r.name] = v_desc;
   id_count++;
   return r.name;
 }
@@ -42,16 +37,15 @@ int Network::add_routeur(std::string& name)
   r.name = name;
   r.is_multicast=default_routeur_is_multicast;
   vertex_t v_desc = add_vertex(r,network_graph);
-  vertex_list.push_back(v_desc);
+  vertex_list[name] = v_desc;
   return 0;
 }
 
-int Network::add_cable(std::string id1, std::string id2)
+int Network::add_cable(std::string& id1, std::string& id2)
 {
-  static int id_count = 0;
-
   unsigned int nb_vert = vertex_list.size();
 
+  // to fix
   if((id1>=nb_vert||id2>=nb_vert))
     {
       std::cerr << "Routeur " << id1 << " or " << id2 << " does not exist." << std::endl;
@@ -64,36 +58,34 @@ int Network::add_cable(std::string id1, std::string id2)
     }
 
   Cable c;
-  c.id=id_count;
   c.length=default_cable_length;
 
   auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
   edge_list.push_back(tmp1.first);
   auto tmp2 = add_edge(vertex_list[id2], vertex_list[id1], c, network_graph);
   edge_list.push_back(tmp2.first);
-  id_count++;
 
-  return (tmp1.second==false||tmp2.second==false)?c.id:-1;
+  return (tmp1.second==false||tmp2.second==false)?0:-1;
 }
 
 template <typename Structure, typename Attribute>
-Attribute& Network::get_attribute(unsigned int id)
+Attribute& Network::get_attribute(std::string& id)
 {
   return boost::get(&Structure::Attribute,network_graph,vertex_list[id]);
 }
 
 template <typename Structure, typename Attribute>
-void Network::set_attribute(unsigned int id, Attribute value)
+void Network::set_attribute(std::string& id, Attribute value)
 {
   boost::put(&Structure::Attribute,network_graph,vertex_list[id], value);
 }
 
-int Network::remove_routeur(unsigned int)
+int Network::remove_routeur(std::string&)
 {
   return 0;
 }
 
-int Network::remove_cable(unsigned int)
+int Network::remove_cable(std::string&)
 {
   return 0;
 }
@@ -119,7 +111,7 @@ std::vector<unsigned int> Network::get_path(unsigned int source, unsigned int de
 int Network::load_from_file(std::string& path)
 {
   std::ifstream in(path);
-  if(!read_graphviz(in, network_graph, dp))
+  if(!read_graphviz(in, network_graph, dp, "label"))
     {
       std::cerr << "Error while reading the graph at : " << path << std::endl;
       return -1;
@@ -131,6 +123,6 @@ int Network::load_from_file(std::string& path)
 void Network::save_to_file(std::string& path)
 {
   std::ofstream out(path,std::ofstream::out);
-  write_graphviz_dp(out, network_graph, dp);
+  write_graphviz_dp(out, network_graph, dp, "label");
   out.close();
 }

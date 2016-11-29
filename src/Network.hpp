@@ -64,34 +64,34 @@ public:
   int add_cable(std::string& id1,std::string& id2);
   /**
      \brief Gives the value of an attribute of an element, of type Structure
-     \param id The element's ID
+     \param id The element's name
      \return A reference to the attribute's value
    */
   template<typename Structure, typename Attribute>
-  Attribute& get_attribute(unsigned int id);
+  Attribute& get_attribute(std::string& id);
   /**
      \brief Sets the value of an attribute of an element, of type Structure
-     \param id The element's ID
+     \param id The element's name
      \param value The new value of the attribute
   */
   template <typename Structure, typename Attribute>
-  void set_attribute(unsigned int id, Attribute value);
+  void set_attribute(std::string& id, Attribute value);
   /**
      \brief Gives a pointer to the cable with the given ID
-     \param id The cable's ID
+     \param id The cable's name
      \return A pointer to the wanted cable, or nullptr if non-existent
    */
-  int remove_routeur(unsigned int id);
+  int remove_routeur(std::string& id);
   /**
      \brief Removes the cable with the given ID
-     \param id The cable's ID
+     \param id The cable's name
      \return 0 if successfully cable, else -1
    */
-  int remove_cable(unsigned int id);
+  int remove_cable(std::string& id);
   /**
     \brief calculates the shortest path between two routeurs of the network
-    \param source The source's ID
-    \param destination The destination's ID
+    \param source The source's name
+    \param destination The destination's name
     \return a vector that represents the path between those routeurs
   */
   std::vector<unsigned int> get_path(unsigned int source, unsigned int destination);
