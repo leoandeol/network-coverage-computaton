@@ -13,9 +13,12 @@ int main(int,char**)
 	//i.export_graph(id);
 	int id = i.create();
 	i.export_graph(id);
-	
+	std::string name;
+	std::cin >> name;
+	int id2 = i.import_graph(name);
 	bool boule = i.is_connected(id);
-
+	boule = i.is_connected(id2);
+	
 	if(boule){
 		std::cout << "Le graphe est bien connecté. " << std::endl;
 	}else{
