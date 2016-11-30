@@ -132,6 +132,9 @@ int Network::load_from_file(std::string& path)
       std::cerr << "Error while reading the graph at : " << path << std::endl;
       return -1;
     }
+
+
+
   in.close();
   return 0;
 }
@@ -143,9 +146,38 @@ void Network::save_to_file(std::string& path)
   out.close();
 }
 
-bool Network::is_connected(){
 
-//	edge_list_t::iterator it;	
-	
-	return true;
+bool Network::is_connected()
+{
+	if(vertex_list.empty()){
+		return false;
+	}
+	std::vector<std::string> checked;
+
+	vertex_list_t::iterator vertex = vertex_list.begin();
+	checked.push_back(network_graph[vertex->second].name);
+	std::cout << network_graph[vertex->second].name << std::endl;
+
+	for(vertex = vertex_list.begin(); vertex_list.size() != checked.size() && vertex != vertex_list.end(); ++vertex){
+
+		Routeur c = network_graph[vertex->second];
+		
+		if(std::find(checked.begin(), checked.end(), c.name) != checked.end()){
+			for(edge_list_t::iterator current = edge_list.begin(); vertex_list.size() != checked.size() && current != edge_list.end();++current){
+				vertex_t source = boost::source(current->second, network_graph);
+				Routeur s = network_graph[source];
+				if(c.name == s.name){ 
+					vertex_t target = boost::target(current->second, network_graph);
+					Routeur t = network_graph[target];
+		
+					if(std::find(checked.begin(), checked.end(), t.name) == checked.end()){
+						checked.push_back(t.name);
+					}
+				}
+			}
+		}
+	}
+	std::cout << "Nombre de sommets checked : " << checked.size() << std::endl;
+	std::cout << "Nombre de sommets : " << vertex_list.size() << std::endl;
+	return (vertex_list.size() == checked.size());
 }

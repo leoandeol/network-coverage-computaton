@@ -113,6 +113,7 @@ public:
     \return true if the graph is connected, else return false
   */
   bool is_connected();
+
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
   vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/

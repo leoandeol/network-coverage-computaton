@@ -75,7 +75,7 @@ int Interface::create(){
 	std::string E = "E";
 	std::string F = "F";
 	std::string G = "G";
-//	std::string Z = "Z";
+	std::string Z = "Z";
 
 	net->add_routeur(A);
 	net->add_routeur(B);
@@ -84,7 +84,7 @@ int Interface::create(){
 	net->add_routeur(E);
 	net->add_routeur(F);
 	net->add_routeur(G);
-//	int z = net->add_routeur("Z");
+	net->add_routeur(Z);
 /**/
 	net->add_cable(A, B);
 	net->add_cable(A, C);
@@ -108,7 +108,6 @@ int Interface::create(){
 
 bool Interface::is_connected(int id){
 	
-//	bool boule = networ[id].is_connected();
-	return id == 0;
+	return networks[id]->is_connected();
 }
 
