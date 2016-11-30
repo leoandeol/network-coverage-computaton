@@ -19,7 +19,7 @@ Network::~Network()
 
 }
 
-std::string& Network::add_routeur()
+std::string Network::add_routeur()
 {
   static unsigned int id_count = 0;
   Routeur r;
@@ -43,15 +43,17 @@ int Network::add_routeur(std::string& name)
 
 int Network::add_cable(std::string& id1, std::string& id2)
 {
-  unsigned int nb_vert = vertex_list.size();
-
+  
+  vertex_list_t::const_iterator r1 = vertex_list.find(id1);
+  vertex_list_t::const_iterator r2 = vertex_list.find(id2);
+  vertex_list_t::const_iterator end = vertex_list.end();
   // to fix
-  if((id1>=nb_vert||id2>=nb_vert))
+  if((r1==end||r2==end))
     {
       std::cerr << "Routeur " << id1 << " or " << id2 << " does not exist." << std::endl;
       return -1;
     }
-  if(id1==id2)
+  if(r1==r2)
     {
       std::cerr << "Trying to link routeur " << id1 << "with itself; reflexivity is forbidden" << std::endl;
       return -1;
@@ -61,10 +63,16 @@ int Network::add_cable(std::string& id1, std::string& id2)
   c.length=default_cable_length;
 
   auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
-  edge_list.push_back(tmp1.first);
+
+  std::string nom1 = id1+ "->"+id2;
+  std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
+  edge_list.insert(t1);
+
   auto tmp2 = add_edge(vertex_list[id2], vertex_list[id1], c, network_graph);
-  //todo rder by name ? or id ?
-  edge_listtmp2.first;
+
+  std::string nom2 = id2+ "->"+id1;
+  std::pair<std::string, edge_t> t2 = {nom2, tmp2.first};
+  edge_list.insert(t2);
 
   return (tmp1.second==false||tmp2.second==false)?0:-1;
 }
@@ -91,7 +99,7 @@ int Network::remove_cable(std::string&)
   return 0;
 }
 
-std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
+/*std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
 {
     vertex_t start_node = vertex_list[source];
     vertex_t end_node = vertex_list[destination];
@@ -115,7 +123,7 @@ std::vector<std::string> Network::get_path(std::string &source, std::string &des
 
     return path;
 }
-
+*/
 int Network::load_from_file(std::string& path)
 {
   std::ifstream in(path);

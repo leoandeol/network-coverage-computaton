@@ -85,7 +85,7 @@ int Interface::create(){
 	net->add_routeur(F);
 	net->add_routeur(G);
 //	int z = net->add_routeur("Z");
-
+/**/
 	net->add_cable(A, B);
 	net->add_cable(A, C);
 	net->add_cable(A, D);
@@ -100,15 +100,15 @@ int Interface::create(){
 	net->add_cable(G, B);
 	net->add_cable(D, E);
 	
-//	networks.push_back(net);
+	networks.push_back(net);
 	
 	return id;
 }
 
 
 bool Interface::is_connected(int id){
-
+	
 //	bool boule = networ[id].is_connected();
-	return id == id;
+	return id == 0;
 }
 

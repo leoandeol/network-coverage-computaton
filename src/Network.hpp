@@ -48,7 +48,7 @@ public:
      \brief Creates a new routeur and returns its id
      \return The new routeur's name or -1 if there was an error
   */
-  std::string& add_routeur();
+  std::string add_routeur();
   /**
      \brief Creates a new routeur with a set name and returns its id
      \param s The new routeur's name
