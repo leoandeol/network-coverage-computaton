@@ -126,13 +126,48 @@ int Network::remove_cable(std::string&)
 */
 int Network::load_from_file(std::string& path)
 {
+
+std::cout << "Conversion of the file in network: " << std::endl <<std::endl;
+
   std::ifstream in(path);
   if(!read_graphviz(in, network_graph, dp, "label"))
     {
       std::cerr << "Error while reading the graph at : " << path << std::endl;
       return -1;
     }
+	//!< We put the edges and the vertices in their unordered_map edge_list and vertex_list
 
+	//!< Inserting the verteces in the vertex_list_t
+	std::pair<boost::graph_traits<network_graph_t>::vertex_iterator, boost::graph_traits<network_graph_t>::vertex_iterator> it = boost::vertices(network_graph);
+
+	for(; it.first != it.second; ++it.first){
+		Routeur r = network_graph[*it.first];
+		std::pair<std::string, vertex_t> v = {r.name, *it.first};
+		vertex_list.insert(v);
+	}
+	std::cout << "Number of verteces in the list : " << vertex_list.size() << std::endl;
+	std::cout << "Number of verteces in the network : " << boost::num_vertices(network_graph) << std::endl << std::endl;
+
+
+	//!< Insering the verteces in the vertex_list_t
+	std::pair<boost::graph_traits<network_graph_t>::edge_iterator, boost::graph_traits<network_graph_t>::edge_iterator> it2 = boost::edges(network_graph);
+
+	for(; it2.first != it2.second; ++it2.first){
+		//!<In order to name the ege
+		//!<We capture the source and the target of the edge
+		//!<To access to their name
+		//!< Following the format : "source.name->target.name"
+		vertex_t source = boost::source(*it2.first, network_graph);
+		vertex_t target = boost::target(*it2.first, network_graph);
+		Routeur s = network_graph[source];
+		Routeur t = network_graph[target];
+
+		std::string edge_name = s.name+"->"+t.name;
+		std::pair<std::string, edge_t> e = {edge_name, *it2.first};
+		edge_list.insert(e);
+	}
+	std::cout << "Number of edges in the list : " << edge_list.size() << std::endl;
+	std::cout << "Number of edges in the network: " << boost::num_edges(network_graph) << std::endl <<std::endl <<std::endl;
 
 
   in.close();
@@ -149,6 +184,9 @@ void Network::save_to_file(std::string& path)
 
 bool Network::is_connected()
 {
+
+	std::cout << "Control of the network connection: " << std::endl;
+
 	if(vertex_list.empty()){
 		return false;
 	}
@@ -156,7 +194,6 @@ bool Network::is_connected()
 
 	vertex_list_t::iterator vertex = vertex_list.begin();
 	checked.push_back(network_graph[vertex->second].name);
-	std::cout << network_graph[vertex->second].name << std::endl;
 
 	for(vertex = vertex_list.begin(); vertex_list.size() != checked.size() && vertex != vertex_list.end(); ++vertex){
 
@@ -177,7 +214,9 @@ bool Network::is_connected()
 			}
 		}
 	}
-	std::cout << "Nombre de sommets checked : " << checked.size() << std::endl;
-	std::cout << "Nombre de sommets : " << vertex_list.size() << std::endl;
+
+	std::cout << "Total number of checked verteces : " << checked.size() << std::endl;
+	std::cout << "Total number of verteces : " << vertex_list.size() << std::endl <<std::endl;
+
 	return (vertex_list.size() == checked.size());
 }

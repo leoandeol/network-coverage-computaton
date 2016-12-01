@@ -11,11 +11,14 @@ int main(int,char**)
 	Interface i;
 	//int id = i.create_graph_terminal();
 	//i.export_graph(id);
-	int id = i.create();
+//	int id = i.create();
 	//i.export_graph(id);
-//	std::string name;
-//	std::cin >> name;
-//	int id2 = i.import_graph("cesnet");
+	std::cout << "Please enter the name of the file you wanna import" << std::endl;
+	std::string name;
+	std::cin >> name;
+	std::cout <<std::endl;
+	int id = i.import_graph(name);
+
 	bool boule = i.is_connected(id);
 	
 	if(boule){
@@ -24,5 +27,5 @@ int main(int,char**)
 		std::cout << "Le graphe n'est pas connecté. " << std::endl;
 	}
 
-	return 0;
+	return id;
 }
