@@ -218,5 +218,31 @@ bool Network::is_connected()
 	std::cout << "Total number of checked verteces : " << checked.size() << std::endl;
 	std::cout << "Total number of verteces : " << vertex_list.size() << std::endl <<std::endl;
 
+	std::cout << std::endl<< std::endl<< std::endl<< std::endl;
+
+	readAll_vertex();
+
+	std::cout << std::endl<< std::endl<< std::endl<< std::endl;
+
+	readAll_edge();
+
 	return (vertex_list.size() == checked.size());
+}
+
+
+void Network::readAll_vertex(){
+
+	vertex_list_t::iterator vertex = vertex_list.begin();
+
+	for(; vertex != vertex_list.end(); ++vertex){
+		Routeur c = network_graph[vertex->second];
+		std::cout << c.name << std::endl;
+	}
+}
+
+void Network::readAll_edge(){
+	edge_list_t::iterator edge = edge_list.begin();
+	for(; edge != edge_list.end(); ++ edge){
+		std::cout << edge->first << std::endl;
+	}
 }

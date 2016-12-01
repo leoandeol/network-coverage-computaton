@@ -41,7 +41,7 @@ public:
   */
   Network(NetworkInfo i);
   /**
-     \brief Destructr
+     \brief Destructor
   */
   ~Network();
   /**
@@ -113,7 +113,17 @@ public:
     \return true if the graph is connected, else return false
   */
   bool is_connected();
+  /**
+    \brief Print the name of all the verteces which are in in the unordered_map
+    \param No parameters
+  */
+  void readAll_vertex();
+  /**
+    \brief Print the name of all the edges which are in in the unordered_map
+    \param No parameters
+  */
 
+  void readAll_edge();
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
   vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/
