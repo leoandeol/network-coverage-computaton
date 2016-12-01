@@ -11,6 +11,7 @@
 #include <boost/graph/adjacency_list.hpp> // adjacency_list
 #include <boost/graph/dijkstra_shortest_paths.hpp> // djikstra shortest paths
 #include <boost/graph/graphviz.hpp> // import/export .dot
+#include <boost/graph/kruskal_min_spanning_tree.hpp> //krustal minimum tree
 
 #include "structs.hpp"
 
@@ -122,8 +123,29 @@ public:
     \brief Print the name of all the edges which are in in the unordered_map
     \param No parameters
   */
-
   void readAll_edge();
+  /**
+    \brief
+  */
+  void minimum_tree();
+
+
+  /**
+    \brief Create the edge's name used in the edge_list_t
+    \brief The source and the target verteces are extracted to create a name following the format
+    \brief source.name->target.name
+    \param An edge : edge_t
+    \return source.name->target.name
+  */
+  std::string create_edge_name(edge_t e);
+  /**
+    \brief Create the edge's name using the source and the target vertex names following the format
+    \bief source->target 
+    \param The names of the source and the target verteces (string type)
+    \return a string : source->target
+  */
+  std::string create_edge_name(std::string source, std::string target);
+
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
   vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/

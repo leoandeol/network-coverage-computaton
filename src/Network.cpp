@@ -64,13 +64,13 @@ int Network::add_cable(std::string& id1, std::string& id2)
 
   auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
 
-  std::string nom1 = id1+ "->"+id2;
+  std::string nom1 = create_edge_name(id1, id2);
   std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
   edge_list.insert(t1);
 
   auto tmp2 = add_edge(vertex_list[id2], vertex_list[id1], c, network_graph);
 
-  std::string nom2 = id2+ "->"+id1;
+  std::string nom2 = create_edge_name(id2, id1);
   std::pair<std::string, edge_t> t2 = {nom2, tmp2.first};
   edge_list.insert(t2);
 
@@ -153,16 +153,12 @@ std::cout << "Conversion of the file in network: " << std::endl <<std::endl;
 	std::pair<boost::graph_traits<network_graph_t>::edge_iterator, boost::graph_traits<network_graph_t>::edge_iterator> it2 = boost::edges(network_graph);
 
 	for(; it2.first != it2.second; ++it2.first){
-		//!<In order to name the ege
+		//!<In order to name the edge
 		//!<We capture the source and the target of the edge
 		//!<To access to their name
 		//!< Following the format : "source.name->target.name"
-		vertex_t source = boost::source(*it2.first, network_graph);
-		vertex_t target = boost::target(*it2.first, network_graph);
-		Routeur s = network_graph[source];
-		Routeur t = network_graph[target];
-
-		std::string edge_name = s.name+"->"+t.name;
+		
+		std::string edge_name = create_edge_name(*it2.first);
 		std::pair<std::string, edge_t> e = {edge_name, *it2.first};
 		edge_list.insert(e);
 	}
@@ -185,7 +181,7 @@ void Network::save_to_file(std::string& path)
 bool Network::is_connected()
 {
 
-	std::cout << "Control of the network connection: " << std::endl;
+	std::cout << "Control of the network connection: " << std::endl<<std::endl;
 
 	if(vertex_list.empty()){
 		return false;
@@ -246,3 +242,73 @@ void Network::readAll_edge(){
 		std::cout << edge->first << std::endl;
 	}
 }
+
+std::string Network::create_edge_name(edge_t e){
+
+	vertex_t source = boost::source(e, network_graph);
+	vertex_t target = boost::target(e, network_graph);
+	Routeur s = network_graph[source];
+	Routeur t = network_graph[target];
+
+	std::string edge_name = s.name+"->"+t.name;
+
+	return edge_name;
+}
+
+std::string Network::create_edge_name(std::string source, std::string target){
+	
+	std::string edge_name = source+"->"+target;
+	return edge_name;
+}
+/*void Network::minimum_tree(){
+
+	std::vector<edge_t> spanning_tree;
+	
+	//!<We'll create the undirectedS graph in order to use the krustal
+
+	int numVertices = vertex_list.size();	
+
+	boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Routeur, Cable, NetworkInfo> g(numVertices);
+	
+	//!<We add the verteces to the graph g
+	vertex_list_t::iterator vertex = vertex_list.begin();	
+	
+	for(; vertex != vertex_list.end(); ++vertex){
+		Routeur r = network_graph[vertex->second];
+		add_vertex(r, g);			
+	}
+
+	//!<Let's ad the undirected edges
+	
+	edge_list_t::iterator edge = edge_list.begin();
+	std::vector<std::string> couple;
+	std::string ab;
+	std::string ba;
+	for(; edge != edge_list.end(); ++edge){
+		vertex_t source = boost::source(edge->second, network_graph);
+		vertex_t target = boost::target(edge->second, network_graph);
+		Routeur s = network_graph[source];
+		Routeur t =  network_graph[target];
+		ab = s.name+t.name;
+		ba = t.name+s.name;
+		if((find(couple.begin(), couple.end(), ab)!=couple.end())&&(find(couple.begin(), couple.end(), ba)!=couple.end())){
+			couple.push_back(ab);
+			couple.push_back(ba);
+			add_edge(source, target, g);
+			
+		}
+	}
+
+
+	kruskal_minimum_spanning_tree(g, std::back_inserter(spanning_tree));
+
+	std::vector<edge_t>::iterator it = spanning_tree.begin();
+	std::unordered_map<std::string, edge_t>::iterator got;
+	std::string edge_name;
+	for(; it != spanning_tree.end(); ++it){
+		edge_name = create_edge_name(*it);
+		got = edge_list.find(edge_name);
+	
+		std::cout << got->first << std::endl;
+	}	
+}*/
