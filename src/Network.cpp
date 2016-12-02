@@ -260,15 +260,15 @@ std::string Network::create_edge_name(std::string source, std::string target){
 	std::string edge_name = source+"->"+target;
 	return edge_name;
 }
-/*void Network::minimum_tree(){
+/*
+void Network::minimum_tree(){
 
 	std::vector<edge_t> spanning_tree;
 	
 	//!<We'll create the undirectedS graph in order to use the krustal
 
 	int numVertices = vertex_list.size();	
-
-	boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Routeur, Cable, NetworkInfo> g(numVertices);
+	boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Routeur, Cable, NetworkInfo> g;
 	
 	//!<We add the verteces to the graph g
 	vertex_list_t::iterator vertex = vertex_list.begin();	
