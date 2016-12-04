@@ -91,6 +91,11 @@ void Network::set_attribute(std::string& id, Attribute value)
   boost::put(&Structure::Attribute,network_graph,vertex_list[id], value);
 }
 
+
+std::string Network::get_network_name(){
+	return network_graph[boost::graph_bundle].name;
+}
+
 int Network::remove_routeur(std::string&)
 {
   return 0;
@@ -129,6 +134,15 @@ std::vector<std::string> Network::get_path(std::string &source, std::string &des
 
     return path;
 }
+  
+std::vector<std::string> get_all_edges(){
+	edge_list_t::iterator it = edge_list.begin();
+	std::vector<std::string> l;
+	for(; it!=edge_list.end(); ++it){
+		l.push_back(it->first);
+	}
+	return l;
+}
 void Network::color_path(std::vector<std::string> &path, std::string &color)
 {
 	std::vector<std::string>::iterator it = path.begin();
@@ -154,6 +168,12 @@ void Network::clean_all_colors(){
 		network_graph[e->second].color = "";
 	}
 }
+void Network::clean_all_colors(std::vector<std::string> &path)
+{
+	std::string color = "";
+	color_path(path, color);
+}
+
 int Network::load_from_file(std::string& path)
 {
 

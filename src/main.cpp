@@ -23,7 +23,8 @@ int main(int,char**)
 	std::string c = "red";
 	i.color_path(id, u, p, c);
 	i.display_shortest_path(id, u, p);
-	
+	name = name + "2";
+	i.export_graph(id, name);
 //	i.export_graph(id);
 	/*
 	bool boule = i.is_connected(id);

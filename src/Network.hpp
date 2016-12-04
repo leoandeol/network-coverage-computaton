@@ -77,7 +77,18 @@ public:
   */
   template <typename Structure, typename Attribute>
   void set_attribute(std::string& id, Attribute value);
+  /* ########################### */
+
+
+
+  /* ########################### */
   /**
+    \brief Gives the name of the network
+    \param No param
+    \return A string which contains the name of the network
+   */
+  std::string get_network_name();
+   /**
      \brief Gives a pointer to the cable with the given ID
      \param id The cable's name
      \return A pointer to the wanted cable, or nullptr if non-existent
@@ -97,7 +108,6 @@ public:
   */
   std::vector<std::string> get_path(std::string &source,std::string &destination);
 
-  std::vector<std::string> get_path(std::string &source, std::string &destination, std::string& color);
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param s The path to the .dot file
@@ -118,12 +128,12 @@ public:
   bool is_connected();
   /**
     \brief Print the name of all the verteces which are in in the unordered_map
-    \param No parameters
+    \param No parameters
   */
   void readAll_vertex();
   /**
     \brief Print the name of all the edges which are in in the unordered_map
-    \param No parameters
+    \param No parameters
   */
   void readAll_edge();
   /**
@@ -154,12 +164,25 @@ public:
   */
   void color_path(std::vector<std::string> &path, std::string &color);
   /**
-   \brief Reset all the color added previously (on the routeur and the cable)
+   \brief Reset the colors of all the routeurs and cables
    \param No param
    \return Nothing
   */
   void clean_all_colors();
 
+  /**
+   \brief Reset all the color added previously (on the routeur and the cable)
+   \param No param
+   \return Nothing
+  */
+  void clean_all_colors(std::vector<std::string> &path);
+
+  /**
+    \brief Gives a list of edges
+    \param No param
+    \return A vector of string with the name of the edge
+   */
+   std::vector<std::string> get_all_edges();
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
   vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/

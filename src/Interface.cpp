@@ -53,7 +53,15 @@ int Interface::import_graph(std::string name)
   int i = networks.size();
   //todo test if found
   n->load_from_file(path);
+/*
+	std::vector<std::string> l = n->get_all_edges();
+	std::vector<std::string>::iterator it = l.begin();
+	for(; it != l.end(); ++it){
+		if(){
 
+		}
+	}
+*/
   networks.push_back(n);
   return i;
 }
@@ -63,15 +71,15 @@ void Interface::export_graph(int id, std::string name)
   std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
   networks[id]->save_to_file(path);
 }
+
 void Interface::color_path(int id, std::string& source, std::string& destination, std::string& color){
 
 	std::vector<std::string> path = networks[id]->get_path(source, destination);
 	
 	networks[id]->color_path(path, color);
-	export_graph(id, "bite");
-	networks[id]->clean_all_colors();
-	export_graph(id, "bite2");
-
+	std::string name = networks[id]->get_network_name()+ " - " + source + "->" + destination;
+	export_graph(id, name);
+	networks[id]->clean_all_colors(path);
 }
 int Interface::create(){
 	
