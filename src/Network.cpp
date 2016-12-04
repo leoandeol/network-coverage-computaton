@@ -1,10 +1,12 @@
 #include "Network.hpp"
 
-Network::Network() : Network(NetworkInfo("GraphPropertyName","GraphPropertyLocation"))
+template <class Vertex, class Edge> 
+Network<Vertex,Edge>::Network() : Network(NetworkInfo("GraphPropertyName","GraphPropertyLocation"))
 {
 }
 
-Network::Network(NetworkInfo n) : network_graph(0,n), vertex_list(), vertex_exist(), edge_list()
+template <class Vertex, class Edge> 
+Network<Vertex,Edge>::Network<(NetworkInfo n) : network_graph(0,n), vertex_list(), vertex_exist(), edge_list()
 {
   dp = boost::dynamic_properties(boost::ignore_other_properties);
 
@@ -14,12 +16,14 @@ Network::Network(NetworkInfo n) : network_graph(0,n), vertex_list(), vertex_exis
   dp.property("label", boost::get(&Cable::length, network_graph));
 }
 
-Network::~Network()
+template <class Vertex, class Edge> 
+Network<Vertex,Edge>::~Network()
 {
 
 }
 
-std::string Network::add_routeur()
+template <class Vertex, class Edge> 
+std::string Network<Vertex,Edge>::add_routeur()
 {
   static unsigned int id_count = 0;
   Routeur r;
@@ -31,7 +35,8 @@ std::string Network::add_routeur()
   return r.name;
 }
 
-int Network::add_routeur(std::string& name)
+template <class Vertex, class Edge> 
+int Network<Vertex,Edge>::add_routeur(std::string& name)
 {
   Routeur r;
   r.name = name;
@@ -41,7 +46,8 @@ int Network::add_routeur(std::string& name)
   return 0;
 }
 
-int Network::add_cable(std::string& id1, std::string& id2)
+template <class Vertex, class Edge> 
+int Network<Vertex,Edge>::add_cable(std::string& id1, std::string& id2)
 {
   
   vertex_list_t::const_iterator r1 = vertex_list.find(id1);
@@ -84,17 +90,19 @@ Attribute& Network::get_attribute(std::string& id)
 }
 
 template <typename Structure, typename Attribute>
-void Network::set_attribute(std::string& id, Attribute value)
+void Network<Vertex,Edge>::set_attribute(std::string& id, Attribute value)
 {
   boost::put(&Structure::Attribute,network_graph,vertex_list[id], value);
 }
 
-int Network::remove_routeur(std::string&)
+template <class Vertex, class Edge> 
+int Network<Vertex,Edge>::remove_routeur(std::string&)
 {
   return 0;
 }
 
-int Network::remove_cable(std::string&)
+template <class Vertex, class Edge> 
+int Network<Vertex,Edge>::remove_cable(std::string&)
 {
   return 0;
 }
@@ -124,7 +132,8 @@ int Network::remove_cable(std::string&)
     return path;
 }
 */
-int Network::load_from_file(std::string& path)
+template <class Vertex, class Edge> 
+int Network<Vertex,Edge>::load_from_file(std::string& path)
 {
 
 std::cout << "Conversion of the file in network: " << std::endl <<std::endl;
@@ -170,7 +179,7 @@ std::cout << "Conversion of the file in network: " << std::endl <<std::endl;
   return 0;
 }
 
-void Network::save_to_file(std::string& path)
+void Network<Vertex,Edge>::save_to_file(std::string& path)
 {
   std::ofstream out(path,std::ofstream::out);
   write_graphviz_dp(out, network_graph, dp, "label");
@@ -178,7 +187,7 @@ void Network::save_to_file(std::string& path)
 }
 
 
-bool Network::is_connected()
+bool Network<Vertex,Edge>::is_connected()
 {
 
 	std::cout << "Control of the network connection: " << std::endl<<std::endl;
@@ -226,7 +235,8 @@ bool Network::is_connected()
 }
 
 
-void Network::readAll_vertex(){
+template <class Vertex, class Edge> 
+void Network<Vertex,Edge>::readAll_vertex(){
 
 	vertex_list_t::iterator vertex = vertex_list.begin();
 
@@ -236,14 +246,16 @@ void Network::readAll_vertex(){
 	}
 }
 
-void Network::readAll_edge(){
+template <class Vertex, class Edge> 
+void Network<Vertex,Edge>::readAll_edge(){
 	edge_list_t::iterator edge = edge_list.begin();
 	for(; edge != edge_list.end(); ++ edge){
 		std::cout << edge->first << std::endl;
 	}
 }
 
-std::string Network::create_edge_name(edge_t e){
+template <class Vertex, class Edge> 
+std::string Network<Vertex,Edge>::create_edge_name(edge_t e){
 
 	vertex_t source = boost::source(e, network_graph);
 	vertex_t target = boost::target(e, network_graph);
@@ -255,7 +267,8 @@ std::string Network::create_edge_name(edge_t e){
 	return edge_name;
 }
 
-std::string Network::create_edge_name(std::string source, std::string target){
+template <class Vertex, class Edge> 
+std::string Network<Vertex,Edge>::create_edge_name(std::string source, std::string target){
 	
 	std::string edge_name = source+"->"+target;
 	return edge_name;

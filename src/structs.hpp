@@ -14,12 +14,29 @@ typedef struct NetworkInfo
   }
 } NetworkInfo;
 
-typedef struct Routeur {
-  std::string name;
+/**
+   Default structs
+*/
+
+typedef struct Default_Vertex
+{
+	std::string name;
+} Default_Vertex;
+
+typedef struct Default_Edge
+{
+
+} Default_Edge;
+
+/**
+   Implementation for our project
+*/
+
+typedef struct Routeur : Default_Vertex {
   bool is_multicast;
 } Routeur;
 
-typedef struct Cable {
+typedef struct Cable : Default_Edge {
   unsigned int length;
 } Cable;
 

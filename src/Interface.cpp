@@ -9,6 +9,11 @@ Interface::~Interface()
 {
 
 }
+
+void Interface::menu()
+{
+
+}
 /*
 int Interface::create_graph_terminal()
 {

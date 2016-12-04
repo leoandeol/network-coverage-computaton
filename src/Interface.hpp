@@ -7,17 +7,18 @@
 class Interface
 {
 public:
-  Interface();
-  ~Interface();
-  int create_graph_terminal();
-  int import_graph(std::string="import");
-  void export_graph(int,std::string="export");
-  int create();
-  bool is_connected(int id);
+	Interface();
+	~Interface();
+	void menu();
+	int create_graph_terminal();
+	int import_graph(std::string="import");
+	void export_graph(int,std::string="export");
+	int create();
+	bool is_connected(int id);
 private:
-  std::vector<Network*> networks;
-  const std::string DATA_FOLDER = "data/";
-  const std::string FILE_EXTENSION = ".dot";
+	std::vector<Network<Routeur, Cable*> > networks;
+	const std::string DATA_FOLDER = "data/";
+	const std::string FILE_EXTENSION = ".dot";
 };
 
 #endif
