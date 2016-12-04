@@ -15,6 +15,7 @@ public:
 	void export_graph(int,std::string="export");
 	int create();
 	bool is_connected(int id);
+	void color_path(int id, std::string& source, std::string& destination, std::string& color);
 private:
 	std::vector<Network<Routeur, Cable*> > networks;
 	const std::string DATA_FOLDER = "data/";

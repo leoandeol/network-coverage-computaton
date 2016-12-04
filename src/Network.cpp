@@ -10,10 +10,12 @@ Network<Vertex,Edge>::Network<(NetworkInfo n) : network_graph(0,n), vertex_list(
 {
   dp = boost::dynamic_properties(boost::ignore_other_properties);
 
+  dp.property("color", boost::get(&Routeur::color, network_graph));
   dp.property("label", boost::get(&Routeur::name, network_graph));
   dp.property("is_multicast", boost::get(&Routeur::is_multicast, network_graph));
 
   dp.property("label", boost::get(&Cable::length, network_graph));
+  dp.property("color", boost::get(&Cable::color, network_graph));
 }
 
 template <class Vertex, class Edge> 
@@ -96,6 +98,11 @@ void Network<Vertex,Edge>::set_attribute(std::string& id, Attribute value)
 }
 
 template <class Vertex, class Edge> 
+std::string Network<Vertex,Edge>::get_network_name(){
+	return network_graph[boost::graph_bundle].name;
+}
+
+template <class Vertex, class Edge> 
 int Network<Vertex,Edge>::remove_routeur(std::string&)
 {
   return 0;
@@ -107,7 +114,7 @@ int Network<Vertex,Edge>::remove_cable(std::string&)
   return 0;
 }
 
-/*std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
+std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
 {
     vertex_t start_node = vertex_list[source];
     vertex_t end_node = vertex_list[destination];
@@ -123,16 +130,58 @@ int Network<Vertex,Edge>::remove_cable(std::string&)
 
     typedef std::vector<std::string> path_t;
     path_t path;
+	
+	path.push_back(destination);
 
     for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
-      {
+    {
 	path.push_back(network_graph[u].name);
-      }
+    }
+
+	std::reverse(path.begin(), path.end());
 
     return path;
 }
-*/
-template <class Vertex, class Edge> 
+  
+std::vector<std::string> Network<Vertex,Edge>::get_all_edges(){
+	edge_list_t::iterator it = edge_list.begin();
+	std::vector<std::string> l;
+	for(; it!=edge_list.end(); ++it){
+		l.push_back(it->first);
+	}
+	return l;
+}
+void Network<Vertex,Edge>::color_path(std::vector<std::string> &path, std::string &color)
+{
+	std::vector<std::string>::iterator it = path.begin();
+	std::string name;
+	Routeur r, r2;
+	for(; it != path.end(); ++it){
+		r = network_graph[vertex_list[*it]];
+		network_graph[vertex_list[*it]].color = color;
+		if(it != --path.end() && it != path.end()){
+			r2 = network_graph[vertex_list[*(std::next(it, 1))]];
+			name = create_edge_name(r.name,r2.name);
+			network_graph[edge_list[name]].color = color;
+		}
+	}
+}
+void Network<Vertex,Edge>::clean_all_colors(){
+	vertex_list_t::iterator v = vertex_list.begin();
+	edge_list_t::iterator e = edge_list.begin();
+	for(; v != vertex_list.end(); ++v){
+		network_graph[v->second].color = "";
+	}
+	for(; e != edge_list.end(); ++e){
+		network_graph[e->second].color = "";
+	}
+}
+void Network<Vertex,Edge>::clean_all_colors(std::vector<std::string> &path)
+{
+	std::string color = "";
+	color_path(path, color);
+}
+
 int Network<Vertex,Edge>::load_from_file(std::string& path)
 {
 
@@ -167,6 +216,9 @@ std::cout << "Conversion of the file in network: " << std::endl <<std::endl;
 		//!<To access to their name
 		//!< Following the format : "source.name->target.name"
 		
+
+		network_graph[*it2.first].length = 1;	
+	
 		std::string edge_name = create_edge_name(*it2.first);
 		std::pair<std::string, edge_t> e = {edge_name, *it2.first};
 		edge_list.insert(e);
@@ -273,15 +325,15 @@ std::string Network<Vertex,Edge>::create_edge_name(std::string source, std::stri
 	std::string edge_name = source+"->"+target;
 	return edge_name;
 }
-/*void Network::minimum_tree(){
+/*
+void Network::minimum_tree(){
 
 	std::vector<edge_t> spanning_tree;
 	
 	//!<We'll create the undirectedS graph in order to use the krustal
 
 	int numVertices = vertex_list.size();	
-
-	boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Routeur, Cable, NetworkInfo> g(numVertices);
+	boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Routeur, Cable, NetworkInfo> g;
 	
 	//!<We add the verteces to the graph g
 	vertex_list_t::iterator vertex = vertex_list.begin();	

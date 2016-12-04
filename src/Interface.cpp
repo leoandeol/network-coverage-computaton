@@ -58,6 +58,15 @@ int Interface::import_graph(std::string name)
   int i = networks.size();
   //todo test if found
   n->load_from_file(path);
+/*
+	std::vector<std::string> l = n->get_all_edges();
+	std::vector<std::string>::iterator it = l.begin();
+	for(; it != l.end(); ++it){
+		if(){
+
+		}
+	}
+*/
   networks.push_back(n);
   return i;
 }
@@ -68,6 +77,15 @@ void Interface::export_graph(int id, std::string name)
   networks[id]->save_to_file(path);
 }
 
+void Interface::color_path(int id, std::string& source, std::string& destination, std::string& color){
+
+	std::vector<std::string> path = networks[id]->get_path(source, destination);
+	
+	networks[id]->color_path(path, color);
+	std::string name = networks[id]->get_network_name()+ " - " + source + "->" + destination;
+	export_graph(id, name);
+	networks[id]->clean_all_colors(path);
+}
 int Interface::create(){
 	
 	int id = networks.size();
@@ -115,4 +133,13 @@ bool Interface::is_connected(int id){
 	
 	return networks[id]->is_connected();
 }
+void Interface::display_shortest_path(int id, std::string& source, std::string& target){
 
+	std::vector<std::string> path = networks[id]->get_path(source, target);
+	
+	std::vector<std::string>::iterator it;
+	for(it = path.begin(); it != path.end(); ++it){
+		std::cout << *it << std::endl;
+	}
+
+}

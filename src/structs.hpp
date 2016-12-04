@@ -38,6 +38,7 @@ typedef struct Routeur : Default_Vertex {
 
 typedef struct Cable : Default_Edge {
   unsigned int length;
+  std::string color;
 } Cable;
 
 #endif
