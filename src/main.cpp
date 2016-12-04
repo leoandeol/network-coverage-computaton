@@ -19,7 +19,9 @@ int main(int,char**)
 	std::cout <<std::endl;
 	int id = i.import_graph(name);
 	std::string u = "Olomouc";
-	std::string p = "Pilsem";	
+	std::string p = "Pilsem";
+	std::string c = "red";
+	i.color_path(id, u, p, c);
 	i.display_shortest_path(id, u, p);
 	
 //	i.export_graph(id);

@@ -96,6 +96,8 @@ public:
     \return a vector that represents the path between those routeurs
   */
   std::vector<std::string> get_path(std::string &source,std::string &destination);
+
+  std::vector<std::string> get_path(std::string &source, std::string &destination, std::string& color);
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param s The path to the .dot file
@@ -140,11 +142,23 @@ public:
   std::string create_edge_name(edge_t e);
   /**
     \brief Create the edge's name using the source and the target vertex names following the format
-    \bief source->target 
+    \brief source->target 
     \param The names of the source and the target verteces (string type)
     \return a string : source->target
   */
   std::string create_edge_name(std::string source, std::string target);
+  /**
+   \brief Color the path you want, changing the routeur::color and cable::color in the graph
+   \param The path you want to be colored (the name of the vertex ordered) and the string color
+   \return Nothing
+  */
+  void color_path(std::vector<std::string> &path, std::string &color);
+  /**
+   \brief Reset all the color added previously (on the routeur and the cable)
+   \param No param
+   \return Nothing
+  */
+  void clean_all_colors();
 
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
@@ -155,6 +169,7 @@ private:
   boost::dynamic_properties dp;/**< The dynamic properties of our graph, to link the structs to the import/export format*/
   bool default_routeur_is_multicast = true;/**< Default value for is_multicast when creating a new routeur*/
   unsigned int default_cable_length = 1;/**< Default value for length when creating a new cable*/
+  std::string default_color = "black";
 };
 
 #endif

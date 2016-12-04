@@ -16,11 +16,13 @@ typedef struct NetworkInfo
 
 typedef struct Routeur {
   std::string name;
+  std::string color;
   bool is_multicast;
 } Routeur;
 
 typedef struct Cable {
   unsigned int length;
+  std::string color;
 } Cable;
 
 #endif

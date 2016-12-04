@@ -8,10 +8,12 @@ Network::Network(NetworkInfo n) : network_graph(0,n), vertex_list(), vertex_exis
 {
   dp = boost::dynamic_properties(boost::ignore_other_properties);
 
+  dp.property("color", boost::get(&Routeur::color, network_graph));
   dp.property("label", boost::get(&Routeur::name, network_graph));
   dp.property("is_multicast", boost::get(&Routeur::is_multicast, network_graph));
 
   dp.property("label", boost::get(&Cable::length, network_graph));
+  dp.property("color", boost::get(&Cable::color, network_graph));
 }
 
 Network::~Network()
@@ -115,15 +117,43 @@ std::vector<std::string> Network::get_path(std::string &source, std::string &des
 
     typedef std::vector<std::string> path_t;
     path_t path;
+	
+	path.push_back(destination);
 
     for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
-      {
+    {
 	path.push_back(network_graph[u].name);
-      }
+    }
+
+	std::reverse(path.begin(), path.end());
 
     return path;
 }
-
+void Network::color_path(std::vector<std::string> &path, std::string &color)
+{
+	std::vector<std::string>::iterator it = path.begin();
+	std::string name;
+	Routeur r, r2;
+	for(; it != path.end(); ++it){
+		r = network_graph[vertex_list[*it]];
+		network_graph[vertex_list[*it]].color = color;
+		if(it != --path.end() && it != path.end()){
+			r2 = network_graph[vertex_list[*(std::next(it, 1))]];
+			name = create_edge_name(r.name,r2.name);
+			network_graph[edge_list[name]].color = color;
+		}
+	}
+}
+void Network::clean_all_colors(){
+	vertex_list_t::iterator v = vertex_list.begin();
+	edge_list_t::iterator e = edge_list.begin();
+	for(; v != vertex_list.end(); ++v){
+		network_graph[v->second].color = "";
+	}
+	for(; e != edge_list.end(); ++e){
+		network_graph[e->second].color = "";
+	}
+}
 int Network::load_from_file(std::string& path)
 {
 
@@ -158,6 +188,9 @@ std::cout << "Conversion of the file in network: " << std::endl <<std::endl;
 		//!<To access to their name
 		//!< Following the format : "source.name->target.name"
 		
+
+		network_graph[*it2.first].length = 1;	
+	
 		std::string edge_name = create_edge_name(*it2.first);
 		std::pair<std::string, edge_t> e = {edge_name, *it2.first};
 		edge_list.insert(e);

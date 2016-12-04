@@ -15,6 +15,7 @@ public:
   int create();
   bool is_connected(int id);
   void display_shortest_path(int id, std::string& source, std::string& target);
+  void color_path(int id, std::string& source, std::string& destination, std::string& color);
 private:
   std::vector<Network*> networks;
   const std::string DATA_FOLDER = "data/";
