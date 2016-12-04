@@ -18,14 +18,19 @@ int main(int,char**)
 	std::cin >> name;
 	std::cout <<std::endl;
 	int id = i.import_graph(name);
-
+	std::string u = "Olomouc";
+	std::string p = "Pilsem";	
+	i.display_shortest_path(id, u, p);
+	
+//	i.export_graph(id);
+	/*
 	bool boule = i.is_connected(id);
 	
 	if(boule){
 		std::cout << "Le graphe est bien connecté. " << std::endl;
 	}else{
 		std::cout << "Le graphe n'est pas connecté. " << std::endl;
-	}
+	}*/
 
 	return id;
 }

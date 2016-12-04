@@ -99,7 +99,7 @@ int Network::remove_cable(std::string&)
   return 0;
 }
 
-/*std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
+std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
 {
     vertex_t start_node = vertex_list[source];
     vertex_t end_node = vertex_list[destination];
@@ -123,7 +123,7 @@ int Network::remove_cable(std::string&)
 
     return path;
 }
-*/
+
 int Network::load_from_file(std::string& path)
 {
 

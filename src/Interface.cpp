@@ -110,4 +110,13 @@ bool Interface::is_connected(int id){
 	
 	return networks[id]->is_connected();
 }
+void Interface::display_shortest_path(int id, std::string& source, std::string& target){
 
+	std::vector<std::string> path = networks[id]->get_path(source, target);
+
+	std::vector<std::string>::iterator it;
+	for(it = path.begin(); it != path.end(); ++it){
+		std::cout << *it << std::endl;
+	}
+
+}

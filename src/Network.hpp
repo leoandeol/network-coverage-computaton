@@ -95,7 +95,7 @@ public:
     \param destination The destination's name
     \return a vector that represents the path between those routeurs
   */
-  std::vector<std::string> get_path(std::string source,std::string destination);
+  std::vector<std::string> get_path(std::string &source,std::string &destination);
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param s The path to the .dot file
