@@ -12,7 +12,16 @@ Interface::~Interface()
 
 void Interface::menu()
 {
-
+	std::cout << "**********************************************************************" << std::endl;
+	std::cout << "* Network Coverage Cycles & Partial Spanning trees computation       *" << std::endl;
+	std::cout << "* By Léo Andéol, Lothair Kizardjian, Cyril Govin                     *" << std::endl;
+	std::cout << "**********************************************************************" << std::endl;
+	std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Exit" << std::endl;
+	int input;
+	std::string tmp;
+	std::cin >> tmp;
+	input = stoi(tmp);
+	//TODO
 }
 /*
 int Interface::create_graph_terminal()
