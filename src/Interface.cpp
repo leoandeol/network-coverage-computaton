@@ -150,5 +150,12 @@ void Interface::display_shortest_path(int id, std::string& source, std::string& 
 	for(it = path.begin(); it != path.end(); ++it){
 		std::cout << *it << std::endl;
 	}
-
+}
+void color_tree(int id, std::string source, std::vector<std::string> targets){
+	std::vector<std::string> sources;
+	sources.push_back(source);
+	std::vector<std::vector<std::string>> tree;
+	tree = networks[id].minimun_tree(sources, targets, tree);
+	networks[id].color_tree(tree, "red");
+	export_graph(id, name);
 }

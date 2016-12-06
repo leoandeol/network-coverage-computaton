@@ -138,9 +138,13 @@ public:
   /**
     \brief
   */
-  void minimum_tree();
+  std::vector<std::vector<std::string>> Network::minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, std::vector<std::vector<std::string>>& tree);
 
+  /**
+    \brief
+  */
 
+  void color_tree(std::vector<std::vector<std::string>> &tree, std::string &color);
   /**
     \brief Create the edge's name used in the edge_list_t
     \brief The source and the target verteces are extracted to create a name following the format
@@ -165,7 +169,6 @@ public:
   /**
    \brief Reset the colors of all the routeurs and cables
    \param No param
-   \return Nothing
   */
   void clean_all_colors();
 

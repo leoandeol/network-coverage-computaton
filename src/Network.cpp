@@ -111,7 +111,7 @@ int Network<Vertex,Edge>::remove_cable(std::string&)
 	return 0;
 }
 
-std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
+std::vector<std::string> Network<Vertex, Edge>::get_path(std::string &source, std::string &destination)
 {
     vertex_t start_node = vertex_list[source];
     vertex_t end_node = vertex_list[destination];
@@ -322,55 +322,67 @@ std::string Network<Vertex,Edge>::create_edge_name(std::string source, std::stri
 	std::string edge_name = source+"->"+target;
 	return edge_name;
 }
-/*
-  void Network::minimum_tree(){
 
-  std::vector<edge_t> spanning_tree;
+template <class Vertex, class Edge> 
+std::vector<std::vector<std::string>> Network<Vertex,Edge>::minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, std::vector<std::vector<std::string>>& tree){
+//!< Implémentation de Takahashi Matsuyama
+	typedef std::vector<std::string> path;
+	if(source.empty() && !targets.empty()){
+		return NULL;
+	}
+	if(targets.empty()){
+		return tree;
+	}	
+
+	path p, test;
+	path::iterator theChosenOne;
+	path::iterator it = targets.begin();
+
+	//!< We choose the first path, the smallest possible
+	for(; it != targets.end(); ++it){
+		test = get_path(source.at(0), *it);
+		if(test.size() < p.size()){
+			p = test;
+			theChosenOne=it;
+		}
+	}
+	targets.erase(theChosenOne);
 	
-  //!<We'll create the undirectedS graph in order to use the krustal
-
-  int numVertices = vertex_list.size();	
-  boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, Routeur, Cable, NetworkInfo> g;
+	tree.push_back(p);
+	source.erase(p.begin());
 	
-  //!<We add the verteces to the graph g
-  vertex_list_t::iterator vertex = vertex_list.begin();	
+	source.insert(source.end(), p.begin()+1, p.end()-1);
 	
-  for(; vertex != vertex_list.end(); ++vertex){
-  Routeur r = network_graph[vertex->second];
-  add_vertex(r, g);			
-  }
-
-  //!<Let's ad the undirected edges
-	
-  edge_list_t::iterator edge = edge_list.begin();
-  std::vector<std::string> couple;
-  std::string ab;
-  std::string ba;
-  for(; edge != edge_list.end(); ++edge){
-  vertex_t source = boost::source(edge->second, network_graph);
-  vertex_t target = boost::target(edge->second, network_graph);
-  Routeur s = network_graph[source];
-  Routeur t =  network_graph[target];
-  ab = s.name+t.name;
-  ba = t.name+s.name;
-  if((find(couple.begin(), couple.end(), ab)!=couple.end())&&(find(couple.begin(), couple.end(), ba)!=couple.end())){
-  couple.push_back(ab);
-  couple.push_back(ba);
-  add_edge(source, target, g);
-			
-  }
-  }
+	return minimum_tree(source, targets, tree);
+}
 
 
-  kruskal_minimum_spanning_tree(g, std::back_inserter(spanning_tree));
+  void color_tree(std::vector<std::vector<std::string>> &tree, std::string &color){
 
-  std::vector<edge_t>::iterator it = spanning_tree.begin();
-  std::unordered_map<std::string, edge_t>::iterator got;
-  std::string edge_name;
-  for(; it != spanning_tree.end(); ++it){
-  edge_name = create_edge_name(*it);
-  got = edge_list.find(edge_name);
-	
-  std::cout << got->first << std::endl;
-  }	
-  }*/
+	std::vector<std::vector<std::string>>::iterator it;
+	for(it = tree.begin(); it != tree.end(); ++it){
+		color_path(*it, color);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
