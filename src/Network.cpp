@@ -1,6 +1,6 @@
 #include "Network.hpp"
 
-template <class Vertex, class Edge> 
+//template <class Vertex, class Edge> 
 Network<Vertex,Edge>::Network() : Network(NetworkInfo("GraphPropertyName","GraphPropertyLocation"))
 {
 }
@@ -59,7 +59,7 @@ int Network<Vertex,Edge>::add_cable(std::string& id1, std::string& id2)
 		std::cerr << "Routeur " << id1 << " or " << id2 << " does not exist." << std::endl;
 		return -1;
     }
-	if(r1==r2)
+v	if(r1==r2)
     {
 		std::cerr << "Trying to link routeur " << id1 << "with itself; reflexivity is forbidden" << std::endl;
 		return -1;
@@ -82,13 +82,13 @@ int Network<Vertex,Edge>::add_cable(std::string& id1, std::string& id2)
 	return (tmp1.second==false||tmp2.second==false)?0:-1;
 }
 
-template <class Vertex, class Edge, typename Structure, typename Attribute>
+//template <class Vertex, class Edge>
 Attribute& Network<Vertex,Edge>::get_attribute(std::string& id)
 {
 	return boost::get(&Structure::Attribute,network_graph,vertex_list[id]);
 }
 
-template <class Vertex, class Edge, typename Structure, typename Attribute>
+//template <class Vertex, class Edge>
 void Network<Vertex,Edge>::set_attribute(std::string& id, Attribute value)
 {
 	boost::put(&Structure::Attribute,network_graph,vertex_list[id], value);
@@ -118,20 +118,20 @@ std::vector<std::string> Network<Vertex,Edge>::get_path(std::string &source, std
     vertex_t end_node = vertex_list[destination];
 
     IndexMap id_map = boost::get(boost::vertex_index,network_graph);
-
-    std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
+	
+    std::vector<typename vertex_t> predecessors(boost::num_vertices(network_graph));
     std::vector<int> distances(boost::num_vertices(network_graph));
-
+	
     boost::dijkstra_shortest_paths(network_graph,start_node,boost::weight_map(boost::get(&Cable::length,network_graph))
 								   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
 								   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
-
+	
     typedef std::vector<std::string> path_t;
     path_t path;
 	
 	path.push_back(destination);
-
-    for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
+	
+    for(typename vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
     {
 		path.push_back(network_graph[u].name);
     }
@@ -334,6 +334,7 @@ std::string Network<Vertex,Edge>::create_edge_name(std::string source, std::stri
 	return edge_name;
 }
 
+template <class Vertex, class Edge>
 std::vector<std::vector<std::string>> Network<Vertex,Edge>::minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, std::vector<std::vector<std::string>>& tree){
 //!< Implémentation de Takahashi Matsuyama
 	typedef std::vector<std::string> path;
@@ -367,7 +368,8 @@ std::vector<std::vector<std::string>> Network<Vertex,Edge>::minimum_tree(std::ve
 }
 
 
-  void Network<Vertex,Edge>::color_tree(std::vector<std::vector<std::string>> &tree, std::string &color){
+template <class Vertex, class Edge>
+void Network<Vertex,Edge>::color_tree(std::vector<std::vector<std::string>> &tree, std::string &color){
 
 	std::vector<std::vector<std::string>>::iterator it;
 	for(it = tree.begin(); it != tree.end(); ++it){

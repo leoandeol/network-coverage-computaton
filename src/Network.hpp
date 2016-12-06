@@ -67,15 +67,16 @@ public:
      \param id The element's name
      \return A reference to the attribute's value
    */
-  template<typename Structure, typename Attribute>
-  Attribute& get_attribute(std::string& id);
-  /**
+	
+	template <typename Structure, typename Attribute>
+	Attribute& get_attribute(std::string& id);
+	/**
      \brief Sets the value of an attribute of an element, of type Structure
      \param id The element's name
      \param value The new value of the attribute
   */
-  template <typename Structure, typename Attribute>
-  void set_attribute(std::string& id, Attribute value);
+	template <typename Structure, typename Attribute>
+	void set_attribute(std::string& id, Attribute value);
   /* ########################### */
 
 
@@ -106,7 +107,6 @@ public:
     \return a vector that represents the path between those routeurs
   */
   std::vector<std::string> get_path(std::string &source,std::string &destination);
-
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param s The path to the .dot file
