@@ -34,6 +34,7 @@ typedef struct Default_Edge
 
 typedef struct Routeur : Default_Vertex {
   bool is_multicast;
+  std::string color;
 } Routeur;
 
 typedef struct Cable : Default_Edge {
