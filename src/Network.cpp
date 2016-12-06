@@ -6,7 +6,7 @@ Network<Vertex,Edge>::Network() : Network(NetworkInfo("GraphPropertyName","Graph
 }
 
 template <class Vertex, class Edge> 
-Network<Vertex,Edge>::Network<(NetworkInfo n) : network_graph(0,n), vertex_list(), vertex_exist(), edge_list()
+Network<Vertex,Edge>::Network(NetworkInfo n) : network_graph(0,n), vertex_list(), vertex_exist(), edge_list()
 {
 	dp = boost::dynamic_properties(boost::ignore_other_properties);
 
@@ -82,13 +82,13 @@ int Network<Vertex,Edge>::add_cable(std::string& id1, std::string& id2)
 	return (tmp1.second==false||tmp2.second==false)?0:-1;
 }
 
-template <typename Structure, typename Attribute>
-Attribute& Network::get_attribute(std::string& id)
+template <class Vertex, class Edge, typename Structure, typename Attribute>
+Attribute& Network<Vertex,Edge>::get_attribute(std::string& id)
 {
 	return boost::get(&Structure::Attribute,network_graph,vertex_list[id]);
 }
 
-template <typename Structure, typename Attribute>
+template <class Vertex, class Edge, typename Structure, typename Attribute>
 void Network<Vertex,Edge>::set_attribute(std::string& id, Attribute value)
 {
 	boost::put(&Structure::Attribute,network_graph,vertex_list[id], value);
@@ -111,7 +111,8 @@ int Network<Vertex,Edge>::remove_cable(std::string&)
 	return 0;
 }
 
-std::vector<std::string> Network::get_path(std::string &source, std::string &destination)
+template <class Vertex, class Edge> 
+std::vector<std::string> Network<Vertex,Edge>::get_path(std::string &source, std::string &destination)
 {
     vertex_t start_node = vertex_list[source];
     vertex_t end_node = vertex_list[destination];
@@ -139,7 +140,8 @@ std::vector<std::string> Network::get_path(std::string &source, std::string &des
 
     return path;
 }
-  
+
+template <class Vertex, class Edge> 
 std::vector<std::string> Network<Vertex,Edge>::get_all_edges(){
 	typename edge_list_t::iterator it = edge_list.begin();
 	std::vector<std::string> l;
@@ -148,6 +150,8 @@ std::vector<std::string> Network<Vertex,Edge>::get_all_edges(){
 	}
 	return l;
 }
+
+template <class Vertex, class Edge> 
 void Network<Vertex,Edge>::color_path(std::vector<std::string> &path, std::string &color)
 {
 	std::vector<std::string>::iterator it = path.begin();
@@ -163,6 +167,8 @@ void Network<Vertex,Edge>::color_path(std::vector<std::string> &path, std::strin
 		}
 	}
 }
+
+template <class Vertex, class Edge> 
 void Network<Vertex,Edge>::clean_all_colors(){
 	typename vertex_list_t::iterator v = vertex_list.begin();
 	typename edge_list_t::iterator e = edge_list.begin();
@@ -173,12 +179,15 @@ void Network<Vertex,Edge>::clean_all_colors(){
 		network_graph[e->second].color = "";
 	}
 }
+
+template <class Vertex, class Edge> 
 void Network<Vertex,Edge>::clean_all_colors(std::vector<std::string> &path)
 {
 	std::string color = "";
 	color_path(path, color);
 }
 
+template <class Vertex, class Edge> 
 int Network<Vertex,Edge>::load_from_file(std::string& path)
 {
 
@@ -228,6 +237,7 @@ int Network<Vertex,Edge>::load_from_file(std::string& path)
 	return 0;
 }
 
+template <class Vertex, class Edge> 
 void Network<Vertex,Edge>::save_to_file(std::string& path)
 {
 	std::ofstream out(path,std::ofstream::out);
@@ -236,6 +246,7 @@ void Network<Vertex,Edge>::save_to_file(std::string& path)
 }
 
 
+template <class Vertex, class Edge> 
 bool Network<Vertex,Edge>::is_connected()
 {
 
