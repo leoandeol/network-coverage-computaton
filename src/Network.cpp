@@ -323,12 +323,11 @@ std::string Network<Vertex,Edge>::create_edge_name(std::string source, std::stri
 	return edge_name;
 }
 
-template <class Vertex, class Edge> 
 std::vector<std::vector<std::string>> Network<Vertex,Edge>::minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, std::vector<std::vector<std::string>>& tree){
 //!< Implémentation de Takahashi Matsuyama
 	typedef std::vector<std::string> path;
 	if(source.empty() && !targets.empty()){
-		return NULL;
+		return null;
 	}
 	if(targets.empty()){
 		return tree;
@@ -357,7 +356,7 @@ std::vector<std::vector<std::string>> Network<Vertex,Edge>::minimum_tree(std::ve
 }
 
 
-  void color_tree(std::vector<std::vector<std::string>> &tree, std::string &color){
+  void Network<Vertex,Edge>::color_tree(std::vector<std::vector<std::string>> &tree, std::string &color){
 
 	std::vector<std::vector<std::string>>::iterator it;
 	for(it = tree.begin(); it != tree.end(); ++it){

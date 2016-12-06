@@ -129,11 +129,13 @@ public:
     \brief Print the name of all the verteces which are in in the unordered_map
     \param No parameters
   */
+template <class Vertex, class Edge> 
   void readAll_vertex();
   /**
     \brief Print the name of all the edges which are in in the unordered_map
     \param No parameters
   */
+template <class Vertex, class Edge> 
   void readAll_edge();
   /**
     \brief
