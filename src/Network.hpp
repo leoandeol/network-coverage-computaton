@@ -42,7 +42,7 @@ public:
 	   \brief Constructor
 	   \param i struct containing informations about the graph such as its name
 	*/
-	Network(NetworkInfo i) : network_graph(0,n), vertex_list(), vertex_exist(), edge_list()
+	Network(NetworkInfo i) : network_graph(), vertex_list(), vertex_exist(), edge_list()
 	{
 		dp = boost::dynamic_properties(boost::ignore_other_properties);
 
@@ -53,6 +53,7 @@ public:
 		dp.property("label", boost::get(&Cable::length, network_graph));
 		dp.property("color", boost::get(&Cable::color, network_graph));
 	}
+	
 	/**
 	   \brief Destructor
 	*/
@@ -60,6 +61,7 @@ public:
 	{
 
 	}
+	
 	/**
 	   \brief Creates a new routeur and returns its id
 	   \return The new routeur's name or -1 if there was an error
@@ -76,10 +78,11 @@ public:
 	}
 	/**
 	   \brief Creates a new routeur with a set name and returns its id
-	   \param s The new routeur's name
+	   \param name The new routeur's name
 	   \return 0 in case of success, else -1
 	*/
-	int add_routeur(std::string& s)
+	
+	int add_routeur(std::string& name)
 	{
 		Routeur r;
 		r.name = name;
@@ -93,6 +96,7 @@ public:
 	   \param id2 Another routeur's name
 	   \return 0 in case of success, else -1
 	*/
+	
 	int add_cable(std::string& id1,std::string& id2)
 	{
 		typename vertex_list_t::const_iterator r1 = vertex_list.find(id1);
@@ -104,7 +108,7 @@ public:
 			std::cerr << "Routeur " << id1 << " or " << id2 << " does not exist." << std::endl;
 			return -1;
 		}
-		v	if(r1==r2)
+		if(r1==r2)
 		{
 			std::cerr << "Trying to link routeur " << id1 << "with itself; reflexivity is forbidden" << std::endl;
 			return -1;
@@ -126,12 +130,12 @@ public:
 
 		return (tmp1.second==false||tmp2.second==false)?0:-1;
 	}
+	
 	/**
 	   \brief Gives the value of an attribute of an element, of type Structure
 	   \param id The element's name
 	   \return A reference to the attribute's value
 	*/
-	
 	template <typename Structure, typename Attribute>
 	Attribute& get_attribute(std::string& id)
 	{
@@ -151,7 +155,6 @@ public:
 	
 	/**
 	   \brief Gives the name of the network
-	   \param No param
 	   \return A string which contains the name of the network
 	*/
 	std::string get_network_name()
@@ -192,7 +195,7 @@ public:
 
 		IndexMap id_map = boost::get(boost::vertex_index,network_graph);
 	
-		std::vector<typename vertex_t> predecessors(boost::num_vertices(network_graph));
+		std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
 		std::vector<int> distances(boost::num_vertices(network_graph));
 	
 		boost::dijkstra_shortest_paths(network_graph,start_node,boost::weight_map(boost::get(&Cable::length,network_graph))
@@ -204,7 +207,7 @@ public:
 	
 		path.push_back(destination);
 	
-		for(typename vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
+		for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
 		{
 			path.push_back(network_graph[u].name);
 		}
@@ -216,10 +219,10 @@ public:
 
 	/**
 	   \brief Loads a graph in the DOT format, from the path given as parameter
-	   \param s The path to the .dot file
+	   \param path The path to the .dot file
 	   \return 0 if the file was loaded successfully, else -1
 	*/
-	int load_from_file(std::string& s)
+	int load_from_file(std::string& path)
 	{
 		std::cout << "Conversion of the file in network: " << std::endl <<std::endl;
 
@@ -269,9 +272,9 @@ public:
 	
 	/**
 	   \brief Saves a graph in the DOT format, to the path given as parameter
-	   \param s The path to the wanted .dot file
+	   \param path The path to the wanted .dot file
 	*/
-	void save_to_file(std::string& s)
+	void save_to_file(std::string& path)
 	{
 		std::ofstream out(path,std::ofstream::out);
 		write_graphviz_dp(out, network_graph, dp, "label");
@@ -280,10 +283,8 @@ public:
 
 	/**
 	   \brief Return a boolean if the graph is connected or not
-	   \param No parameters
 	   \return true if the graph is connected, else return false
 	*/
-	
 	bool is_connected()
 	{
 		std::cout << "Control of the network connection: " << std::endl<<std::endl;
@@ -301,7 +302,7 @@ public:
 			Routeur c = network_graph[vertex->second];
 		
 			if(std::find(checked.begin(), checked.end(), c.name) != checked.end()){
-				for(edge_list_t::iterator current = edge_list.begin(); vertex_list.size() != checked.size() && current != edge_list.end();++current){
+				for(typename edge_list_t::iterator current = edge_list.begin(); vertex_list.size() != checked.size() && current != edge_list.end();++current){
 					vertex_t source = boost::source(current->second, network_graph);
 					Routeur s = network_graph[source];
 					if(c.name == s.name){ 
@@ -332,8 +333,7 @@ public:
 	
 	/**
 	   \brief Print the name of all the verteces which are in in the unordered_map
-	   \param No parameters
-	*/
+    */
 	void readAll_vertex()
 	{
 		typename vertex_list_t::iterator vertex = vertex_list.begin();
@@ -346,8 +346,7 @@ public:
 	
 	/**
 	   \brief Print the name of all the edges which are in in the unordered_map
-	   \param No parameters
-	*/
+    */
     void readAll_edge()
 	{
 		typename edge_list_t::iterator edge = edge_list.begin();
@@ -359,12 +358,12 @@ public:
 	/**
 	   \brief
 	*/
-	std::vector<std::vector<std::string>> Network::minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, std::vector<std::vector<std::string>>& tree)
+	std::vector<std::vector<std::string> > minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, std::vector<std::vector<std::string> >& tree)
 	{
 		//!< Implémentation de Takahashi Matsuyama
 		typedef std::vector<std::string> path;
 		if(source.empty() && !targets.empty()){
-			return null;
+			return nullptr;
 		}
 		if(targets.empty()){
 			return tree;
@@ -396,7 +395,7 @@ public:
 	/**
 	   \brief
 	*/
-	void color_tree(std::vector<std::vector<std::string>> &tree, std::string &color)
+	void color_tree(std::vector<std::vector<std::string> > &tree, std::string &color)
 	{
 		std::vector<std::vector<std::string>>::iterator it;
 		for(it = tree.begin(); it != tree.end(); ++it){
@@ -438,8 +437,7 @@ public:
 	/**
 	   \brief Color the path you want, changing the routeur::color and cable::color in the graph
 	   \param The path you want to be colored (the name of the vertex ordered) and the string color
-	   \return Nothing
-	*/
+    */
 	void color_path(std::vector<std::string> &path, std::string &color)
 	{
 		std::vector<std::string>::iterator it = path.begin();
@@ -458,8 +456,7 @@ public:
 
 	/**
 	   \brief Reset the colors of all the routeurs and cables
-	   \param No param
-	*/
+    */
 	void clean_all_colors()
 	{
 		typename vertex_list_t::iterator v = vertex_list.begin();
@@ -474,8 +471,6 @@ public:
 
 	/**
 	   \brief Reset all the color added previously (on the routeur and the cable)
-	   \param No param
-	   \return Nothing
 	*/
 	void clean_all_colors(std::vector<std::string> &path)
 	{
@@ -485,7 +480,6 @@ public:
 
 	/**
 	   \brief Gives a list of edges
-	   \param No param
 	   \return A vector of string with the name of the edge
 	*/
 	std::vector<std::string> get_all_edges()
@@ -501,8 +495,7 @@ public:
 private:
 	network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
 	vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/
-	//TO FIX : static id counter
-	std::vector<bool> vertex_exist;/**< A boolean array used to check if the vertex at the said coordinates exist, because the array can be wider than the number of vertices it contains */
+    std::vector<bool> vertex_exist;/**< A boolean array used to check if the vertex at the said coordinates exist, because the array can be wider than the number of vertices it contains */
 	edge_list_t edge_list;/**< The list of edge descriptors, of network_graph's edges*/
 	boost::dynamic_properties dp;/**< The dynamic properties of our graph, to link the structs to the import/export format*/
 };
