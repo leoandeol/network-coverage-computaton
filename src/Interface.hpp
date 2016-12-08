@@ -16,9 +16,10 @@ public:
 	int create();
 	bool is_connected(int id);
 	void color_path(int id, std::string& source, std::string& destination, std::string& color);
-	void color_tree(int id, std::string source, std::vector<std::string> targets){
+	void color_tree(int id, std::string source, std::vector<std::string> targets, std::string& color);
+	void display_shortest_path(int id, std::string& source, std::string& target);
 private:
-	std::vector<Network<Routeur, Cable*> > networks;
+	std::vector<Network<Routeur, Cable>* > networks;
 	const std::string DATA_FOLDER = "data/";
 	const std::string FILE_EXTENSION = ".dot";
 };

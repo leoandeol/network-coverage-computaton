@@ -34,7 +34,7 @@ public:
 	/** 
 		\brief Default Constructor, calls the other constructor with default parameters
 	*/
-	Network() : Network(NetworkInfo("GraphPropertyName","GraphPropertyLocation"))
+	Network() : Network(NetworkInfo("DefaultGraphPropertyName","DefaultGraphPropertyLocation"))
 	{
 		
 	}
@@ -42,8 +42,9 @@ public:
 	   \brief Constructor
 	   \param i struct containing informations about the graph such as its name
 	*/
-	Network(NetworkInfo i) : network_graph(), vertex_list(), vertex_exist(), edge_list()
+	Network(NetworkInfo i) : network_graph(i), vertex_list(), vertex_exist(), edge_list()
 	{
+		//make that generic
 		dp = boost::dynamic_properties(boost::ignore_other_properties);
 
 		dp.property("color", boost::get(&Routeur::color, network_graph));
@@ -363,7 +364,8 @@ public:
 		//!< Implémentation de Takahashi Matsuyama
 		typedef std::vector<std::string> path;
 		if(source.empty() && !targets.empty()){
-			return nullptr;
+			//tree or empty vec .
+			return tree;
 		}
 		if(targets.empty()){
 			return tree;

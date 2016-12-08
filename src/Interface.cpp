@@ -16,89 +16,103 @@ void Interface::menu()
 	std::cout << "* Network Coverage Cycles & Partial Spanning trees computation       *" << std::endl;
 	std::cout << "* By Léo Andéol, Lothair Kizardjian, Cyril Govin                     *" << std::endl;
 	std::cout << "**********************************************************************" << std::endl;
-	std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Exit" << std::endl;
 	int input;
-	std::string tmp;
-	std::cin >> tmp;
-	input = stoi(tmp);
-	//TODO
+	bool cont = true;
+	std::string s;
+	int id;
+	do
+	{
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Exit" << std::endl;	
+		std::cin >> s;
+		input = stoi(s);
+		switch(input)
+		{
+		case 1:
+			id = create_graph_terminal();
+			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			break;
+		case 2:
+			std::cout << "What's the name of the file to import (without the extension, and the file should be located in the data folder) ?" << std::endl;
+		    std::cin >> s;
+			id = import_graph(s);
+			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			break;
+		case 3:
+			std::cout << "What's the name of the file to export (without the extension, and the file will be located in the data folder) ?" << std::endl;
+		    std::cin >> s;
+			std::cout << "What's the ID of the graph to export ?" << std::endl;
+		    std::cin >> id;
+			export_graph(id,s);
+			break;
+		case 4:
+			cont=false;
+			break;
+		}
+	} while(cont);
 }
-/*
+
 int Interface::create_graph_terminal()
 {
-  int id = networks.size();
-  Network* n = new Network();
+	int id = networks.size();
+	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
 
-  std::string input1, input2;
-  std::cout << "Network creation assistant" << std::endl;
-  std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
+	std::string input1, input2;
+	std::cout << "Network creation assistant" << std::endl;
+	std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
 	
-  while(true)
+	while(true)
     {
 		
-	  //Ex: 1 -> 2
+		//Ex: 1 -> 2
 	  
-      std::cout << "Node 1 : ";
-      //rentrer un chiffre
-      std::cin >> input1;
-      if(input1=="done") break;
+		std::cout << "Node 1 : ";
+		//rentrer un chiffre
+		std::cin >> input1;
+		if(input1=="done") break;
 
-      std::cout << "Node 2 : ";
-      //rentrer chiffre
-      std::cin >> input2;
-      if(input2=="done") break;
-      
-      //conversion des chiffres entrés de String vers Integer
-      int i1 = std::stoi(input1,nullptr);
-      int i2 = std::stoi(input2,nullptr);
+		std::cout << "Node 2 : ";
+		//rentrer chiffre
+		std::cin >> input2;
+		if(input2=="done") break;
 
-      n->add_cable(i1,i2);
+		n->add_cable(input1,input2);
     }
   
-  networks.push_back(n);
+	networks.push_back(n);
   
-  return id;
-}*/
+	return id;
+}
 
 int Interface::import_graph(std::string name)
 {
-  std::string path = DATA_FOLDER + name + FILE_EXTENSION;
-  Network* n = new Network();
-  int i = networks.size();
-  //todo test if found
-  n->load_from_file(path);
-/*
-	std::vector<std::string> l = n->get_all_edges();
-	std::vector<std::string>::iterator it = l.begin();
-	for(; it != l.end(); ++it){
-		if(){
+	std::string path = DATA_FOLDER + name + FILE_EXTENSION;
+	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
+	int i = networks.size();
+	//todo test if found
+	n->load_from_file(path);
+	/*
+	  std::vector<std::string> l = n->get_all_edges();
+	  std::vector<std::string>::iterator it = l.begin();
+	  for(; it != l.end(); ++it){
+	  if(){
 
-		}
-	}
-*/
-  networks.push_back(n);
-  return i;
+	  }
+	  }
+	*/
+	networks.push_back(n);
+	return i;
 }
 
 void Interface::export_graph(int id, std::string name)
 {
-  std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
-  networks[id]->save_to_file(path);
+	std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
+	networks[id]->save_to_file(path);
 }
 
-void Interface::color_path(int id, std::string& source, std::string& destination, std::string& color){
-
-	std::vector<std::string> path = networks[id]->get_path(source, destination);
-	
-	networks[id]->color_path(path, color);
-	std::string name = networks[id]->get_network_name()+ " - " + source + "->" + destination;
-	export_graph(id, name);
-	networks[id]->clean_all_colors(path);
-}
-int Interface::create(){
-	
+int Interface::create()
+{	
 	int id = networks.size();
-	Network* net = new Network();
+	Network<Routeur,Cable>* net = new Network<Routeur,Cable>();
 
 	std::string A = "A";
 	std::string B = "B";
@@ -117,7 +131,7 @@ int Interface::create(){
 	net->add_routeur(F);
 	net->add_routeur(G);
 	net->add_routeur(Z);
-/**/
+	
 	net->add_cable(A, B);
 	net->add_cable(A, C);
 	net->add_cable(A, D);
@@ -138,11 +152,13 @@ int Interface::create(){
 }
 
 
-bool Interface::is_connected(int id){
-	
+bool Interface::is_connected(int id)
+{	
 	return networks[id]->is_connected();
 }
-void Interface::display_shortest_path(int id, std::string& source, std::string& target){
+
+void Interface::display_shortest_path(int id, std::string& source, std::string& target)
+{
 
 	std::vector<std::string> path = networks[id]->get_path(source, target);
 	
@@ -151,11 +167,24 @@ void Interface::display_shortest_path(int id, std::string& source, std::string& 
 		std::cout << *it << std::endl;
 	}
 }
-void color_tree(int id, std::string source, std::vector<std::string> targets){
+
+void Interface::color_tree(int id, std::string source, std::vector<std::string> targets, std::string& color)
+{
 	std::vector<std::string> sources;
 	sources.push_back(source);
-	std::vector<std::vector<std::string>> tree;
-	tree = networks[id].minimun_tree(sources, targets, tree);
-	networks[id].color_tree(tree, "red");
+	std::vector<std::vector<std::string> > tree;
+	tree = networks[id]->minimum_tree(sources, targets, tree);
+	std::string name = networks[id]->get_network_name()+"-SpanningTree";
+	networks[id]->color_tree(tree, color);
 	export_graph(id, name);
+}
+
+void Interface::color_path(int id, std::string& source, std::string& destination, std::string& color)
+{
+	std::vector<std::string> path = networks[id]->get_path(source, destination);
+	
+	networks[id]->color_path(path, color);
+	std::string name = networks[id]->get_network_name()+ " - " + source + "->" + destination;
+
+	networks[id]->clean_all_colors(path);
 }
