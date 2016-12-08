@@ -10,18 +10,30 @@
  *
  * \section intro_sec Introduction
  *
- * This is the Plegat documentation.
+ * NCC is a 3rd term project realized by Léo Andeol, Lothair Kizardjian, Cyril Govin & Guillaume Chafiol
+ * with Dr. Molnar as tutor, concerning computating network cycles, trees and paths as backup for the said networks
  *
  * \section install_sec Installation
  *
- * \subsection tools_subsec Tools required&#58;
- * - Java Runtime Environment &#40;JRE&#41; 1.4.2 or later &#40;<small><a href="http&#58;//java.sun.com/">Java Web Site etc etc...
+ * \subsection tools_subsec Tools required
+ * - libboost-graph(-dev if you want to compile it) & all its dependencies
+ * - doxygen to generate the doc (even if the repo should always be up to date)
+ *
+ * \subsection compiling Compiling the program
+ * 
+ * Run "make" to build the normal binary, and "make debug" to build the debug version which can be used with gdb 
+ *
+ * \subsection gen_docs Generation the docs
+ * 
+ * You need to have doxygen installed, and then simply run "doxygen doxygen.cfg"
  *
  * \subsection running Running the program
- * In a command window, etc etc...
+ * 
+ *  Simply run ./main in a terminal
  *
  * \section copyright Copyright and License
- * This license applies to etc etc...
+ * 
+ * GNU GPL (c) Léo Andeol, Lothair Kizardjian, Cyril Govin & Guillaume Chafiol
  *
  */
 
