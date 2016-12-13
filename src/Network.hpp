@@ -493,6 +493,163 @@ public:
 		}
 		return l;
 	}
+	
+	void conversionCsvInDot(string read, string write = "CSV_convert.dot",char separator = ',', string graphName = "graphName", bool digraph = false/*false = graph; true = digraph)*/){
+
+	    ifstream fichierR(read.c_str(), ios::in);//opening of reading file
+	    ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
+
+	    if(fichierR) { // test opening file succeed
+		if(fichierW) { // test opening file succeed
+
+		string typeGraph; // "graph" or "digraph" depends parameter
+		string flux; // "--" or "->" depends of parameter
+
+		if(!digraph){//assignment of typeGraph and flux
+		    typeGraph = "graph";
+		    flux = " -- ";
+		}
+		else{ typeGraph = "digraph"; flux = " -> ";}
+
+		fichierW << typeGraph << " " << graphName << " {\n\t"; // writing of the first line
+
+		string contentS; //read string storage
+		char contentC; //read char storage
+
+		getline(fichierR, contentS);
+		getline(fichierR, contentS);
+		getline(fichierR, contentS);
+		getline(fichierR, contentS);
+		getline(fichierR, contentS);//5 lines leading
+
+		int nbSeparatorFind;
+
+		while(fichierR){
+
+		    nbSeparatorFind = 0;//number of Separator already found in a line, useful to know where you are in a sentence
+		    fichierR.get(contentC);
+		    while(contentC != '\n'){//for each line
+
+			if(contentC == separator){//when a Separator is found...
+			    nbSeparatorFind++;
+			    switch(nbSeparatorFind){
+
+				case 1:
+				    fichierW << flux;
+				    break;
+				case 2:
+				    fichierW << " [label=";
+				    break;
+				default:
+				    fichierW << contentC;
+				    break;
+			    }
+			}
+			else{//if the char is not a Separator, just write it
+			    fichierW << contentC;
+			}
+
+			fichierR.get(contentC);//reading of the next char
+			if(contentC == '\n'){
+			    fichierW << "];\n\t";//if it's the end of the line we write this
+			}
+		    }
+		}
+		fichierW << '}';//end of the file
+
+		fichierR.close();
+		fichierW.close();
+		}
+		else{
+			cerr << "Error, file opening/creation impossible !" << endl;
+		}
+	    }
+	    else{
+			cerr << "Error, file opening impossible !" << endl;
+	    }
+	}
+
+	//pré-requis : 1 lignes d'entête (n=55)
+	//same number of label values(cost) and segment
+	//Mandatory syntaxe : Edges = {<1,3>,<2,3>, <3,1>, <3,2>, <3,6>,...   }
+	//                    Cost = [5 3 5 1 2 1 1 2 5 4 2....   ]
+
+	void conversionDatInDot(string read, string write = "CSV_convert.dot", string graphName = "graphName", bool digraph = false/*false = graph; true = digraph)*/){
+
+	    ifstream fichierR(read.c_str(), ios::in);//opening of reading file
+	    ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
+	    ifstream fichierRLabel(read.c_str(), ios::in);//opening of reading label values file
+
+	    if(fichierR) { // test opening file succeed
+		if(fichierW) { // test opening file succeed
+
+		string typeGraph; // "graph" or "digraph" depends parameter
+		string flux; // "--" or "->" depends of parameter
+
+		if(!digraph){//assignment of typeGraph and flux
+		    typeGraph = "graph";
+		    flux = " -- ";
+		}
+		else{ typeGraph = "digraph"; flux = " -> ";}
+
+		fichierW << typeGraph << " " << graphName << " {\n\t"; // writing of the first line
+
+		string contentS; //read string storage
+		char contentC; //read char storage
+		string fullLabel = ""; //label of each segment
+		char label;//each char of fullLabel
+
+		fichierRLabel.get(label);
+		while(label != '['){//reaching label values
+		    fichierRLabel.get(label);
+		}
+		fichierRLabel.get(label);
+
+		getline(fichierR, contentS);//entête
+
+		fichierR.get(contentC);
+		while(contentC != '}'){//while this is not end of file
+		   //while this is not the end of values list
+			while(contentC != '<'){//while we didn't find a starting value...
+			    fichierR.get(contentC);//...we moving curseur forward
+			}
+			fichierR.get(contentC);
+			while(contentC != ','){//while this is not the end of the first value...
+			    fichierW << contentC;//...we write numbers...
+			    fichierR.get(contentC);//...then we move forward.
+			}
+			fichierW << flux;
+			fichierR.get(contentC);
+			while(contentC != '>'){//while this is not the end of the second value...
+			    fichierW << contentC;//...we write numbers...
+			    fichierR.get(contentC);//...then we move forward.
+			}
+
+			while(label != ' '){//fullLabel constructing
+			    fullLabel += label;
+			    fichierRLabel.get(label);
+			}
+			fichierRLabel.get(label);//move to the next label
+
+			fichierW << " [label=" << fullLabel << "];\n\t";//end of line
+			fichierR.get(contentC);
+			fullLabel = "";//resetting of fullLabel
+
+		}
+		 fichierW << '}';
+
+		fichierR.close();
+		fichierW.close();
+		fichierRLabel.close();
+		}
+		else{
+			cerr << "Error, file opening/creation impossible !" << endl;
+		}
+	    }
+	    else{
+			cerr << "Error, file opening impossible !" << endl;
+	    }
+	}
 
 private:
 	network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
