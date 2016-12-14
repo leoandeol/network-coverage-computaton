@@ -132,6 +132,19 @@ public:
 		return (tmp1.second==false||tmp2.second==false)?0:-1;
 	}
 	
+	int add_cable(std::string& id1,std::string& id2, int distance){
+		int result = add_cable(id1, id2);
+		std::string name1 = create_edge_name(id1, id2);
+		std::string name2 = create_edge_name(id2, id1);
+
+		edge_t e1 = edge_list[name1];
+		edge_t e2 = edge_list[name2];	
+
+		boost::put(&Cable::length, network_graph, edge_list[name1], distance);
+		boost::put(&Cable::length, network_graph, edge_list[name2], distance);
+		return result;
+	}
+	
 	/**
 	   \brief Gives the value of an attribute of an element, of type Structure
 	   \param id The element's name
@@ -357,41 +370,52 @@ public:
 	}
 
 	/**
-	   \brief
+	   \brief Calculate a minimum tree from a source to targets
+	   \brief 
+	   \param A vector of string containing the source names, which supposed to start with only 1 name
+	   \param A vector of string containing the target names
+	   \param An empty network which will be the minimum tree
+	   \return The tree as a Network
 	*/
-	std::vector<std::vector<std::string> > minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, std::vector<std::vector<std::string> >& tree)
+	Network* minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, Network<Routeur, Cable>* tree)
 	{
 		//!< Implémentation de Takahashi Matsuyama
 		typedef std::vector<std::string> path;
-		if(source.empty() && !targets.empty()){
-			//tree or empty vec .
+		if(targets.empty() || source.empty()){
 			return tree;
 		}
-		if(targets.empty()){
-			return tree;
-		}	
-
-		path p, test;
+		path p(0);
+		path test;
 		path::iterator theChosenOne;
 		path::iterator it = targets.begin();
 
+//			std::cout << *it << std::endl;
+//			std::cout << "Targets size :" << targets.size() << std::endl;
+//			std::cout << "Source size :" << source.size() << std::endl;
 		//!< We choose the first path, the smallest possible
 		for(; it != targets.end(); ++it){
-			test = get_path(source.at(0), *it);
-			if(test.size() < p.size()){
-				p = test;
-				theChosenOne=it;
+			for(int unsigned i = 0; i < source.size(); i++){	
+				test = get_path(source.at(i), *it);
+//				std::cout << "test" << std::endl;
+				if(p.size() == 0 || test.size() < p.size()){
+					p = test;
+					theChosenOne=it;
+				}
 			}
 		}
+//		std::cout << *theChosenOne << "b" << std::endl;
+//		std::cout << std::endl;
+		path::iterator IT = p.begin();
+		for(; IT != p.end(); ++IT){
+			std::cout << *IT << std::endl;
+		}
 		targets.erase(theChosenOne);
-	
-		tree.push_back(p);
-		source.erase(p.begin());
-	
-		source.insert(source.end(), p.begin()+1, p.end()-1);
+		std::cout << std::endl;
+		tree->add_path(p);
+		
+		source.insert(source.end(), ++p.begin(),p.end());	
 	
 		return minimum_tree(source, targets, tree);
-
 	}
 
 	/**
@@ -404,7 +428,24 @@ public:
 			color_path(*it, color);
 		}
 	}
-
+	/**
+	   \brief Add a path to the current network
+	*/
+	void add_path(std::vector<std::string> &path)
+	{
+		std::vector<std::string>::iterator it, it2;
+		it = path.begin();
+		it2 = it+1;
+	//	std::cout << "it2" << *it2 << std::endl;
+	//	std::cout << "it" << *it << std::endl;
+		for(; it != path.end(); ++it){
+			add_routeur(*it);
+			if(it!=it2){
+				add_routeur(*it2);
+				add_cable(*it,*it2, 1);
+			}
+		}
+	}
 	/**
 	   \brief Create the edge's name used in the edge_list_t
 	   \brief The source and the target verteces are extracted to create a name following the format
@@ -412,6 +453,7 @@ public:
 	   \param An edge : edge_t
 	   \return source.name->target.name
 	*/
+	
 	std::string create_edge_name(edge_t e)
 	{
 		vertex_t source = boost::source(e, network_graph);
@@ -480,9 +522,23 @@ public:
 		color_path(path, color);
 	}
 
+	void color_list_edges(std::vector<std::string> &edges, std::string color){
+		std::vector<std::string>::iterator it = edges.begin();
+		for(; it < edges.end(); ++it){
+			network_graph[edge_list[*it]].color = color;	
+		}
+	}
+
+	void color_list_verteces(std::vector<std::string> &verteces, std::string color){
+		std::vector<std::string>::iterator it = verteces.begin();
+		for(; it < verteces.end(); ++it){
+			network_graph[vertex_list[*it]].color = color;	
+		}
+	}
+
 	/**
 	   \brief Gives a list of edges
-	   \return A vector of string with the name of the edge
+	   \return A vector of string with the name of the edges
 	*/
 	std::vector<std::string> get_all_edges()
 	{
@@ -493,6 +549,20 @@ public:
 		}
 		return l;
 	}
+	/**
+	   \brief Gives a list of verteces
+	   \return A vector of string with the name of the verteces
+	*/
+	std::vector<std::string> get_all_verteces()
+	{
+		typename vertex_list_t::iterator it = vertex_list.begin();
+		std::vector<std::string> l;
+		for(; it!=vertex_list.end(); ++it){
+			l.push_back(it->first);
+		}
+		return l;
+	}
+
 
 private:
 	network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
