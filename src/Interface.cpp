@@ -62,6 +62,7 @@ int Interface::create_graph_terminal()
 
 int Interface::import_graph(std::string name)
 {
+  
   std::string path = DATA_FOLDER + name + FILE_EXTENSION;
   Network* n = new Network();
   int i = networks.size();
@@ -83,6 +84,7 @@ int Interface::import_graph(std::string name)
 void Interface::export_graph(int id, std::string name)
 {
   std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
+  static const std::string command = "mkdir data && dot -Tpng ";
   networks[id]->save_to_file(path);
 }
 
