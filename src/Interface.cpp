@@ -105,8 +105,9 @@ int Interface::import_graph(std::string name)
 
 void Interface::export_graph(int id, std::string name)
 {
-	std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
-	networks[id]->save_to_file(path);
+  std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
+  static const std::string command = "mkdir data && dot -Tpng ";
+  networks[id]->save_to_file(path);
 }
 
 int Interface::create()
@@ -168,14 +169,25 @@ void Interface::display_shortest_path(int id, std::string& source, std::string& 
 	}
 }
 
-void Interface::color_tree(int id, std::string source, std::vector<std::string> targets, std::string& color)
+void Interface::color_tree(int id, std::string source, std::vector<std::string> targets)
 {
 	std::vector<std::string> sources;
 	sources.push_back(source);
-	std::vector<std::vector<std::string> > tree;
-	tree = networks[id]->minimum_tree(sources, targets, tree);
 	std::string name = networks[id]->get_network_name()+"-SpanningTree";
-	networks[id]->color_tree(tree, color);
+
+	Network<Routeur, Cable>* tree = new Network<Routeur,Cable>();
+
+	tree = networks[id]->minimum_tree(sources, targets, tree);
+	int id2 = networks.size();
+	networks.push_back(tree);
+		
+	std::vector<std::string> edges,verteces;
+	edges = networks[id2]->get_all_edges();
+	verteces = networks[id2]->get_all_verteces();
+	
+	networks[id]->color_list_edges(edges, "red");
+	networks[id]->color_list_verteces(verteces, "red");
+
 	export_graph(id, name);
 }
 
