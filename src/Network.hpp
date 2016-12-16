@@ -377,7 +377,7 @@ public:
 	   \param An empty network which will be the minimum tree
 	   \return The tree as a Network
 	*/
-	Network* minimum_tree(std::vector<std::string> &source, std::vector<std::string> &targets, Network<Routeur, Cable>* tree)
+	Network* minimum_tree(std::vector<std::string> source, std::vector<std::string> targets, Network<Routeur, Cable>* tree)
 	{
 		//!< Implémentation de Takahashi Matsuyama
 		typedef std::vector<std::string> path;
@@ -421,7 +421,7 @@ public:
 	/**
 	   \brief
 	*/
-	void color_tree(std::vector<std::vector<std::string> > &tree, std::string &color)
+	void color_tree(std::vector<std::vector<std::string> > &tree, std::string source, std::string target, std::string &color)
 	{
 		std::vector<std::vector<std::string>>::iterator it;
 		for(it = tree.begin(); it != tree.end(); ++it){
@@ -529,10 +529,16 @@ public:
 		}
 	}
 
-	void color_list_verteces(std::vector<std::string> &verteces, std::string color){
+	void color_list_verteces(std::vector<std::string> &verteces, std::string color, std::string& source, std::vector<std::string>& targets){
 		std::vector<std::string>::iterator it = verteces.begin();
 		for(; it < verteces.end(); ++it){
-			network_graph[vertex_list[*it]].color = color;	
+			if(*it == source){
+				network_graph[vertex_list[*it]].color = "chartreuse";
+			}else if(std::find(targets.begin(), targets.end(), *it) != targets.end()){
+				network_graph[vertex_list[*it]].color = "aquamarine";
+			}
+			else
+				network_graph[vertex_list[*it]].color = color;	
 		}
 	}
 

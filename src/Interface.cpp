@@ -169,7 +169,7 @@ void Interface::display_shortest_path(int id, std::string& source, std::string& 
 	}
 }
 
-void Interface::color_tree(int id, std::string source, std::vector<std::string> targets)
+void Interface::color_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color)
 {
 	std::vector<std::string> sources;
 	sources.push_back(source);
@@ -185,8 +185,8 @@ void Interface::color_tree(int id, std::string source, std::vector<std::string> 
 	edges = networks[id2]->get_all_edges();
 	verteces = networks[id2]->get_all_verteces();
 	
-	networks[id]->color_list_edges(edges, "red");
-	networks[id]->color_list_verteces(verteces, "red");
+	networks[id]->color_list_verteces(verteces, color,  source, targets);
+	networks[id]->color_list_edges(edges, color);
 
 	export_graph(id, name);
 }

@@ -53,7 +53,7 @@ int main(int,char**)
 	t.push_back(t1);
 	t.push_back(t2);
 	t.push_back(t3);
-//	std::string c = "red";
+//	std::string c = "purple";
 	i.color_tree(id, o, t);
 
 	return 0;
