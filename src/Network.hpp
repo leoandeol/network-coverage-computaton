@@ -555,8 +555,8 @@ public:
 		}
 		return l;
 	}
-	
-	void conversionCsvInDot(string read, string write = "CSV_convert.dot",char separator = ',', string graphName = "graphName", bool digraph = false/*false = graph; true = digraph)*/){
+	/*
+	void conversionCsvInDot(string read, string write = "CSV_convert.dot",char separator = ',', string graphName = "graphName", bool digraph = false)){//false = graph; true = digraph)){
 
 	    ifstream fichierR(read.c_str(), ios::in);//opening of reading file
 	    ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
@@ -636,7 +636,7 @@ public:
 	//Mandatory syntaxe : Edges = {<1,3>,<2,3>, <3,1>, <3,2>, <3,6>,...   }
 	//                    Cost = [5 3 5 1 2 1 1 2 5 4 2....   ]
 
-	void conversionDatInDot(string read, string write = "CSV_convert.dot", string graphName = "graphName", bool digraph = false/*false = graph; true = digraph)*/){
+	void conversionDatInDot(string read, string write = "CSV_convert.dot", string graphName = "graphName", bool digraph = false){//false = graph; true = digraph)){
 
 	    ifstream fichierR(read.c_str(), ios::in);//opening of reading file
 	    ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
@@ -711,7 +711,7 @@ public:
 	    else{
 			cerr << "Error, file opening impossible !" << endl;
 	    }
-	}
+	}*/
 	/**
 	   \brief Gives a list of verteces
 	   \return A vector of string with the name of the verteces
