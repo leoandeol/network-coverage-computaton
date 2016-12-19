@@ -41,22 +41,7 @@ int main(int,char**)
 {
 	Interface i;
 	
-//	i.menu();
-	int id = i.import_graph("cesnet");
-	typedef std::vector<std::string> path;
-	path s, t;
-	std::string o = "Olomouc";
-	s.push_back(o);
-	std::string t1 = "Ostrava";
-	std::string t2 = "Pilsem";
-	std::string t3 = "Pardubice";
-	t.push_back(t1);
-	t.push_back(t2);
-	t.push_back(t3);
-	std::string c = "purple";
-	i.minimum_spanning_tree(id, "teub3");
-	i.color_tree(id, o, t, c);
-	
+	i.menu();	
 
 	return 0;
 }

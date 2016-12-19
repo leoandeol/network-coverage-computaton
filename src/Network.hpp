@@ -19,19 +19,13 @@ template <class Vertex = Default_Vertex, class Edge = Default_Edge> class Networ
 	
 	typedef boost::adjacency_list<boost::vecS,
 								  boost::vecS,
-								  boost::bidirectionalS,
+								  boost::undirectedS,
 								  Vertex,
 								  Edge, NetworkInfo> network_graph_t;
 
-	typedef boost::adjacency_list<boost::vecS,
-								  boost::vecS,
-								  boost::undirectedS,
-								  Vertex,
-								  Edge, NetworkInfo> undirected_network_graph_t;
 	typedef typename boost::graph_traits<network_graph_t>::vertex_descriptor vertex_t;
 	typedef typename boost::graph_traits<network_graph_t>::edge_descriptor edge_t;
-	typedef typename boost::graph_traits<undirected_network_graph_t>::edge_descriptor u_edge_t;
-	typedef typename boost::property_map<network_graph_t,boost::vertex_index_t>::type IndexMap;
+    typedef typename boost::property_map<network_graph_t,boost::vertex_index_t>::type IndexMap;
 
 	typedef typename std::unordered_map<std::string, vertex_t> vertex_list_t;
 	typedef typename std::unordered_map<std::string, edge_t> edge_list_t;
@@ -48,19 +42,15 @@ public:
 	   \brief Constructor
 	   \param i struct containing informations about the graph such as its name
 	*/
-	Network(NetworkInfo i) : network_graph(i), undirected_network_graph(i), vertex_list(), vertex_exist(), edge_list()
+	Network(NetworkInfo i) : network_graph(i), vertex_list(), vertex_exist(), edge_list()
 	{
-		//make that generic
 		dp = boost::dynamic_properties(boost::ignore_other_properties);
 
 		dp.property("color", boost::get(&Routeur::color, network_graph));
 		dp.property("label", boost::get(&Routeur::name, network_graph));
-		dp.property("is_multicast", boost::get(&Routeur::is_multicast, network_graph));
 
 		dp.property("label", boost::get(&Cable::length, network_graph));
 		dp.property("color", boost::get(&Cable::color, network_graph));
-		dp.property("color", boost::get(&Cable::color, undirected_network_graph));
-		dp.property("label", boost::get(&Cable::length, undirected_network_graph));
 	}
 	
 	/**
@@ -106,7 +96,7 @@ public:
 	   \return 0 in case of success, else -1
 	*/
 	
-	int add_cable(std::string& id1,std::string& id2, bool come_back = true)
+	int add_cable(std::string& id1,std::string& id2)
 	{
 		typename vertex_list_t::const_iterator r1 = vertex_list.find(id1);
 		typename vertex_list_t::const_iterator r2 = vertex_list.find(id2);
@@ -130,28 +120,16 @@ public:
 		std::string nom1 = create_edge_name(id1, id2);
 		std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
 		edge_list.insert(t1);
-		if(come_back){
-			auto tmp2 = add_edge(vertex_list[id2], vertex_list[id1], c, network_graph);
-
-			std::string nom2 = create_edge_name(id2, id1);
-			std::pair<std::string, edge_t> t2 = {nom2, tmp2.first};
-			edge_list.insert(t2);
-		return (tmp1.second==false||tmp2.second==false)?0:-1;
-		}
-
+    
 		return (tmp1.second==false)?0:-1;
 	}
 	
-	int add_cable(std::string& id1,std::string& id2, int distance, bool come_back = true){
-		int result = add_cable(id1, id2, come_back);
+	int add_cable(std::string& id1,std::string& id2, int distance){
+		int result = add_cable(id1, id2);
+		//wtf
 		std::string name1 = create_edge_name(id1, id2);
 		edge_t e1 = edge_list[name1];
 		boost::put(&Cable::length, network_graph, edge_list[name1], distance);
-		if(come_back){
-			std::string name2 = create_edge_name(id2, id1);
-			edge_t e2 = edge_list[name2];	
-			boost::put(&Cable::length, network_graph, edge_list[name2], distance);
-		}
 
 		return result;
 	}
@@ -187,7 +165,7 @@ public:
 		return network_graph[boost::graph_bundle].name;
 	}
 	/**
-	  \brief Change the name of the network
+	   \brief Change the name of the network
 	*/
 	void set_network_name(std::string name){	
 		network_graph[boost::graph_bundle].name = name;
@@ -406,28 +384,28 @@ public:
 		path::iterator theChosenOne;
 		path::iterator it = targets.begin();
 
-//			std::cout << *it << std::endl;
-//			std::cout << "Targets size :" << targets.size() << std::endl;
-//			std::cout << "Source size :" << source.size() << std::endl;
+		//			std::cout << *it << std::endl;
+		//			std::cout << "Targets size :" << targets.size() << std::endl;
+		//			std::cout << "Source size :" << source.size() << std::endl;
 		//!< We choose the first path, the smallest possible
 		for(; it != targets.end(); ++it){
 			for(int unsigned i = 0; i < source.size(); i++){	
 				test = get_path(source.at(i), *it);
-//				std::cout << "test" << std::endl;
+				//				std::cout << "test" << std::endl;
 				if(p.size() == 0 || test.size() < p.size()){
 					p = test;
 					theChosenOne=it;
 				}
 			}
 		}
-//		std::cout << *theChosenOne << "b" << std::endl;
-//		std::cout << std::endl;
-//		path::iterator IT = p.begin();
-//		for(; IT != p.end(); ++IT){
-//			std::cout << *IT << std::endl;
-//		}
+		//		std::cout << *theChosenOne << "b" << std::endl;
+		//		std::cout << std::endl;
+		//		path::iterator IT = p.begin();
+		//		for(; IT != p.end(); ++IT){
+		//			std::cout << *IT << std::endl;
+		//		}
 		targets.erase(theChosenOne);
-//		std::cout << std::endl;
+		//		std::cout << std::endl;
 		tree->add_path(p);
 		
 		source.insert(source.end(), ++p.begin(),p.end());	
@@ -453,13 +431,13 @@ public:
 		std::vector<std::string>::iterator it, it2;
 		it = path.begin();
 		it2 = it+1;
-	//	std::cout << "it2" << *it2 << std::endl;
-	//	std::cout << "it" << *it << std::endl;
+		//	std::cout << "it2" << *it2 << std::endl;
+		//	std::cout << "it" << *it << std::endl;
 		for(; it2!=path.end()&&it != path.end(); ++it, ++it2){
 			add_routeur(*it);
 			if(it!=it2){
 				add_routeur(*it2);
-				add_cable(*it,*it2, 1, false);
+				add_cable(*it,*it2);
 			}
 		}
 	}
@@ -519,7 +497,7 @@ public:
 
 	/**
 	   \brief Reset the colors of all the routers and cables
-        */
+	*/
 	void clean_all_colors()
 	{
 		typename vertex_list_t::iterator v = vertex_list.begin();
@@ -581,162 +559,162 @@ public:
 		return l;
 	}
 	/*
-	void conversionCsvInDot(string read, string write = "CSV_convert.dot",char separator = ',', string graphName = "graphName", bool digraph = false)){//false = graph; true = digraph)){
+	  void conversionCsvInDot(string read, string write = "CSV_convert.dot",char separator = ',', string graphName = "graphName", bool digraph = false)){//false = graph; true = digraph)){
 
-	    ifstream fichierR(read.c_str(), ios::in);//opening of reading file
-	    ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
+	  ifstream fichierR(read.c_str(), ios::in);//opening of reading file
+	  ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
 
-	    if(fichierR) { // test opening file succeed
-		if(fichierW) { // test opening file succeed
+	  if(fichierR) { // test opening file succeed
+	  if(fichierW) { // test opening file succeed
 
-		string typeGraph; // "graph" or "digraph" depends parameter
-		string flux; // "--" or "->" depends of parameter
+	  string typeGraph; // "graph" or "digraph" depends parameter
+	  string flux; // "--" or "->" depends of parameter
 
-		if(!digraph){//assignment of typeGraph and flux
-		    typeGraph = "graph";
-		    flux = " -- ";
-		}
-		else{ typeGraph = "digraph"; flux = " -> ";}
+	  if(!digraph){//assignment of typeGraph and flux
+	  typeGraph = "graph";
+	  flux = " -- ";
+	  }
+	  else{ typeGraph = "digraph"; flux = " -> ";}
 
-		fichierW << typeGraph << " " << graphName << " {\n\t"; // writing of the first line
+	  fichierW << typeGraph << " " << graphName << " {\n\t"; // writing of the first line
 
-		string contentS; //read string storage
-		char contentC; //read char storage
+	  string contentS; //read string storage
+	  char contentC; //read char storage
 
-		getline(fichierR, contentS);
-		getline(fichierR, contentS);
-		getline(fichierR, contentS);
-		getline(fichierR, contentS);
-		getline(fichierR, contentS);//5 lines leading
+	  getline(fichierR, contentS);
+	  getline(fichierR, contentS);
+	  getline(fichierR, contentS);
+	  getline(fichierR, contentS);
+	  getline(fichierR, contentS);//5 lines leading
 
-		int nbSeparatorFind;
+	  int nbSeparatorFind;
 
-		while(fichierR){
+	  while(fichierR){
 
-		    nbSeparatorFind = 0;//number of Separator already found in a line, useful to know where you are in a sentence
-		    fichierR.get(contentC);
-		    while(contentC != '\n'){//for each line
+	  nbSeparatorFind = 0;//number of Separator already found in a line, useful to know where you are in a sentence
+	  fichierR.get(contentC);
+	  while(contentC != '\n'){//for each line
 
-			if(contentC == separator){//when a Separator is found...
-			    nbSeparatorFind++;
-			    switch(nbSeparatorFind){
+	  if(contentC == separator){//when a Separator is found...
+	  nbSeparatorFind++;
+	  switch(nbSeparatorFind){
 
-				case 1:
-				    fichierW << flux;
-				    break;
-				case 2:
-				    fichierW << " [label=";
-				    break;
-				default:
-				    fichierW << contentC;
-				    break;
-			    }
-			}
-			else{//if the char is not a Separator, just write it
-			    fichierW << contentC;
-			}
+	  case 1:
+	  fichierW << flux;
+	  break;
+	  case 2:
+	  fichierW << " [label=";
+	  break;
+	  default:
+	  fichierW << contentC;
+	  break;
+	  }
+	  }
+	  else{//if the char is not a Separator, just write it
+	  fichierW << contentC;
+	  }
 
-			fichierR.get(contentC);//reading of the next char
-			if(contentC == '\n'){
-			    fichierW << "];\n\t";//if it's the end of the line we write this
-			}
-		    }
-		}
-		fichierW << '}';//end of the file
+	  fichierR.get(contentC);//reading of the next char
+	  if(contentC == '\n'){
+	  fichierW << "];\n\t";//if it's the end of the line we write this
+	  }
+	  }
+	  }
+	  fichierW << '}';//end of the file
 
-		fichierR.close();
-		fichierW.close();
-		}
-		else{
-			cerr << "Error, file opening/creation impossible !" << endl;
-		}
-	    }
-	    else{
-			cerr << "Error, file opening impossible !" << endl;
-	    }
-	}
+	  fichierR.close();
+	  fichierW.close();
+	  }
+	  else{
+	  cerr << "Error, file opening/creation impossible !" << endl;
+	  }
+	  }
+	  else{
+	  cerr << "Error, file opening impossible !" << endl;
+	  }
+	  }
 
-	//pré-requis : 1 lignes d'entête (n=55)
-	//same number of label values(cost) and segment
-	//Mandatory syntaxe : Edges = {<1,3>,<2,3>, <3,1>, <3,2>, <3,6>,...   }
-	//                    Cost = [5 3 5 1 2 1 1 2 5 4 2....   ]
+	  //pré-requis : 1 lignes d'entête (n=55)
+	  //same number of label values(cost) and segment
+	  //Mandatory syntaxe : Edges = {<1,3>,<2,3>, <3,1>, <3,2>, <3,6>,...   }
+	  //                    Cost = [5 3 5 1 2 1 1 2 5 4 2....   ]
 
-	void conversionDatInDot(string read, string write = "CSV_convert.dot", string graphName = "graphName", bool digraph = false){//false = graph; true = digraph)){
+	  void conversionDatInDot(string read, string write = "CSV_convert.dot", string graphName = "graphName", bool digraph = false){//false = graph; true = digraph)){
 
-	    ifstream fichierR(read.c_str(), ios::in);//opening of reading file
-	    ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
-	    ifstream fichierRLabel(read.c_str(), ios::in);//opening of reading label values file
+	  ifstream fichierR(read.c_str(), ios::in);//opening of reading file
+	  ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
+	  ifstream fichierRLabel(read.c_str(), ios::in);//opening of reading label values file
 
-	    if(fichierR) { // test opening file succeed
-		if(fichierW) { // test opening file succeed
+	  if(fichierR) { // test opening file succeed
+	  if(fichierW) { // test opening file succeed
 
-		string typeGraph; // "graph" or "digraph" depends parameter
-		string flux; // "--" or "->" depends of parameter
+	  string typeGraph; // "graph" or "digraph" depends parameter
+	  string flux; // "--" or "->" depends of parameter
 
-		if(!digraph){//assignment of typeGraph and flux
-		    typeGraph = "graph";
-		    flux = " -- ";
-		}
-		else{ typeGraph = "digraph"; flux = " -> ";}
+	  if(!digraph){//assignment of typeGraph and flux
+	  typeGraph = "graph";
+	  flux = " -- ";
+	  }
+	  else{ typeGraph = "digraph"; flux = " -> ";}
 
-		fichierW << typeGraph << " " << graphName << " {\n\t"; // writing of the first line
+	  fichierW << typeGraph << " " << graphName << " {\n\t"; // writing of the first line
 
-		string contentS; //read string storage
-		char contentC; //read char storage
-		string fullLabel = ""; //label of each segment
-		char label;//each char of fullLabel
+	  string contentS; //read string storage
+	  char contentC; //read char storage
+	  string fullLabel = ""; //label of each segment
+	  char label;//each char of fullLabel
 
-		fichierRLabel.get(label);
-		while(label != '['){//reaching label values
-		    fichierRLabel.get(label);
-		}
-		fichierRLabel.get(label);
+	  fichierRLabel.get(label);
+	  while(label != '['){//reaching label values
+	  fichierRLabel.get(label);
+	  }
+	  fichierRLabel.get(label);
 
-		getline(fichierR, contentS);//entête
+	  getline(fichierR, contentS);//entête
 
-		fichierR.get(contentC);
-		while(contentC != '}'){//while this is not end of file
-		   //while this is not the end of values list
-			while(contentC != '<'){//while we didn't find a starting value...
-			    fichierR.get(contentC);//...we moving curseur forward
-			}
-			fichierR.get(contentC);
-			while(contentC != ','){//while this is not the end of the first value...
-			    fichierW << contentC;//...we write numbers...
-			    fichierR.get(contentC);//...then we move forward.
-			}
-			fichierW << flux;
-			fichierR.get(contentC);
-			while(contentC != '>'){//while this is not the end of the second value...
-			    fichierW << contentC;//...we write numbers...
-			    fichierR.get(contentC);//...then we move forward.
-			}
+	  fichierR.get(contentC);
+	  while(contentC != '}'){//while this is not end of file
+	  //while this is not the end of values list
+	  while(contentC != '<'){//while we didn't find a starting value...
+	  fichierR.get(contentC);//...we moving curseur forward
+	  }
+	  fichierR.get(contentC);
+	  while(contentC != ','){//while this is not the end of the first value...
+	  fichierW << contentC;//...we write numbers...
+	  fichierR.get(contentC);//...then we move forward.
+	  }
+	  fichierW << flux;
+	  fichierR.get(contentC);
+	  while(contentC != '>'){//while this is not the end of the second value...
+	  fichierW << contentC;//...we write numbers...
+	  fichierR.get(contentC);//...then we move forward.
+	  }
 
-			while(label != ' '){//fullLabel constructing
-			    fullLabel += label;
-			    fichierRLabel.get(label);
-			}
-			fichierRLabel.get(label);//move to the next label
+	  while(label != ' '){//fullLabel constructing
+	  fullLabel += label;
+	  fichierRLabel.get(label);
+	  }
+	  fichierRLabel.get(label);//move to the next label
 
-			fichierW << " [label=" << fullLabel << "];\n\t";//end of line
-			fichierR.get(contentC);
-			fullLabel = "";//resetting of fullLabel
+	  fichierW << " [label=" << fullLabel << "];\n\t";//end of line
+	  fichierR.get(contentC);
+	  fullLabel = "";//resetting of fullLabel
 
-		}
-		 fichierW << '}';
+	  }
+	  fichierW << '}';
 
-		fichierR.close();
-		fichierW.close();
-		fichierRLabel.close();
-		}
-		else{
-			cerr << "Error, file opening/creation impossible !" << endl;
-		}
-	    }
-	    else{
-			cerr << "Error, file opening impossible !" << endl;
-	    }
-	}*/
+	  fichierR.close();
+	  fichierW.close();
+	  fichierRLabel.close();
+	  }
+	  else{
+	  cerr << "Error, file opening/creation impossible !" << endl;
+	  }
+	  }
+	  else{
+	  cerr << "Error, file opening impossible !" << endl;
+	  }
+	  }*/
 
 
 
@@ -760,7 +738,7 @@ public:
 		typename vertex_list_t::iterator vertex_it = vertex_list.begin();
 		for(; vertex_it != vertex_list.end(); ++vertex_it){
 			Routeur c = network_graph[vertex_it->second];
-			add_vertex(c, undirected_network_graph);
+			add_vertex(c, network_graph);
 		}
 	
 		typename edge_list_t::iterator edge_it = edge_list.begin();
@@ -771,41 +749,39 @@ public:
 			vertex_t target = boost::target(edge_it->second, network_graph);
 			Cable c = network_graph[edge_it->second];
 			Routeur s(network_graph[source]), t(network_graph[target]);
-			n2 = create_edge_name(t.name, s.name);
-			n1 = create_edge_name(s.name, t.name);
+			n1 = create_edge_name(t.name, s.name);
 			if(find(couple.begin(), couple.end(), n1) == couple.end()){
-				add_edge(source, target, c, undirected_network_graph);
+				add_edge(source, target, c, network_graph);
 				couple.push_back(n2);
 			}
 		}
 		
-	IndexMap id_map = boost::get(boost::vertex_index,undirected_network_graph);
+		IndexMap id_map = boost::get(boost::vertex_index, network_graph);
 	
-		std::vector<vertex_t> predecessors(boost::num_vertices(undirected_network_graph));
-		std::vector<int> distances(boost::num_vertices(undirected_network_graph));
+		std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
+		std::vector<int> distances(boost::num_vertices(network_graph));
 	
-		std::vector<u_edge_t> spanning_tree;
+		std::vector<edge_t> spanning_tree;
 	
-		kruskal_minimum_spanning_tree(undirected_network_graph, std::back_inserter(spanning_tree), boost::weight_map(boost::get(&Cable::length,undirected_network_graph))
-									   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
-									   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
+		kruskal_minimum_spanning_tree(network_graph, std::back_inserter(spanning_tree), boost::weight_map(boost::get(&Cable::length,network_graph))
+									  .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
+									  .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
 	
-		typename std::vector<u_edge_t>::iterator it = spanning_tree.begin();
+		typename std::vector<edge_t>::iterator it = spanning_tree.begin();
 		for(; it != spanning_tree.end();++it){
 			
-			undirected_network_graph[*it].color = "purple";
+			network_graph[*it].color = "purple";
 		}
 	
 		std::ofstream out(path,std::ofstream::out);
-		write_graphviz_dp(out, undirected_network_graph, dp, "label");
+		write_graphviz_dp(out, network_graph, dp, "label");
 		out.close();
 
 	}
 
 private:
 	network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
-	undirected_network_graph_t undirected_network_graph;
-	vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/
+    vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/
     std::vector<bool> vertex_exist;/**< A boolean array used to check if the vertex at the said coordinates exist, because the array can be wider than the number of vertices it contains */
 	edge_list_t edge_list;/**< The list of edge descriptors, of network_graph's edges*/
 	boost::dynamic_properties dp;/**< The dynamic properties of our graph, to link the structs to the import/export format*/
