@@ -53,8 +53,10 @@ int main(int,char**)
 	t.push_back(t1);
 	t.push_back(t2);
 	t.push_back(t3);
-//	std::string c = "purple";
-	i.color_tree(id, o, t);
+	std::string c = "purple";
+	i.minimum_spanning_tree(id, "teub3");
+	i.color_tree(id, o, t, c);
+	
 
 	return 0;
 }

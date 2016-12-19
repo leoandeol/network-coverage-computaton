@@ -86,7 +86,8 @@ int Interface::create_graph_terminal()
 int Interface::import_graph(std::string name)
 {
 	std::string path = DATA_FOLDER + name + FILE_EXTENSION;
-	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
+	NetworkInfo info(name, path);
+	Network<Routeur,Cable>* n = new Network<Routeur,Cable>(info);
 	int i = networks.size();
 	//todo test if found
 	n->load_from_file(path);
@@ -177,7 +178,7 @@ void Interface::color_tree(int id, std::string& source, std::vector<std::string>
 
 	Network<Routeur, Cable>* tree = new Network<Routeur,Cable>();
 
-	tree = networks[id]->minimum_tree(sources, targets, tree);
+	tree = networks[id]->partial_minimum_tree(sources, targets, tree);
 	int id2 = networks.size();
 	networks.push_back(tree);
 		
@@ -199,4 +200,8 @@ void Interface::color_path(int id, std::string& source, std::string& destination
 	std::string name = networks[id]->get_network_name()+ " - " + source + "->" + destination;
 
 	networks[id]->clean_all_colors(path);
+}
+void Interface::minimum_spanning_tree(int id, std::string name){
+  	std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
+	networks[id]->minimum_tree(path);
 }
