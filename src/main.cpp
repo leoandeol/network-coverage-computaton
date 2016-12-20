@@ -41,7 +41,7 @@ int main(int,char**)
 {
 	Interface i;
 	
-//	i.menu();
+	i.menu();/*
 	int id = i.import_graph("germany");
 	typedef std::vector<std::string> path;
 	path s, t;
@@ -56,7 +56,7 @@ int main(int,char**)
 	std::string c = "purple";
 	i.minimum_spanning_tree(id, "germany-minimum-tree");
 	i.partial_tree(id, o, t);
-	
+	*/
 
 	return 0;
 }

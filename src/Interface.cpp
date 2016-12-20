@@ -22,7 +22,7 @@ void Interface::menu()
 	int id;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Exit" << std::endl;	
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Create a test graph\n\t5 : Exit" << std::endl;	
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)
@@ -45,6 +45,10 @@ void Interface::menu()
 			export_graph(id,s);
 			break;
 		case 4:
+			id = create();
+			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			break;
+		case 5:
 			cont=false;
 			break;
 		}

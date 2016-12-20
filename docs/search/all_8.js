@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['readall_5fedge',['readAll_edge',['../classNetwork.html#a54fea26bcc9833100b8c58c0911ea88b',1,'Network']]],
-  ['readall_5fvertex',['readAll_vertex',['../classNetwork.html#ad3f058ef8815bd7fd58b716a431cc0e0',1,'Network']]],
-  ['remove_5fcable',['remove_cable',['../classNetwork.html#a332f27ad45c3297484b9a6f6fe9592fe',1,'Network']]],
-  ['remove_5frouteur',['remove_routeur',['../classNetwork.html#a0ee86740cc7a546e7cabe5186290c997',1,'Network']]],
-  ['routeur',['Routeur',['../structRouteur.html',1,'']]]
+  ['network',['Network',['../classNetwork.html',1,'Network&lt; Vertex, Edge &gt;'],['../classNetwork.html#a5041dbbc6de74dfee903edb066476ddb',1,'Network::Network()'],['../classNetwork.html#ae591a151ac8f3fbfb800b282f1d11ea7',1,'Network::Network(NetworkInfo i)']]],
+  ['networkinfo',['NetworkInfo',['../structNetworkInfo.html',1,'']]]
 ];
