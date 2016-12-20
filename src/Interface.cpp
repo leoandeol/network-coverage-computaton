@@ -155,13 +155,6 @@ bool Interface::is_connected(int id)
 }
 
 
-/*
-	\brief Display the path, displaying the verteces from the source to the target on the screen
-	\param id The network's id
-	\param source The name of the vertex source
-	\param target The name of the vertex target
-	\return A vector containing the name of the verteces ordered from the source to the target
-*/
 std::vector<std::string> Interface::shortest_path(int id, std::string& source, std::string& target)
 {
 
@@ -175,10 +168,6 @@ std::vector<std::string> Interface::shortest_path(int id, std::string& source, s
 }
 
 
-/*
-	\brief Create a partial tree
-	\return The id of the tree
-*/
 int Interface::partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color)
 {
 	//!< Needed a vector of sources for the function

@@ -28,7 +28,7 @@ public:
 	/**
 	   \brief Imports a graph from a .dot file located in the data subfolder
 	   \param s The filename
-	   \return 0 in case of success else -1
+	   \return The id of the graph in case of success else -1
 	 */
 	int import_graph(std::string s ="import");
 	/**
@@ -42,10 +42,32 @@ public:
 	   \return The id of the new graph
 	 */
 	int create();
+
 	bool is_connected(int id);
+	
+	/**
+	   \brief Color a path in a network in a color (red by default)
+	   \param id The network id
+	   \param source The name of the vertex source
+	   \param destination The name of the vertex target
+	   \param color The name of the color
+	*/
 	void color_path(int id, std::string& source, std::string& destination, std::string color=std::string("red"));
+	/**
+	   \brief Display the path, displaying the verteces from the source to the target on the screen
+  	   \param id The network's id
+	   \param source The name of the vertex source
+	   \param target The name of the vertex target
+	   \return A vector containing the name of the verteces ordered from the source to the target
+	*/
 	std::vector<std::string> shortest_path(int id, std::string& source, std::string& target);
+
+//TO FIX
 	int minimum_spanning_tree(int id, std::string name);
+	/**
+	  \brief Create a partial tree
+	  \return The id of the tree
+	*/
 	int partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color = std::string("red"));
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
