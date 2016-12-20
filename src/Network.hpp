@@ -15,6 +15,7 @@
 
 #include "structs.hpp"
 
+/** The class handling the network representation (graph) */
 template <class Vertex = Default_Vertex, class Edge = Default_Edge> class Network {
 	
 	typedef boost::adjacency_list<boost::vecS,
