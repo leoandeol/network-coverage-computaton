@@ -91,15 +91,6 @@ int Interface::import_graph(std::string name)
 	int i = networks.size();
 	//todo test if found
 	n->load_from_file(path);
-	/*
-	  std::vector<std::string> l = n->get_all_edges();
-	  std::vector<std::string>::iterator it = l.begin();
-	  for(; it != l.end(); ++it){
-	  if(){
-
-	  }
-	  }
-	*/
 	networks.push_back(n);
 	return i;
 }
@@ -159,7 +150,15 @@ bool Interface::is_connected(int id)
 	return networks[id]->is_connected();
 }
 
-void Interface::display_shortest_path(int id, std::string& source, std::string& target)
+
+/*
+	\brief Display the path, displaying the verteces from the source to the target on the screen
+	\param id The network's id
+	\param source The name of the vertex source
+	\param target The name of the vertex target
+	\return A vector containing the name of the verteces ordered from the source to the target
+*/
+std::vector<std::string> Interface::shortest_path(int id, std::string& source, std::string& target)
 {
 
 	std::vector<std::string> path = networks[id]->get_path(source, target);
@@ -168,31 +167,52 @@ void Interface::display_shortest_path(int id, std::string& source, std::string& 
 	for(it = path.begin(); it != path.end(); ++it){
 		std::cout << *it << std::endl;
 	}
+	return path;
 }
 
-void Interface::color_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color)
+
+/*
+	\brief Create a partial tree
+	\return The id of the tree
+*/
+int Interface::partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color)
 {
+	//!< Needed a vector of sources for the function
 	std::vector<std::string> sources;
 	sources.push_back(source);
+	//!< Create the name of the tree
 	std::string name = networks[id]->get_network_name()+"-SpanningTree";
-
+	
+	//!< Creation of the futur tree
 	Network<Routeur, Cable>* tree = new Network<Routeur,Cable>();
 
+	//!< Partial_minimum_tree return the tree, adding the verteces and edges to the tree	
 	tree = networks[id]->partial_minimum_tree(sources, targets, tree);
+
+	//!< Setting the name of the tree
+	tree->set_network_name(name);
+
+	//!< Adding it to the network list
 	int id2 = networks.size();
 	networks.push_back(tree);
 		
+//!< ##########TEST
+		//!< In order to test the function, take the list of edges and verteces of the tree
 	std::vector<std::string> edges,verteces;
 	edges = networks[id2]->get_all_edges();
 	verteces = networks[id2]->get_all_verteces();
 	
+		//!< And color them in the Network
 	networks[id]->color_list_verteces(verteces, color,  source, targets);
 	networks[id]->color_list_edges(edges, color);
 
-	export_graph(id, name);
+		//!< Export the network to see the result
+	export_graph(id);
+
+	return id2;
 }
 
-void Interface::color_path(int id, std::string& source, std::string& destination, std::string& color)
+void Interface::color_path(int id, std::string& source, std::string& destination, std::string color)
 {
 	std::vector<std::string> path = networks[id]->get_path(source, destination);
 	
@@ -201,7 +221,9 @@ void Interface::color_path(int id, std::string& source, std::string& destination
 
 	networks[id]->clean_all_colors(path);
 }
-void Interface::minimum_spanning_tree(int id, std::string name){
+
+int Interface::minimum_spanning_tree(int id, std::string name){
   	std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
 	networks[id]->minimum_tree(path);
+	return 0;
 }

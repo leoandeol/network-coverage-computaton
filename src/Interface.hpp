@@ -15,10 +15,10 @@ public:
 	void export_graph(int,std::string="export");
 	int create();
 	bool is_connected(int id);
-	void color_path(int id, std::string& source, std::string& destination, std::string& color);
-	void color_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color=std::string("red"));
-	void display_shortest_path(int id, std::string& source, std::string& target);
-	void minimum_spanning_tree(int id, std::string name);
+	void color_path(int id, std::string& source, std::string& destination, std::string color=std::string("red"));
+	std::vector<std::string> shortest_path(int id, std::string& source, std::string& target);
+	int minimum_spanning_tree(int id, std::string name);
+	int partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color = std::string("red"));
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
 	const std::string DATA_FOLDER = "data/";
