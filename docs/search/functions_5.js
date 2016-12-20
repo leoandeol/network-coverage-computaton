@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['minimum_5ftree',['minimum_tree',['../classNetwork.html#ae8c3ffecceb04dd39a8c5a673ed7da78',1,'Network']]]
+  ['load_5ffrom_5ffile',['load_from_file',['../classNetwork.html#a33ba9327f4ceb4a00e6b1a3f1536f30c',1,'Network']]]
 ];
