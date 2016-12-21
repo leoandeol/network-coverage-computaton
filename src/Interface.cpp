@@ -106,14 +106,18 @@ int Interface::import_graph(std::string name)
 void Interface::export_graph(int id, std::string name)
 {
 	std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
-	static const std::string command = "mkdir data && dot -Tpng ";
-	if(!access("data/",X_OK))
+	static const std::string command = "mkdir data";
+
+	// Test if the folder can be accessed
+	if(access("data",X_OK))
 	{
 		system(command.c_str());
+		// sleeps 100ms to make sure the system has created the folder, else it may bug
+		usleep(100000);
 	}
 	networks[id]->save_to_file(path);
 	std::string img_path = DATA_FOLDER + name + std::to_string(id) + ".png";
-	std::string transform = "dot -Tpng "+name+" > "+img_path;
+	std::string transform = "dot -Tpng "+path+" > "+img_path;
 	system(transform.c_str());
 }
 

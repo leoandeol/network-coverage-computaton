@@ -97,22 +97,73 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:af64e745387e18976aadbbd5357a8b341"><td class="memItemLeft" align="right" valign="top"><a id="af64e745387e18976aadbbd5357a8b341"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_connected</b> (int id)</td></tr>
 <tr class="separator:af64e745387e18976aadbbd5357a8b341"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5474fddd75c9d636e87abfdc0758c805"><td class="memItemLeft" align="right" valign="top"><a id="a5474fddd75c9d636e87abfdc0758c805"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>color_path</b> (int id, std::string &amp;source, std::string &amp;destination, std::string &amp;color)</td></tr>
-<tr class="separator:a5474fddd75c9d636e87abfdc0758c805"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bf8e1fba0ed049e3b03c1535ba05dae"><td class="memItemLeft" align="right" valign="top"><a id="a6bf8e1fba0ed049e3b03c1535ba05dae"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>color_tree</b> (int id, std::string &amp;source, std::vector&lt; std::string &gt; &amp;targets, std::string color=std::string(&quot;red&quot;))</td></tr>
-<tr class="separator:a6bf8e1fba0ed049e3b03c1535ba05dae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae755401f0a424362915582583cad6ef6"><td class="memItemLeft" align="right" valign="top"><a id="ae755401f0a424362915582583cad6ef6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>display_shortest_path</b> (int id, std::string &amp;source, std::string &amp;target)</td></tr>
-<tr class="separator:ae755401f0a424362915582583cad6ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6d0874cb427f3e7c2ee78d74f309592"><td class="memItemLeft" align="right" valign="top"><a id="ac6d0874cb427f3e7c2ee78d74f309592"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>minimum_spanning_tree</b> (int id, std::string name)</td></tr>
-<tr class="separator:ac6d0874cb427f3e7c2ee78d74f309592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afae57bc1c5744bcf1c0094696ab37526"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#afae57bc1c5744bcf1c0094696ab37526">color_path</a> (int id, std::string &amp;source, std::string &amp;destination, std::string color=std::string(&quot;red&quot;))</td></tr>
+<tr class="memdesc:afae57bc1c5744bcf1c0094696ab37526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Color a path in a network in a color (red by default)  <a href="#afae57bc1c5744bcf1c0094696ab37526">More...</a><br /></td></tr>
+<tr class="separator:afae57bc1c5744bcf1c0094696ab37526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae85a7c25dfdde184663862878bb738f1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#ae85a7c25dfdde184663862878bb738f1">shortest_path</a> (int id, std::string &amp;source, std::string &amp;target)</td></tr>
+<tr class="memdesc:ae85a7c25dfdde184663862878bb738f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the path, displaying the verteces from the source to the target on the screen.  <a href="#ae85a7c25dfdde184663862878bb738f1">More...</a><br /></td></tr>
+<tr class="separator:ae85a7c25dfdde184663862878bb738f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb25683f13795119409523cd3a21dc3a"><td class="memItemLeft" align="right" valign="top"><a id="afb25683f13795119409523cd3a21dc3a"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>minimum_spanning_tree</b> (int id, std::string name)</td></tr>
+<tr class="separator:afb25683f13795119409523cd3a21dc3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac438ac9da54d0fd957624bbc69f8ab6f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#ac438ac9da54d0fd957624bbc69f8ab6f">partial_tree</a> (int id, std::string &amp;source, std::vector&lt; std::string &gt; &amp;targets, std::string color=std::string(&quot;red&quot;))</td></tr>
+<tr class="memdesc:ac438ac9da54d0fd957624bbc69f8ab6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a partial tree.  <a href="#ac438ac9da54d0fd957624bbc69f8ab6f">More...</a><br /></td></tr>
+<tr class="separator:ac438ac9da54d0fd957624bbc69f8ab6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class handling the UI </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="afae57bc1c5744bcf1c0094696ab37526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afae57bc1c5744bcf1c0094696ab37526">&sect;&nbsp;</a></span>color_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Interface::color_path </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>destination</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>color</em> = <code>std::string(&quot;red&quot;)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Color a path in a network in a color (red by default) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The network id </td></tr>
+    <tr><td class="paramname">source</td><td>The name of the vertex source </td></tr>
+    <tr><td class="paramname">destination</td><td>The name of the vertex target  </td></tr>
+    <tr><td class="paramname">color</td><td>The name of the color </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="acd0bb755b65fb16aa3dd8517548cfb98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd0bb755b65fb16aa3dd8517548cfb98">&sect;&nbsp;</a></span>create()</h2>
 
@@ -213,7 +264,105 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>minimum_spanning_tree
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 in case of success else -1 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The id of the graph in case of success else -1 </dd></dl>
+
+</div>
+</div>
+<a id="ac438ac9da54d0fd957624bbc69f8ab6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac438ac9da54d0fd957624bbc69f8ab6f">&sect;&nbsp;</a></span>partial_tree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interface::partial_tree </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>targets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>color</em> = <code>std::string(&quot;red&quot;)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a partial tree. </p>
+<dl class="section return"><dt>Returns</dt><dd>The id of the tree </dd></dl>
+<p>&lt; Needed a vector of sources for the function</p>
+<p>&lt; Create the name of the tree</p>
+<p>&lt; Creation of the futur tree</p>
+<p>&lt; Partial_minimum_tree return the tree, adding the verteces and edges to the tree</p>
+<p>&lt; Setting the name of the tree</p>
+<p>&lt; Adding it to the network list</p>
+<p>&lt; ##########TEST</p>
+<p>&lt; In order to test the function, take the list of edges and verteces of the tree</p>
+<p>&lt; And color them in the <a class="el" href="classNetwork.html">Network</a></p>
+<p>&lt; Export the network to see the result </p>
+
+</div>
+</div>
+<a id="ae85a7c25dfdde184663862878bb738f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae85a7c25dfdde184663862878bb738f1">&sect;&nbsp;</a></span>shortest_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; Interface::shortest_path </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>target</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Display the path, displaying the verteces from the source to the target on the screen. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The network's id </td></tr>
+    <tr><td class="paramname">source</td><td>The name of the vertex source </td></tr>
+    <tr><td class="paramname">target</td><td>The name of the vertex target </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector containing the name of the verteces ordered from the source to the target </dd></dl>
 
 </div>
 </div>
