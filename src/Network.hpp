@@ -202,7 +202,9 @@ public:
 	*/
 	Network* get_clean_graph()
 	{
-		Network clean = Network(NetworkInfo("DefaultGraphPropertyName","DefaultGraphPropertyLocation"));
+		
+		std::string name = get_network_name() + "clean";
+		Network clean = Network(NetworkInfo(name,"DefaultGraphPropertyLocation"));
 		
 		for(auto const &vertex : vertex_list)
 		{
