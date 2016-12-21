@@ -196,6 +196,30 @@ public:
 	{
 		return 0;
 	}
+	/**
+	   \brief Checks the actuel graph and create a new one without routeurs/cables that are broken. If a routeur is broken, the cables linked to him wont be added
+	   \return a new graph with only routeurs and cables that are working
+	*/
+	Network* get_clean_graph()
+	{
+		Network clean = Network(NetworkInfo("DefaultGraphPropertyName","DefaultGraphPropertyLocation"));
+		
+		for(auto const &vertex : vertex_list)
+		{
+			if(vertex->is_working == true){
+				clean.add_cable(vertex);
+			}
+		}
+		for(auto const &edge : edge_list)
+		{
+			if(edge->is_working == true)
+			{
+				clean.add_edge(edge);
+			}
+		}
+		
+		return &clean;
+	}
 	
 	/**
 	   \brief calculates the shortest path between two routeurs of the network
