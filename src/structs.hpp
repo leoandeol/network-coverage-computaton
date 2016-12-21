@@ -21,11 +21,12 @@ typedef struct NetworkInfo
 typedef struct Default_Vertex
 {
 	std::string name;
+	bool is_working;
 } Default_Vertex;
 
 typedef struct Default_Edge
 {
-
+	bool is_working;
 } Default_Edge;
 
 /**
