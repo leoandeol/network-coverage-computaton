@@ -93,7 +93,7 @@ int Interface::import_graph(std::string name)
 	NetworkInfo info(name, path);
 	Network<Routeur,Cable>* n = new Network<Routeur,Cable>(info);
 	int i = networks.size();
-	if(!access(path,R_OK))
+	if(!access(path.c_str(),R_OK))
 	{
 		std::cerr << "Can't access the said file" << std::endl;
 		return -1;
@@ -109,12 +109,12 @@ void Interface::export_graph(int id, std::string name)
 	static const std::string command = "mkdir data && dot -Tpng ";
 	if(!access("data/",X_OK))
 	{
-		system(command);
+		system(command.c_str());
 	}
 	networks[id]->save_to_file(path);
-	std::string transform;
 	std::string img_path = DATA_FOLDER + name + std::to_string(id) + ".png";
-	sprintf(transform, "dot -Tpng %s > %s",name,img_path);
+	std::string transform = "dot -Tpng "+name+" > "+img_path;
+	system(transform.c_str());
 }
 
 int Interface::create()

@@ -61,14 +61,11 @@ public:
 
 		dp.property("color", boost::get(&Routeur::color, network_graph));
 		dp.property("label", boost::get(&Routeur::name, network_graph));
-
+		
+		/**< The property length linked to label is added for undirected networks */
 		dp.property("label", boost::get(&Cable::length, network_graph));
 		dp.property("color", boost::get(&Cable::color, network_graph));
-	
-		/**< The property length linked to label is added for undirected networks */
-		dp.property("color", boost::get(&Cable::color, undirected_network_graph));
-		dp.property("label", boost::get(&Cable::length, undirected_network_graph));
-	}
+    }
 	
 	/**
 	   \brief Destructor
@@ -395,19 +392,12 @@ public:
 		path test;
 		path::iterator theChosenOne;
 
-<<<<<<< HEAD
 //			std::cout << *it << std::endl;
 //			std::cout << "Targets size :" << targets.size() << std::endl;
 //			std::cout << "Source size :" << source.size() << std::endl;
 	
 		//!< We choose the first smallest path from a source to a target
 		for(path::iterator it = targets.begin(); it != targets.end(); ++it){
-		//			std::cout << *it << std::endl;
-		//			std::cout << "Targets size :" << targets.size() << std::endl;
-		//			std::cout << "Source size :" << source.size() << std::endl;
-		//!< We choose the first path, the smallest possible
-		for(; it != targets.end(); ++it){
->>>>>>> 4194a37e977eb1bc676c3add3540d0a33dcfbd47
 			for(int unsigned i = 0; i < source.size(); i++){	
 				test = get_path(source.at(i), *it);
 				//				std::cout << "test" << std::endl;
@@ -417,7 +407,6 @@ public:
 				}
 			}
 		}
-<<<<<<< HEAD
 //		std::cout << *theChosenOne << "b" << std::endl;
 //		std::cout << std::endl;
 //		path::iterator IT = p.begin();
@@ -430,16 +419,6 @@ public:
 //		std::cout << std::endl;
 
 		//!< The smallest path is added to the tree (the network)
-=======
-		//		std::cout << *theChosenOne << "b" << std::endl;
-		//		std::cout << std::endl;
-		//		path::iterator IT = p.begin();
-		//		for(; IT != p.end(); ++IT){
-		//			std::cout << *IT << std::endl;
-		//		}
-		targets.erase(theChosenOne);
-		//		std::cout << std::endl;
->>>>>>> 4194a37e977eb1bc676c3add3540d0a33dcfbd47
 		tree->add_path(p);
 		
 		//!< Is added the path's routers to the list of source
@@ -765,13 +744,13 @@ public:
 
 	/**
 	   \brief Convert the network graph into an undirected network graph
-	*/
+	
 	void convert_to_undirected_graph(){
 
 		//!< First of all, we copy the verteces in the network_graph into the undirected_network_graph	
 		for(typename vertex_list_t::iterator vertex_it = vertex_list.begin(); vertex_it != vertex_list.end(); ++vertex_it){
 			Vertex c = network_graph[vertex_it->second];
-			add_vertex(c, undirected_network_graph);
+			add_vertex(c, network_graph);
 		}
 	
 		
@@ -796,7 +775,7 @@ public:
 			}
 		}
 	}
-
+	*/
 	/*
 	  \brief Calculate a minimum spanning tree
 	  \return #Suppose to return Network which is a minimum spanning tree
@@ -806,7 +785,7 @@ public:
 	
 		//!< This function will convert the bidirectionnal adjacency list to an undirectedS adjacency list. 	
 		//Discuter de la manière de faire, on garde le bidirectionnel et on construit un undirected, ou on passe en undirected ?
-		convert_to_undirected_graph();
+		//convert_to_undirected_graph();
 		
 		IndexMap id_map = boost::get(boost::vertex_index, network_graph);
 	
@@ -816,7 +795,7 @@ public:
 		//!< Kruskal minimum spannin tree function save a spate of edges in the list used in the second parameter. 
 		std::vector<u_edge_t> spanning_tree;
 
-		kruskal_minimum_spanning_tree(undirected_network_graph, std::back_inserter(spanning_tree), boost::weight_map(boost::get(&Cable::length,undirected_network_graph))
+		kruskal_minimum_spanning_tree(network_graph, std::back_inserter(spanning_tree), boost::weight_map(boost::get(&Cable::length,network_graph))
 									   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
 									   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
 	
@@ -838,7 +817,6 @@ public:
 
 private:
 	network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
-	undirected_network_graph_t undirected_network_graph; /**< The adjacency list for an undirected graph*/
 	vertex_list_t vertex_list;/**< The list of vertex descriptors, of network_graph's vertices*/
     std::vector<bool> vertex_exist;/**< A boolean array used to check if the vertex at the said coordinates exist, because the array can be wider than the number of vertices it contains */
 	edge_list_t edge_list;/**< The list of edge descriptors, of network_graph's edges*/
