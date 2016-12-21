@@ -87,12 +87,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8254d70880b2ca3634ec310eec835475"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a8254d70880b2ca3634ec310eec835475">add_routeur</a> (std::string &amp;name)</td></tr>
 <tr class="memdesc:a8254d70880b2ca3634ec310eec835475"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new routeur with a set name and returns its id.  <a href="#a8254d70880b2ca3634ec310eec835475">More...</a><br /></td></tr>
 <tr class="separator:a8254d70880b2ca3634ec310eec835475"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee3784304f7e3484a2b06e9594ca4f5e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#aee3784304f7e3484a2b06e9594ca4f5e">add_cable</a> (std::string &amp;id1, std::string &amp;id2)</td></tr>
-<tr class="memdesc:aee3784304f7e3484a2b06e9594ca4f5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new cable between two routeurs, and returns its id.  <a href="#aee3784304f7e3484a2b06e9594ca4f5e">More...</a><br /></td></tr>
-<tr class="separator:aee3784304f7e3484a2b06e9594ca4f5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a286bbba3f28980181be3444315dae5d4"><td class="memItemLeft" align="right" valign="top"><a id="a286bbba3f28980181be3444315dae5d4"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>add_cable</b> (std::string &amp;id1, std::string &amp;id2, int distance)</td></tr>
-<tr class="separator:a286bbba3f28980181be3444315dae5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d8bb29d2a29e9ffa5c91a82fc3e7b3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a71d8bb29d2a29e9ffa5c91a82fc3e7b3">add_cable</a> (std::string &amp;id1, std::string &amp;id2, int length=1, bool come_back=true)</td></tr>
+<tr class="memdesc:a71d8bb29d2a29e9ffa5c91a82fc3e7b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new cable between two routeurs, and returns its id.  <a href="#a71d8bb29d2a29e9ffa5c91a82fc3e7b3">More...</a><br /></td></tr>
+<tr class="separator:a71d8bb29d2a29e9ffa5c91a82fc3e7b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa611a88add58281cb2bafd7a3d310dd9"><td class="memTemplParams" colspan="2">template&lt;typename Structure , typename Attribute &gt; </td></tr>
 <tr class="memitem:aa611a88add58281cb2bafd7a3d310dd9"><td class="memTemplItemLeft" align="right" valign="top">Attribute &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classNetwork.html#aa611a88add58281cb2bafd7a3d310dd9">get_attribute</a> (std::string &amp;id)</td></tr>
 <tr class="memdesc:aa611a88add58281cb2bafd7a3d310dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the value of an attribute of an element, of type Structure.  <a href="#aa611a88add58281cb2bafd7a3d310dd9">More...</a><br /></td></tr>
@@ -137,12 +134,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a245b6ac9f8fca8e0bfbf0597f1e07172"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNetwork.html">Network</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a245b6ac9f8fca8e0bfbf0597f1e07172">partial_minimum_tree</a> (std::vector&lt; std::string &gt; source, std::vector&lt; std::string &gt; targets, <a class="el" href="classNetwork.html">Network</a>&lt; <a class="el" href="structRouteur.html">Routeur</a>, <a class="el" href="structCable.html">Cable</a> &gt; *tree)</td></tr>
 <tr class="memdesc:a245b6ac9f8fca8e0bfbf0597f1e07172"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate a partial minimum tree from a source to targets.  <a href="#a245b6ac9f8fca8e0bfbf0597f1e07172">More...</a><br /></td></tr>
 <tr class="separator:a245b6ac9f8fca8e0bfbf0597f1e07172"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61c15c763c4fa3ecef20e00e988f08ea"><td class="memItemLeft" align="right" valign="top"><a id="a61c15c763c4fa3ecef20e00e988f08ea"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>color_tree</b> (std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;tree, std::string source, std::string target, std::string &amp;color)</td></tr>
-<tr class="separator:a61c15c763c4fa3ecef20e00e988f08ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83414253632467907bd5c28037ca2e3e"><td class="memItemLeft" align="right" valign="top"><a id="a83414253632467907bd5c28037ca2e3e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a83414253632467907bd5c28037ca2e3e">add_path</a> (std::vector&lt; std::string &gt; &amp;path)</td></tr>
-<tr class="memdesc:a83414253632467907bd5c28037ca2e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a path to the current network. <br /></td></tr>
+<tr class="memitem:a83414253632467907bd5c28037ca2e3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a83414253632467907bd5c28037ca2e3e">add_path</a> (std::vector&lt; std::string &gt; &amp;path)</td></tr>
+<tr class="memdesc:a83414253632467907bd5c28037ca2e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a path to the current network.  <a href="#a83414253632467907bd5c28037ca2e3e">More...</a><br /></td></tr>
 <tr class="separator:a83414253632467907bd5c28037ca2e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad11690c5ae4242a0d2a5fc7a3b3d0e26"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#ad11690c5ae4242a0d2a5fc7a3b3d0e26">create_edge_name</a> (edge_t e)</td></tr>
 <tr class="memdesc:ad11690c5ae4242a0d2a5fc7a3b3d0e26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the edge's name used in the edge_list_t.  <a href="#ad11690c5ae4242a0d2a5fc7a3b3d0e26">More...</a><br /></td></tr>
@@ -157,9 +150,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#acdfcafaeafea935aa4425b430643f137">clean_all_colors</a> ()</td></tr>
 <tr class="memdesc:acdfcafaeafea935aa4425b430643f137"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the colors of all the routers and cables. <br /></td></tr>
 <tr class="separator:acdfcafaeafea935aa4425b430643f137"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a390114d50b131cc903dfaf2e8f339955"><td class="memItemLeft" align="right" valign="top"><a id="a390114d50b131cc903dfaf2e8f339955"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a390114d50b131cc903dfaf2e8f339955">clean_all_colors</a> (std::vector&lt; std::string &gt; &amp;path)</td></tr>
-<tr class="memdesc:a390114d50b131cc903dfaf2e8f339955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset all the color added previously (on the routeur and the cable) <br /></td></tr>
+<tr class="memitem:a390114d50b131cc903dfaf2e8f339955"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a390114d50b131cc903dfaf2e8f339955">clean_all_colors</a> (std::vector&lt; std::string &gt; &amp;path)</td></tr>
+<tr class="memdesc:a390114d50b131cc903dfaf2e8f339955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset all the color added previously (on the routeur and the cable)  <a href="#a390114d50b131cc903dfaf2e8f339955">More...</a><br /></td></tr>
 <tr class="separator:a390114d50b131cc903dfaf2e8f339955"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa549e21dd96cc617104ded813baafc4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#aa549e21dd96cc617104ded813baafc4a">color_list_edges</a> (std::vector&lt; std::string &gt; &amp;edges, std::string color)</td></tr>
 <tr class="memdesc:aa549e21dd96cc617104ded813baafc4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take edges name and change their color.  <a href="#aa549e21dd96cc617104ded813baafc4a">More...</a><br /></td></tr>
@@ -173,8 +165,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a76c1b8e347973d87b8d4641d4f4c5216"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a76c1b8e347973d87b8d4641d4f4c5216">get_all_verteces</a> ()</td></tr>
 <tr class="memdesc:a76c1b8e347973d87b8d4641d4f4c5216"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives a list of verteces.  <a href="#a76c1b8e347973d87b8d4641d4f4c5216">More...</a><br /></td></tr>
 <tr class="separator:a76c1b8e347973d87b8d4641d4f4c5216"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32d4ee51fabf494a34f5e1959e77d704"><td class="memItemLeft" align="right" valign="top"><a id="a32d4ee51fabf494a34f5e1959e77d704"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>minimum_tree</b> (std::string path)</td></tr>
+<tr class="memitem:a32d4ee51fabf494a34f5e1959e77d704"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a32d4ee51fabf494a34f5e1959e77d704">minimum_tree</a> (std::string path)</td></tr>
+<tr class="memdesc:a32d4ee51fabf494a34f5e1959e77d704"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the network graph into an undirected network graph.  <a href="#a32d4ee51fabf494a34f5e1959e77d704">More...</a><br /></td></tr>
 <tr class="separator:a32d4ee51fabf494a34f5e1959e77d704"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -216,12 +208,13 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
   </table>
   </dd>
 </dl>
+<p>&lt; The property length linked to label is added for undirected networks </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aee3784304f7e3484a2b06e9594ca4f5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee3784304f7e3484a2b06e9594ca4f5e">&sect;&nbsp;</a></span>add_cable()</h2>
+<a id="a71d8bb29d2a29e9ffa5c91a82fc3e7b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71d8bb29d2a29e9ffa5c91a82fc3e7b3">&sect;&nbsp;</a></span>add_cable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,7 +234,19 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::string &amp;&#160;</td>
-          <td class="paramname"><em>id2</em>&#160;</td>
+          <td class="paramname"><em>id2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>length</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>come_back</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -261,10 +266,48 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
   <table class="params">
     <tr><td class="paramname">id1</td><td>A routeur's name </td></tr>
     <tr><td class="paramname">id2</td><td>Another routeur's name </td></tr>
+    <tr><td class="paramname">length</td><td>The length of the cable </td></tr>
+    <tr><td class="paramname">come_back</td><td>True or false if you want to have a-&gt;b and b-&gt;a </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 in case of success, else -1 </dd></dl>
+
+</div>
+</div>
+<a id="a83414253632467907bd5c28037ca2e3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83414253632467907bd5c28037ca2e3e">&sect;&nbsp;</a></span>add_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::add_path </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a path to the current network. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>A vector of string containing the name of the routers ordered </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -335,6 +378,42 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 
 </div>
 </div>
+<a id="a390114d50b131cc903dfaf2e8f339955"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a390114d50b131cc903dfaf2e8f339955">&sect;&nbsp;</a></span>clean_all_colors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::clean_all_colors </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reset all the color added previously (on the routeur and the cable) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path (source to target ordered) you want to reset the color </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aa549e21dd96cc617104ded813baafc4a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa549e21dd96cc617104ded813baafc4a">&sect;&nbsp;</a></span>color_list_edges()</h2>
 
@@ -374,7 +453,8 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 <p>Take edges name and change their color. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">A</td><td>list of string containing the edge names and a string for the color </td></tr>
+    <tr><td class="paramname">edges</td><td>A list of string containing the edge names </td></tr>
+    <tr><td class="paramname">color</td><td>The color </td></tr>
   </table>
   </dd>
 </dl>
@@ -432,7 +512,10 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 <p>Take a list of vertex, the source and the targets and change their colors. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">A</td><td>vector of string for the verteces, a vector of string for the targets, a string color and a string for the source containing the name of the verteces </td></tr>
+    <tr><td class="paramname">verteces</td><td>A list of vertex names </td></tr>
+    <tr><td class="paramname">source</td><td>The name of the source you want to highlight </td></tr>
+    <tr><td class="paramname">targets</td><td>A list of target name you want to highlight </td></tr>
+    <tr><td class="paramname">color</td><td>The color </td></tr>
   </table>
   </dd>
 </dl>
@@ -818,6 +901,43 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 
 </div>
 </div>
+<a id="a32d4ee51fabf494a34f5e1959e77d704"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32d4ee51fabf494a34f5e1959e77d704">&sect;&nbsp;</a></span>minimum_tree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::minimum_tree </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert the network graph into an undirected network graph. </p>
+<p>void convert_to_undirected_graph(){</p>
+<p>!&lt; First of all, we copy the verteces in the network_graph into the undirected_network_graph for(typename vertex_list_t::iterator vertex_it = vertex_list.begin(); vertex_it != vertex_list.end(); ++vertex_it){ Vertex c = network_graph[vertex_it-&gt;second]; add_vertex(c, network_graph); }</p>
+<p>!&lt; Copying the edges !&lt; The list will contain the couple already added std::vector&lt;std::string&gt; couple; std::string n1, n2; for(typename edge_list_t::iterator edge_it = edge_list.begin(); edge_it != edge_list.end(); ++edge_it){ vertex_t source = boost::source(edge_it-&gt;second, network_graph); vertex_t target = boost::target(edge_it-&gt;second, network_graph);</p>
+<p>Edge c = network_graph[edge_it-&gt;second]; Vertex s(network_graph[source]), t(network_graph[target]); !&lt; Creating the 2 names a-&gt;b and b-&gt;a n2 = create_edge_name(t.name, s.name); n1 = create_edge_name(s.name, t.name); !&lt; If we don't find a-&gt;b, we add it to the network if(find(couple.begin(), couple.end(), n1) == couple.end()){ add_edge(source, target, c, network_graph); !&lt; We add the contrary b-&gt;a which is exactly the same edge as a-&gt;b (undirected edge) couple.push_back(n2); } } } </p>
+<p>&lt; This function will convert the bidirectionnal adjacency list to an undirectedS adjacency list.</p>
+<p>&lt; Kruskal minimum spannin tree function save a spate of edges in the list used in the second parameter.</p>
+<p>&lt; In this moment, we color the edge in the main graph and to export it </p>
+
+</div>
+</div>
 <a id="a245b6ac9f8fca8e0bfbf0597f1e07172"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a245b6ac9f8fca8e0bfbf0597f1e07172">&sect;&nbsp;</a></span>partial_minimum_tree()</h2>
 
@@ -870,8 +990,11 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The tree as a <a class="el" href="classNetwork.html">Network</a> </dd></dl>
-<p>&lt; Implémentation de Takahashi Matsuyama</p>
-<p>&lt; We choose the first path, the smallest possible </p>
+<p>&lt; Takahashi Matsuyama algorithm implementation</p>
+<p>&lt; We choose the first smallest path from a source to a target</p>
+<p>&lt; The smallest path take a source and a target, we remove the target from the list</p>
+<p>&lt; The smallest path is added to the tree (the network)</p>
+<p>&lt; Is added the path's routers to the list of source </p>
 
 </div>
 </div>
