@@ -32,16 +32,6 @@ template <class Vertex = Default_Vertex, class Edge = Default_Edge> class Networ
 	typedef typename std::unordered_map<std::string, vertex_t> vertex_list_t;
 	typedef typename std::unordered_map<std::string, edge_t> edge_list_t;
 	
-
-	/**< The typedef for an undirected network graph*/
-	typedef boost::adjacency_list<boost::vecS,
-								  boost::vecS,
-								  boost::undirectedS,
-								  Vertex,
-								  Edge, NetworkInfo> undirected_network_graph_t;
-
-	/**< The typedef for the edge_descriptor of an undirected network graph*/
-	typedef typename boost::graph_traits<undirected_network_graph_t>::edge_descriptor u_edge_t;
 	
 public:
 	/** 
@@ -112,7 +102,7 @@ public:
 	   \return 0 in case of success, else -1
 	*/
 	
-	int add_cable(std::string& id1,std::string& id2, int length = 1, bool come_back = true)
+	int add_cable(std::string& id1,std::string& id2, int length = 1)
 	{
 		typename vertex_list_t::const_iterator r1 = vertex_list.find(id1);
 		typename vertex_list_t::const_iterator r2 = vertex_list.find(id2);
@@ -131,16 +121,20 @@ public:
 
 		Cable c;
 		c.length = length;
+	
 		auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
 
 		std::string nom1 = create_edge_name(id1, id2);
+		std::string nom2 = create_edge_name(id2, id1);
 		std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
+		std::pair<std::string, edge_t> t2 = {nom2, tmp1.first};
 		edge_list.insert(t1);
+		edge_list.insert(t2);
     
 		return (tmp1.second==false)?0:-1;
 	}
-	
-	
+
+
 	/**
 	   \brief Gives the value of an attribute of an element, of type Structure
 	   \param id The element's name
@@ -205,6 +199,7 @@ public:
 		
 		std::string name = get_network_name() + "clean";
 		Network clean = Network(NetworkInfo(name,"DefaultGraphPropertyLocation"));
+		//network_graph[boost::graph_bundle].location
 		
 		for(auto const &vertex : vertex_list)
 		{
@@ -278,9 +273,9 @@ public:
 		//!< We put the edges and the vertices in their unordered_map edge_list and vertex_list
 
 		//!< Inserting the verteces in the vertex_list_t
-		std::pair<typename boost::graph_traits<network_graph_t>::vertex_iterator, typename boost::graph_traits<network_graph_t>::vertex_iterator> it = boost::vertices(network_graph);
+		
 
-		for(; it.first != it.second; ++it.first){
+		for(std::pair<typename boost::graph_traits<network_graph_t>::vertex_iterator, typename boost::graph_traits<network_graph_t>::vertex_iterator> it = boost::vertices(network_graph); it.first != it.second; ++it.first){
 			Routeur r = network_graph[*it.first];
 			std::pair<std::string, vertex_t> v = {r.name, *it.first};
 			vertex_list.insert(v);
@@ -290,20 +285,29 @@ public:
 
 
 		//!< Insering the verteces in the vertex_list_t
-		std::pair<typename boost::graph_traits<network_graph_t>::edge_iterator, typename boost::graph_traits<network_graph_t>::edge_iterator> it2 = boost::edges(network_graph);
+	
 
-		for(; it2.first != it2.second; ++it2.first){
+		for(std::pair<typename boost::graph_traits<network_graph_t>::edge_iterator, typename boost::graph_traits<network_graph_t>::edge_iterator> it2 = boost::edges(network_graph); it2.first != it2.second; ++it2.first){
 			//!<In order to name the edge
 			//!<We capture the source and the target of the edge
 			//!<To access to their name
 			//!< Following the format : "source.name->target.name"
-		
 
+//TO FIX		
+	//!< length is set to 1 by default if lenght is not renseigner
+			if(network_graph[*it2.first].length < 0){
 			network_graph[*it2.first].length = 1;	
-	
+			}
+
+				
 			std::string edge_name = create_edge_name(*it2.first);
+			std::string reverse_edge_name = create_edge_name(*it2.first, true);
+			
 			std::pair<std::string, edge_t> e = {edge_name, *it2.first};
+			std::pair<std::string, edge_t> e2 = {reverse_edge_name, *it2.first};
+		
 			edge_list.insert(e);
+			edge_list.insert(e2);
 		}
 		std::cout << "Number of edges in the list : " << edge_list.size() << std::endl;
 		std::cout << "Number of edges in the network: " << boost::num_edges(network_graph) << std::endl <<std::endl <<std::endl;
@@ -379,11 +383,8 @@ public:
     */
 	void readAll_vertex()
 	{
-		typename vertex_list_t::iterator vertex = vertex_list.begin();
-		
-		for(; vertex != vertex_list.end(); ++vertex){
-			Routeur c = network_graph[vertex->second];
-			std::cout << c.name << std::endl;
+		for(typename vertex_list_t::iterator vertex = vertex_list.begin(); vertex != vertex_list.end(); ++vertex){
+			std::cout << vertex->first << std::endl;
 		}
 	}
 	
@@ -392,8 +393,7 @@ public:
     */
 	void readAll_edge()
 	{
-		typename edge_list_t::iterator edge = edge_list.begin();
-		for(; edge != edge_list.end(); ++ edge){
+		for(typename edge_list_t::iterator edge = edge_list.begin(); edge != edge_list.end(); ++ edge){
 			std::cout << edge->first << std::endl;
 		}
 	}
@@ -445,6 +445,7 @@ public:
 //		std::cout << std::endl;
 
 		//!< The smallest path is added to the tree (the network)
+//		std::vector<edge_t> edges = 
 		tree->add_path(p);
 		
 		//!< Is added the path's routers to the list of source
@@ -468,27 +469,34 @@ public:
 			add_routeur(*it);
 			if(it!=it2){
 				add_routeur(*it2);
+				
 				add_cable(*it,*it2);
 			}
 		}
 	}
 
 	/**
-	   \brief Create the edge's name used in the edge_list_t
+	   \brief Create the edge's name (used in the edge_list_t)
 	   \brief The source and the target verteces are extracted to create a name following the format
-	   \brief source.name->target.name
+	   \brief source.name->target.name if reverse is false or not defined, else target.name--source.name
 	   \param e An edge_t
-	   \return source.name->target.name
+	   \param reverse A boolean either you want to invert the source.name with the target.name or not
+	   \return source.name--target.name or target.name--source.name
 	*/
 	
-	std::string create_edge_name(edge_t e)
+	std::string create_edge_name(edge_t e, bool reverse = false)
 	{
 		vertex_t source = boost::source(e, network_graph);
 		vertex_t target = boost::target(e, network_graph);
 		Vertex s = network_graph[source];
 		Vertex t = network_graph[target];
+		std::string edge_name;
+		if(!reverse){
+			edge_name = s.name+"--"+t.name;
+		}else{
 
-		std::string edge_name = s.name+"->"+t.name;
+			edge_name = t.name+"--"+s.name;
+		}
 
 		return edge_name;
 	}
@@ -502,7 +510,7 @@ public:
 	*/
 	std::string create_edge_name(std::string source, std::string target)
 	{
-		std::string edge_name = source+"->"+target;
+		std::string edge_name = source+"--"+target;
 		return edge_name;
 	}
 
@@ -531,7 +539,6 @@ public:
 	*/
 	void clean_all_colors()
 	{
-		
 		for(typename vertex_list_t::iterator v = vertex_list.begin(); v != vertex_list.end(); ++v){
 			network_graph[v->second].color = "";
 		}
@@ -555,10 +562,18 @@ public:
 	   \param color The color
 	*/
 	void color_list_edges(std::vector<std::string> &edges, std::string color){
-		
-		for(std::vector<std::string>::iterator it = edges.begin(); it < edges.end(); ++it){
-			network_graph[edge_list[*it]].color = color;	
-		}
+
+
+	typename std::unordered_map<std::string, edge_t>::iterator it;
+
+	for(it = edge_list.begin(); it != edge_list.end();++it){
+		std::cout << it->first << std::endl;
+	}
+	std::cout << std::endl << std::endl;
+		for(std::vector<std::string>::iterator it2 = edges.begin(); it2 != edges.end(); ++it2){
+		//	network_graph[edge_list[*it]].color = color;
+		std::cout << *it2 << std::endl;
+		}	
 	}
 	/**
 	   \brief Take a list of vertex, the source and the targets and change their colors
@@ -586,7 +601,6 @@ public:
 	*/
 	std::vector<std::string> get_all_edges()
 	{
-	
 		std::vector<std::string> l;
 		for(typename edge_list_t::iterator it = edge_list.begin(); it!=edge_list.end(); ++it){
 			l.push_back(it->first);
@@ -802,16 +816,24 @@ public:
 		}
 	}
 	*/
+
+
+
+
+// 	IMPORTANT########################
+/////////////////////////////////////////////////////////
+//	Actuellement la recopie se fait au niveau des noms, il faudrait penser à faire un ajouteur
+//de routeur et de cable par recopie d'un autre pour recopier exactement les mêmes propriétés.
+/////////////////////////////////////////////////////////
+
+
 	/*
 	  \brief Calculate a minimum spanning tree
-	  \return #Suppose to return Network which is a minimum spanning tree
+	  \return A new network, the minimum spanning tree of the current netowork.
 	*/
-	//Cette fonction sera modifié pour renvoyé un objet Network
-	void minimum_tree(std::string path){
-	
-		//!< This function will convert the bidirectionnal adjacency list to an undirectedS adjacency list. 	
-		//Discuter de la manière de faire, on garde le bidirectionnel et on construit un undirected, ou on passe en undirected ?
-		//convert_to_undirected_graph();
+	Network* minimum_tree(){
+
+		std::cout << "Currently calculating a minimum spanning tree using kruskal algorithm for " << get_network_name() << ".dot. Please wait a moment. " << std::endl;	
 		
 		IndexMap id_map = boost::get(boost::vertex_index, network_graph);
 	
@@ -819,17 +841,17 @@ public:
 		std::vector<int> distances(boost::num_vertices(network_graph));
 	
 		//!< Kruskal minimum spannin tree function save a spate of edges in the list used in the second parameter. 
-		std::vector<u_edge_t> spanning_tree;
+		std::vector<edge_t> spanning_tree;
 
 		kruskal_minimum_spanning_tree(network_graph, std::back_inserter(spanning_tree), boost::weight_map(boost::get(&Cable::length,network_graph))
 									   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
 									   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
 	
-
+/*
 		//!< In this moment, we color the edge in the main graph and to export it
 		// La future fonction ne colorera pas le graph, elle renverra un objet Network contenant l'arbre
 		// Coloration des edges pour vérification du résultat
-		for(typename std::vector<u_edge_t>::iterator it = spanning_tree.begin(); it != spanning_tree.end();++it){
+		for(typename std::vector<edge_t>::iterator it = spanning_tree.begin(); it != spanning_tree.end();++it){
 			
 			network_graph[*it].color = "purple";
 		}
@@ -839,6 +861,22 @@ public:
 		std::ofstream out(path,std::ofstream::out);
 		write_graphviz_dp(out, network_graph, dp, "label");
 		out.close();
+		*/
+		struct NetworkInfo spanning_tree_info(get_network_name()+"_minimum_spanning_tree", network_graph[boost::graph_bundle].location);
+		Network<Vertex, Edge>* minimum_spanning_tree = new Network<Vertex, Edge>(spanning_tree_info);
+	
+		for(typename vertex_list_t::iterator vertex_it = vertex_list.begin(); vertex_it != vertex_list.end();++vertex_it){
+			std::string name = vertex_it->first;
+			minimum_spanning_tree->add_routeur(name);
+		}
+
+		for(typename std::vector<edge_t>::iterator it = spanning_tree.begin(); it != spanning_tree.end();++it){
+			std::string id1 = network_graph[boost::source(*it, network_graph)].name;
+			std::string id2 = network_graph[boost::target(*it, network_graph)].name;
+			minimum_spanning_tree->add_cable(id1, id2, network_graph[*it].length);
+		}
+
+		return minimum_spanning_tree;
 	}
 
 private:
