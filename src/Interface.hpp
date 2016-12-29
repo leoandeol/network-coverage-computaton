@@ -64,8 +64,13 @@ public:
 	*/
 	std::vector<std::string> shortest_path(int id, std::string& source, std::string& target);
 
-//TO FIX
-	int minimum_spanning_tree(int id, std::string name);
+	/**
+	   \brief Calculate a minimum spanning tree of a graph (creating a new network added in the list)
+	   \param id The id of the graph
+	   \return Return the id of the minimum spanning tree network. 
+	*/
+	
+	int minimum_spanning_tree(int id);
 	/**
 	  \brief Create a partial tree
 	  \return The id of the tree

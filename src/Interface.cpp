@@ -233,7 +233,7 @@ void Interface::color_path(int id, std::string& source, std::string& destination
 	networks[id]->clean_all_colors(path);
 }
 
-int Interface::minimum_spanning_tree(int id, std::string name){
+int Interface::minimum_spanning_tree(int id){
 	Network<Routeur,Cable>* min_tree;
 	min_tree = networks[id]->minimum_tree();
 	
