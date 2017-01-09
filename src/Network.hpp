@@ -127,7 +127,6 @@ public:
     std::string nom1 = create_edge_name(id1, id2);
     std::string nom2 = create_edge_name(id2, id1);
     std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
-    std::pair<std::string, edge_t> t2 = {nom2, tmp1.first};
     edge_list.insert(t1);
     edge_list.insert(t2);
     
@@ -300,9 +299,6 @@ public:
       edge_list.insert(e);
       edge_list.insert(e2);
     }
-    std::cout << "Number of edges in the list : " << edge_list.size() << std::endl;
-    std::cout << "Number of edges in the network: " << boost::num_edges(network_graph) << std::endl <<std::endl <<std::endl;
-
 
     in.close();
     return 0;
@@ -409,10 +405,6 @@ public:
     path test;
     path::iterator theChosenOne;
 
-    //			std::cout << *it << std::endl;
-    //			std::cout << "Targets size :" << targets.size() << std::endl;
-    //			std::cout << "Source size :" << source.size() << std::endl;
-	
     //!< We choose the first smallest path from a source to a target
     for(path::iterator it = targets.begin(); it != targets.end(); ++it){
       for(int unsigned i = 0; i < source.size(); i++){	
@@ -424,19 +416,10 @@ public:
 	}
       }
     }
-    //		std::cout << *theChosenOne << "b" << std::endl;
-    //		std::cout << std::endl;
-    //		path::iterator IT = p.begin();
-    //		for(; IT != p.end(); ++IT){
-    //			std::cout << *IT << std::endl;
-    //		}
-
     //!< The smallest path take a source and a target, we remove the target from the list
     targets.erase(theChosenOne);
-    //		std::cout << std::endl;
 
     //!< The smallest path is added to the tree (the network)
-    //		std::vector<edge_t> edges = 
     tree->add_path(p);
 		
     //!< Is added the path's routers to the list of source
@@ -838,21 +821,6 @@ public:
 				  .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
 				  .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
 	
-    /*
-    //!< In this moment, we color the edge in the main graph and to export it
-    // La future fonction ne colorera pas le graph, elle renverra un objet Network contenant l'arbre
-    // Coloration des edges pour vérification du résultat
-    for(typename std::vector<edge_t>::iterator it = spanning_tree.begin(); it != spanning_tree.end();++it){
-			
-    network_graph[*it].color = "purple";
-    }
-	
-    //!< Exportation of the graph 
-    // L'exportatin est la pour tester la fonction
-    std::ofstream out(path,std::ofstream::out);
-    write_graphviz_dp(out, network_graph, dp, "label");
-    out.close();
-    */
     struct NetworkInfo spanning_tree_info(get_network_name()+"_minimum_spanning_tree", network_graph[boost::graph_bundle].location);
     Network<Vertex, Edge>* minimum_spanning_tree = new Network<Vertex, Edge>(spanning_tree_info);
 	
