@@ -40,8 +40,7 @@
 int main(int,char**)
 {
 	Interface i;
-	
-//	i.menu();*/
+/*	
 	int id = i.import_graph("germany");
 	typedef std::vector<std::string> path;
 	path s, t;
@@ -54,7 +53,6 @@ int main(int,char**)
 
 	i.shortest_path2(id, o, t3); 
 
-	/*
 	std::string o = "Norden";
 	s.push_back(o);
 	std::string t1 = "Stuttgart";
@@ -68,5 +66,6 @@ int main(int,char**)
 	i.partial_tree(id, o, t, c);*/
 //	*/
 
+	i.menu();
 	return 0;
 }
