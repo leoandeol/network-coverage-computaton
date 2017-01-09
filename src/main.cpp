@@ -40,23 +40,6 @@
 int main(int,char**)
 {
 	Interface i;
-	
-//	i.menu();*/
-	int id = i.import_graph("germany");
-	typedef std::vector<std::string> path;
-	path s, t;
-	std::string o = "Norden";
-	s.push_back(o);
-	std::string t1 = "Stuttgart";
-	std::string t2 = "Hambury";
-	std::string t3 = "Karlruhe";
-	t.push_back(t1);
-	t.push_back(t2);
-	t.push_back(t3);
-	std::string c = "yellow";
-	i.minimum_spanning_tree(id, "germany-minimum-tree");
-	i.partial_tree(id, o, t, c);
-//	*/
-
+	i.menu();
 	return 0;
 }
