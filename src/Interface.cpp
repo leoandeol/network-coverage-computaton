@@ -181,6 +181,17 @@ std::vector<std::string> Interface::shortest_path(int id, std::string& source, s
 	}
 	return path;
 }
+std::vector<std::string> Interface::shortest_path2(int id, std::string& source, std::string& target)
+{
+	std::cout << "Shortest path 2nd version" << std::endl;
+	std::vector<std::string> path = networks[id]->get_path2(source, target);
+	
+	std::vector<std::string>::iterator it;
+	for(it = path.begin(); it != path.end(); ++it){
+		std::cout << *it << std::endl;
+	}
+	return path;
+}
 
 
 int Interface::partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color)

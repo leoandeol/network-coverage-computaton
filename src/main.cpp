@@ -45,6 +45,16 @@ int main(int,char**)
 	int id = i.import_graph("germany");
 	typedef std::vector<std::string> path;
 	path s, t;
+
+	std::string o = "Norden";
+	std::string t3 = "Karlruhe";
+	i.shortest_path(id, o, t3); 
+
+	std::cout << std::endl << std::endl;
+
+	i.shortest_path2(id, o, t3); 
+
+	/*
 	std::string o = "Norden";
 	s.push_back(o);
 	std::string t1 = "Stuttgart";
@@ -55,7 +65,7 @@ int main(int,char**)
 	t.push_back(t3);
 	std::string c = "yellow";
 	i.minimum_spanning_tree(id, "germany-minimum-tree");
-	i.partial_tree(id, o, t, c);
+	i.partial_tree(id, o, t, c);*/
 //	*/
 
 	return 0;

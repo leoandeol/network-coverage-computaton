@@ -15,6 +15,7 @@
 
 #include "structs.hpp"
 
+
 /** The class handling the network representation (graph) */
 template <class Vertex = Default_Vertex, class Edge = Default_Edge> class Network {
 	
@@ -224,6 +225,57 @@ public:
 	   \param destination The destination's name
 	   \return a vector that represents the path between those routeurs
 	*/
+	std::vector<std::string> get_path2(std::string &source,std::string &destination)
+	{
+		vertex_t start_node = vertex_list[source];
+		vertex_t end_node = vertex_list[destination];
+
+
+		IndexMap id_map = boost::get(boost::vertex_index,network_graph);
+	
+		std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
+		std::vector<int> distances(boost::num_vertices(network_graph));
+		auto weightMap = boost::weight_map(boost::get(&Cable::length, network_graph));
+
+		unsigned int zero = 0;
+	custom_dijkstra_visitor vis;
+
+		boost::dijkstra_shortest_paths_no_init(
+network_graph,
+start_node, 				
+&predecessors[0], 
+&distances[0], 
+//boost::weight_map(boost::get(&Cable::length, network_graph)), 
+weightMap,
+id_map, 
+std::less<int>(),
+boost::closed_plus<int>(),
+std::numeric_limits<int>::max(), 
+zero, 
+boost::default_dijkstra_visitor());
+//*/	
+//	typename boost::property_map<network_graph_t, boost::vertex_color_t>::type colorMap;
+//	int n = boost::num_vertices(network_graph);
+//	std::vector<int> colorMap(n, boost::white);
+
+	boost::dijkstra_shortest_paths(network_graph, start_node, boost::weight_map(boost::get(&Cable::length,network_graph))
+									   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
+									   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)).visitor(vis));//*/
+		typedef std::vector<std::string> path_t;
+		path_t path;
+	
+		path.push_back(destination);
+	
+		for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
+		{
+			path.push_back(network_graph[u].name);
+		}
+
+		std::reverse(path.begin(), path.end());
+
+		return path;
+	}
+
 	std::vector<std::string> get_path(std::string &source,std::string &destination)
 	{
 		vertex_t start_node = vertex_list[source];
@@ -233,8 +285,10 @@ public:
 	
 		std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
 		std::vector<int> distances(boost::num_vertices(network_graph));
-	
-		boost::dijkstra_shortest_paths(network_graph,start_node,boost::weight_map(boost::get(&Cable::length,network_graph))
+		
+
+
+		boost::dijkstra_shortest_paths(network_graph, start_node,boost::weight_map(boost::get(&Cable::length,network_graph))
 									   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
 									   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
 	
@@ -252,7 +306,6 @@ public:
 
 		return path;
 	}
-
 	/**
 	   \brief Loads a graph in the DOT format, from the path given as parameter
 	   \param path The path to the .dot file
@@ -276,9 +329,18 @@ public:
 		
 
 		for(std::pair<typename boost::graph_traits<network_graph_t>::vertex_iterator, typename boost::graph_traits<network_graph_t>::vertex_iterator> it = boost::vertices(network_graph); it.first != it.second; ++it.first){
+
+////////////////////////////////
+//		Ajouter pour les tests, à enlever plus tard		
+			network_graph[*it.first].is_working = 1;
+		if(network_graph[*it.first].name == "Koln" || network_graph[*it.first].name == "Dortmund")
+			network_graph[*it.first].is_working = 0;
+////////////////////////////////
+
 			Routeur r = network_graph[*it.first];
 			std::pair<std::string, vertex_t> v = {r.name, *it.first};
 			vertex_list.insert(v);
+			std::cout << r.name << " " << r.is_working << std::endl;
 		}
 		std::cout << "Number of verteces in the list : " << vertex_list.size() << std::endl;
 		std::cout << "Number of verteces in the network : " << boost::num_vertices(network_graph) << std::endl << std::endl;

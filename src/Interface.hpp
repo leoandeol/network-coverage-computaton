@@ -63,6 +63,7 @@ public:
 	   \return A vector containing the name of the verteces ordered from the source to the target
 	*/
 	std::vector<std::string> shortest_path(int id, std::string& source, std::string& target);
+	std::vector<std::string> shortest_path2(int id, std::string& source, std::string& target);
 
 	/**
 	   \brief Calculate a minimum spanning tree of a graph (creating a new network added in the list)
