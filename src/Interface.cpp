@@ -32,7 +32,7 @@ void Interface::menu()
 			std::cout << "List of the current graph : " << std::endl;
 			std::cout << "ID - name of the network" << std::endl;
 			for(unsigned int y = 0; y < networks.size(); y++){
-				std::cout << y << " - " << networks.at(y)->get_network_name();
+				std::cout << y << " - " << networks.at(y)->get_network_name() << std::endl;
 			} 
 			break;
 		case 1:
@@ -84,12 +84,12 @@ void Interface::menu()
 			std::cin >> s;
 		
 			while(1){
-				std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph. " << std::endl;
+				std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph)" << std::endl;
 				std::cin >> t;
 				if(t == "done"){break;}
 				targets.push_back(t);
 			}
-			std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=1" << std::endl;
+			std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=0" << std::endl;
 			std::cin >> i;
 			if(stoi(i) == 1){
 			std::cout << "You just say yes. The program will export the graph with the id " << id << "and will color the partial tree calculated. " << std::endl;
@@ -271,7 +271,7 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 	std::vector<std::string> sources;
 	sources.push_back(source);
 	//!< Create the name of the tree
-	std::string name = networks[id]->get_network_name()+"-SpanningTree";
+	std::string name = networks[id]->get_network_name()+"-PartialTree";
 	
 	//!< Creation of the futur tree
 	Network<Routeur, Cable>* tree = new Network<Routeur,Cable>();
@@ -282,6 +282,9 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 	//!< Setting the name of the tree
 	tree->set_network_name(name);
 
+	if(color == 1){
+		
+	}
 	
 
 	//!< Adding it to the network list
