@@ -7,5 +7,7 @@ var searchData=
   ['color_5fpath',['color_path',['../classInterface.html#afae57bc1c5744bcf1c0094696ab37526',1,'Interface::color_path()'],['../classNetwork.html#a2764d7546608511ef148293657633da8',1,'Network::color_path()']]],
   ['create',['create',['../classInterface.html#acd0bb755b65fb16aa3dd8517548cfb98',1,'Interface']]],
   ['create_5fedge_5fname',['create_edge_name',['../classNetwork.html#ab282c541c042d60d4e88f50df5ed0764',1,'Network::create_edge_name(edge_t e, bool reverse=false)'],['../classNetwork.html#a59c40ac4496cf93e9576422739219626',1,'Network::create_edge_name(std::string source, std::string target)']]],
-  ['create_5fgraph_5fterminal',['create_graph_terminal',['../classInterface.html#a161720cddbe7b6db3acbaeb1d4ba40c5',1,'Interface']]]
+  ['create_5fgraph_5fterminal',['create_graph_terminal',['../classInterface.html#a09c00003cd6ecc9536dffa2867ebb041',1,'Interface']]],
+  ['custom_5fdijkstra_5fvisitor',['custom_dijkstra_visitor',['../classcustom__dijkstra__visitor.html',1,'']]],
+  ['cycles',['cycles',['../classInterface.html#a05e9b6500153659beaf74844d70bf57a',1,'Interface']]]
 ];
