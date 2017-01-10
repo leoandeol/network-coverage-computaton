@@ -326,7 +326,7 @@ boost::default_dijkstra_visitor());
 	Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
 	vertex_list_t idlist;
-	typename vertex_list_t::iterator it, leafit, leaftit2;
+	typename vertex_list_t::iterator it, leafit, leafit2;
 	
 	//!< Checking all the vertices of the graph trhough iterators
 	for(it = n->vertex_list.begin(); it != n->vertex_list.end(); it++)
@@ -344,17 +344,20 @@ boost::default_dijkstra_visitor());
 		typename edge_list_t::iterator edge_it, edge_it_end;
 		for(boost::tie(edge_it,edge_it_end) = out_edges(leafit,this); edge_it != edge_it_end; edge_it++)
 		{
-			for(leafit2 = idlist.begin(); leafit2 != idlist.end() && leafit!=leafit; leafit2++)
+			for(leafit2 = idlist.begin(); leafit2 != idlist.end() && leafit2!=leafit; leafit2++)
 			{
 				//!< If the target of one of its vertices is a leaf we add the corresponding edge to the network we're going to return
 				if(boost::target(edge_it,*n)==leafit2)
 				{
-					std::vector<std::string> cycle = n1->get_path(network_graph[leafit].name,network_graph[leaftit2].name);
+					std::vector<std::string> cycle = n1->get_path(network_graph[leafit].name,network_graph[leafit2].name);
 					n1->add_cable(network_graph[leafit].name,network_graph[leafit2].name,network_graph[edge_it].length);
 					std::string::iterator verteces;
-					for(verteces = cycle.begin(); verteces != cycle.end()-1; verteces++)
+					for(verteces = cycle.begin(); verteces != cycle.end(); verteces++)
 					{
-						n1->add_cable(verteces,verteces+1);
+						for(verteces2 = verteces; verteces != cycle.end() && verteces2 != verteces; verteces2++){
+							n1->add_cable(network_graph[verteces].name,network_graph[verteces2].name);
+						}
+						
 					}
 				}
 			}
