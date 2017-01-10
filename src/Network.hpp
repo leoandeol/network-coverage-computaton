@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <boost/graph/graph_traits.hpp> // vertex and edge descriptors
 #include <boost/graph/adjacency_list.hpp> // adjacency_list
+#include <boost/graph/stanford_graph.hpp> // out_eddes and out_degree
 #include <boost/graph/dijkstra_shortest_paths.hpp> // djikstra shortest paths
 #include <boost/graph/graphviz.hpp> // import/export .dot
 #include <boost/graph/kruskal_min_spanning_tree.hpp> //krustal minimum tree
@@ -325,16 +326,16 @@ boost::default_dijkstra_visitor());
     struct NetworkInfo net_info(get_network_name()+"_cycles", network_graph[boost::graph_bundle].location);
 	Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
-	vertex_list_t idlist;
-	typename vertex_list_t::iterator it, leafit, leafit2;
+	typename std::vector<vertex_t> idlist;
+	typename vertex_list_t::iterator it
+	typename std::vector<vertex_t>::iterator leafit, leafit2;
 	
 	//!< Checking all the vertices of the graph trhough iterators
 	for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
 	{
 		//!< If the degree of the vertex is 1 or 2 it means that it's a leaf so we push it into the leaf list
-		if(boost::out_degree(*it, network_graph)==1 || boost::out_degree(*it, network_graph)==2)
+		if(boost::out_degree(*it, network_graph)==1)
 		{
-			
 			idlist.push_back(*it);
 		}
 	}
@@ -348,7 +349,7 @@ boost::default_dijkstra_visitor());
 			for(leafit2 = idlist.begin(); leafit2 != idlist.end() && leafit2!=leafit; ++leafit2)
 			{
 				//!< If the target of one of its vertices is a leaf we add the corresponding edge to the network we're going to return
-				if(boost::target(*edge_it, n->network_graph)==leafit2)
+				if(boost::target(*edge_it, n->network_graph)==*leafit2)
 				{
 					std::vector<std::string> cycle = n1->get_path(network_graph[leafit->second].name,network_graph[leafit2->second].name);
 					n1->add_cable(network_graph[leafit->second].name,network_graph[leafit2->second].name,network_graph[*edge_it].length);
