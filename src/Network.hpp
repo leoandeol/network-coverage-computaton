@@ -327,7 +327,7 @@ boost::default_dijkstra_visitor());
 	Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
 	typename std::vector<vertex_t> idlist;
-	typename vertex_list_t::iterator it
+	typename vertex_list_t::iterator it;
 	typename std::vector<vertex_t>::iterator leafit, leafit2;
 	
 	//!< Checking all the vertices of the graph trhough iterators
