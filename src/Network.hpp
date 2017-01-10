@@ -652,14 +652,12 @@ boost::default_dijkstra_visitor());
 
 
     typename std::unordered_map<std::string, edge_t>::iterator it;
-
+    /*
     for(it = edge_list.begin(); it != edge_list.end();++it){
       std::cout << it->first << std::endl;
-    }
-    std::cout << std::endl << std::endl;
+    }*/
     for(std::vector<std::string>::iterator it2 = edges.begin(); it2 != edges.end(); ++it2){
-      //	network_graph[edge_list[*it]].color = color;
-      std::cout << *it2 << std::endl;
+      network_graph[edge_list[*it2]].color = color;
     }	
   }
   /**

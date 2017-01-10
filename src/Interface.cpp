@@ -45,7 +45,7 @@ void Interface::menu()
 			std::cout << "What's the name of the file to import (without the extension, and the file should be located in the data folder) ?" << std::endl;
 		    std::cin >> s;
 			id = import_graph(s);
-			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			std::cout << "The imported graph is associated with the ID : " << id << std::endl;
 			break;
 		case 3:
 			std::cout << "What's the name of the file to export (without the extension, and the file will be located in the data folder) ?" << std::endl;
@@ -62,6 +62,9 @@ void Interface::menu()
 			std::cin >> s;
 			std::cout << "What's the name of the target vertex ?" << std::endl;
 			std::cin >> t;
+			std::cout << std::endl << std::endl;
+		
+			std::cout << "Following the shortest path to go from " << s << " to " << t << std::endl;
 			shortest_path(id, s, t);
 			break;
 		case 5:
@@ -84,7 +87,7 @@ void Interface::menu()
 			std::cin >> s;
 		
 			while(1){
-				std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph)" << std::endl;
+				std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph, enter \"done\" to end the list of targets)" << std::endl;
 				std::cin >> t;
 				if(t == "done"){break;}
 				targets.push_back(t);
@@ -92,7 +95,8 @@ void Interface::menu()
 			std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=0" << std::endl;
 			std::cin >> i;
 			if(stoi(i) == 1){
-			std::cout << "You just say yes. The program will export the graph with the id " << id << "and will color the partial tree calculated. " << std::endl;
+			std::cout << "You just say yes. The program will export the graph with the id " << id << " and will color the partial tree calculated. " << std::endl;
+			std::cout << "The source is colored in green wheares the targets are colored in blue. Please check the data folder for the result (.dot & .png provided). " << std::endl;
 				id = partial_tree(id, s, targets, 1);
 			}
 			else{
@@ -283,7 +287,14 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 	tree->set_network_name(name);
 
 	if(color == 1){
-		
+		std::vector<std::string> verteces = tree->get_all_verteces();	
+		std::vector<std::string> edges = tree->get_all_edges();	
+		networks[id]->color_list_verteces(verteces, "red", source, targets);
+		networks[id]->color_list_edges(edges, "red");
+		export_graph(id, name+"_colored");
+		networks[id]->color_list_verteces(verteces, "", source, targets);
+		networks[id]->color_list_edges(edges, "");
+	
 	}
 	
 
