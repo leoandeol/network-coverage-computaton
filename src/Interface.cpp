@@ -22,7 +22,7 @@ void Interface::menu()
 	int id;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Create a test graph\n\t5 : Exit" << std::endl;
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Shortest-path algorithm\n\t5 : Color the shortest-path\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Calculate the minimum cycles \n\t9 : Exit" << std::endl;
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)

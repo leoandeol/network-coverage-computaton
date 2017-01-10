@@ -128,6 +128,7 @@ public:
     std::string nom1 = create_edge_name(id1, id2);
     std::string nom2 = create_edge_name(id2, id1);
     std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
+    std::pair<std::string, edge_t> t2 = {nom2, tmp1.first};
     edge_list.insert(t1);
     edge_list.insert(t2);
     
@@ -315,19 +316,20 @@ boost::default_dijkstra_visitor());
   /**
      \brief Calculates the different cycles within the graph
      \return a new graph with the calculated cycles
-  */
+  *//*
   Network* get_cycles(){
 
 	//!< The network which we're going to check its leafs
-	Network* n  = this->minimum_tree();
+	Network<Vertex, Edge>* n  = this->minimum_tree();
 	//!< The network that will be returned
-	Network* n1  = this->minimum_tree();
+    struct NetworkInfo net_info(get_network_name()+"_cycles", network_graph[boost::graph_bundle].location);
+	Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
-	vertex_list idlist;
+	vertex_list_t idlist;
 	typename vertex_list_t::iterator it, leafit, leaftit2
 	
 	//!< Checking all the vertices of the graph trhough iterators
-	for(it = n.vertex_list.begin(); it != n.vertex_list.end(); it++)
+	for(it = n.vertex_list.begin(); it != n.vertex_list.end(); ++it)
 	{
 		//!< If the degree of the vertex is 1 or 2 it means that it's a leaf so we push it into the leaf list
 		if(out_degree(it,this)==1 || out_degree(it,this)==2)
@@ -354,7 +356,7 @@ boost::default_dijkstra_visitor());
 	}
 	return n1;
   }
-  
+  */
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param path The path to the .dot file
