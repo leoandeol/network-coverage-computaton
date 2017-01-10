@@ -26,7 +26,7 @@ public:
 	   \brief Starts a graph creator, to write graphs manually
 	   \return The id of the new graph
 	*/
-	int create_graph_terminal();
+	int create_graph_terminal(std::string s);
 	/**
 	   \brief Imports a graph from a .dot file located in the data subfolder
 	   \param s The filename

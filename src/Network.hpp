@@ -99,7 +99,6 @@ public:
      \param id1 A routeur's name
      \param id2 Another routeur's name
      \param length The length of the cable
-     \param come_back True or false if you want to have a->b and b->a
      \return 0 in case of success, else -1
   */
 	
@@ -316,7 +315,7 @@ boost::default_dijkstra_visitor());
   /**
      \brief Calculates the different cycles within the graph
      \return a new graph with the calculated cycles
-  *//*
+  **
   Network* get_cycles(){
 
 	//!< The network which we're going to check its leafs

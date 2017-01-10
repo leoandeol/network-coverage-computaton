@@ -23,13 +23,22 @@ void Interface::menu()
 	int id;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t \n\t9 : Exit" << std::endl;
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t \n\t9 : Exit" << std::endl;
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)
 		{
+		case 0:
+			std::cout << "List of the current graph : " << std::endl;
+			std::cout << "ID - name of the network" << std::endl;
+			for(unsigned int y = 0; y < networks.size(); y++){
+				std::cout << y << " - " << networks.at(y)->get_network_name();
+			} 
+			break;
 		case 1:
-			id = create_graph_terminal();
+			std::cout << "What's the name of the graph ?" << std::endl;
+			std::cin >> s;
+			id = create_graph_terminal(s);
 			std::cout << "The created graph is associated with the ID : " << id << std::endl;
 			break;
 		case 2:
@@ -61,6 +70,8 @@ void Interface::menu()
 			id = stoi(i);
 			std::cout << "What's the name of the source vertex ?" << std::endl;
 			std::cin >> s;
+			std::cout << "What's the name of the target vertex ?" << std::endl;
+			std::cin >> t;
 		
 			color_path(id, s, t);	
 			std::cout << "The path has been colored in the graph and exported. Check the data folder for the results. (The colored in the graph are reset to normal)" << std::endl;	
@@ -109,14 +120,16 @@ void Interface::menu()
 			cont=false;
 			break;
 		}
-		std::cout << std::endl;
+		std::cout << std::endl << std::endl;
 	} while(cont);
 }
 
-int Interface::create_graph_terminal()
+int Interface::create_graph_terminal(std::string s)
 {
+	
 	int id = networks.size();
 	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
+	n->set_network_name(s);
 
 	std::string input1, input2;
 	std::cout << "Network creation assistant" << std::endl;
