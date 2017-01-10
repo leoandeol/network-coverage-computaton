@@ -316,7 +316,7 @@ boost::default_dijkstra_visitor());
      \brief Calculates the different cycles within the graph
      \return a new graph with the calculated cycles
 
-  *//*
+  */
   Network* get_cycles(){
 
 	//!< The network which we're going to check its leafs
@@ -329,33 +329,34 @@ boost::default_dijkstra_visitor());
 	typename vertex_list_t::iterator it, leafit, leafit2;
 	
 	//!< Checking all the vertices of the graph trhough iterators
-	for(it = n->vertex_list.begin(); it != n->vertex_list.end(); it++)
+	for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
 	{
 		//!< If the degree of the vertex is 1 or 2 it means that it's a leaf so we push it into the leaf list
-		if(out_degree(it,this)==1 || out_degree(it,this)==2)
+		if(boost::out_degree(*it, network_graph)==1 || boost::out_degree(*it, network_graph)==2)
 		{
-			idlist.push_back(it);
+			
+			idlist.push_back(*it);
 		}
 	}
 
 	//!< Checking all the edges of each leaf from the initial graph (this)
-	for(leafit = idlist.begin(); leafit != idlist.end(); leafit++)
+	for(leafit = idlist.begin(); leafit != idlist.end(); ++leafit)
 	{
-		typename edge_list_t::iterator edge_it, edge_it_end;
-		for(boost::tie(edge_it,edge_it_end) = out_edges(leafit,this); edge_it != edge_it_end; edge_it++)
+		typename boost::graph_traits<network_graph_t>::out_edge_iterator edge_it, edge_it_end;
+		for(boost::tie(edge_it,edge_it_end) = boost::out_edges(*leafit, network_graph); edge_it != edge_it_end; ++edge_it)
 		{
-			for(leafit2 = idlist.begin(); leafit2 != idlist.end() && leafit2!=leafit; leafit2++)
+			for(leafit2 = idlist.begin(); leafit2 != idlist.end() && leafit2!=leafit; ++leafit2)
 			{
 				//!< If the target of one of its vertices is a leaf we add the corresponding edge to the network we're going to return
-				if(boost::target(edge_it,*n)==leafit2)
+				if(boost::target(*edge_it, n->network_graph)==leafit2)
 				{
-					std::vector<std::string> cycle = n1->get_path(network_graph[leafit].name,network_graph[leafit2].name);
-					n1->add_cable(network_graph[leafit].name,network_graph[leafit2].name,network_graph[edge_it].length);
-					std::string::iterator verteces;
-					for(verteces = cycle.begin(); verteces != cycle.end(); verteces++)
+					std::vector<std::string> cycle = n1->get_path(network_graph[leafit->second].name,network_graph[leafit2->second].name);
+					n1->add_cable(network_graph[leafit->second].name,network_graph[leafit2->second].name,network_graph[*edge_it].length);
+					std::vector<std::string>::iterator verteces;
+					for(verteces = cycle.begin(); verteces != cycle.end(); ++verteces)
 					{
-						for(verteces2 = verteces; verteces != cycle.end() && verteces2 != verteces; verteces2++){
-							n1->add_cable(network_graph[verteces].name,network_graph[verteces2].name);
+						for(std::vector<std::string>::iterator verteces2 = verteces; verteces != cycle.end() && verteces2 != verteces; ++verteces2){
+							n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
 						}
 						
 					}
@@ -364,7 +365,7 @@ boost::default_dijkstra_visitor());
 		}
 	}
 	return n1;
-  }*/
+  }
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param path The path to the .dot file
