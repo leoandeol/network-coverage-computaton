@@ -103,6 +103,9 @@ void Interface::menu()
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i:
 			id = stoi(i);
+			id = cycles(id);
+			
+			std::cout << "The network which contains the cycle of the graph" << stoi(i) << " is associated with the ID : " << id << std::endl;
 			break;
 		/*case 4:
 			id = create();
