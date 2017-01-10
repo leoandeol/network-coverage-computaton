@@ -18,11 +18,12 @@ void Interface::menu()
 	std::cout << "**********************************************************************" << std::endl;
 	int input;
 	bool cont = true;
-	std::string s;
+	std::string s, t, i;
+	std::vector<std::string> targets;
 	int id;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Shortest-path algorithm\n\t5 : Color the shortest-path\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Calculate the minimum cycles \n\t9 : Exit" << std::endl;
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t \n\t9 : Exit" << std::endl;
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)
@@ -45,13 +46,70 @@ void Interface::menu()
 			export_graph(id,s);
 			break;
 		case 4:
-			id = create();
-			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = stoi(i);
+			std::cout << "What's the name of the source vertex ?" << std::endl;
+			std::cin >> s;
+			std::cout << "What's the name of the target vertex ?" << std::endl;
+			std::cin >> t;
+			shortest_path(id, s, t);
 			break;
 		case 5:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = stoi(i);
+			std::cout << "What's the name of the source vertex ?" << std::endl;
+			std::cin >> s;
+		
+			color_path(id, s, t);	
+			std::cout << "The path has been colored in the graph and exported. Check the data folder for the results. (The colored in the graph are reset to normal)" << std::endl;	
+			break;
+		case 6:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+
+			std::cout << "What's the name of the source vertex ?" << std::endl;
+			std::cin >> s;
+		
+			while(1){
+				std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph. " << std::endl;
+				std::cin >> t;
+				if(t == "done"){break;}
+				targets.push_back(t);
+			}
+			std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=1" << std::endl;
+			std::cin >> i;
+			if(stoi(i) == 1){
+			std::cout << "You just say yes. The program will export the graph with the id " << id << "and will color the partial tree calculated. " << std::endl;
+				id = partial_tree(id, s, targets, 1);
+			}
+			else{
+				id = partial_tree(id, s, targets);
+			}
+			targets.clear();
+			std::cout << "The partial graph created is associated with the ID : " << id << std::endl;
+			break;
+		case 7:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = stoi(i);
+			id = minimum_spanning_tree(id);
+
+			std::cout << "The minimum spaning tree created from " << stoi(i) << " is associated with the ID : " << id << std::endl;
+
+			break;
+		case 8:
+			break;
+		/*case 4:
+			id = create();
+			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			break;*/
+		case 9:
 			cont=false;
 			break;
 		}
+		std::cout << std::endl;
 	} while(cont);
 }
 
@@ -194,7 +252,7 @@ std::vector<std::string> Interface::shortest_path2(int id, std::string& source, 
 }
 
 
-int Interface::partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color)
+int Interface::partial_tree(int id, std::string& source, std::vector<std::string>& targets, int color)
 {
 	//!< Needed a vector of sources for the function
 	std::vector<std::string> sources;
@@ -210,6 +268,8 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 
 	//!< Setting the name of the tree
 	tree->set_network_name(name);
+
+	
 
 	//!< Adding it to the network list
 	int id2 = networks.size();

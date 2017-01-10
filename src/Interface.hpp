@@ -76,7 +76,7 @@ public:
 	  \brief Create a partial tree
 	  \return The id of the tree
 	*/
-	int partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color = std::string("red"));
+	int partial_tree(int id, std::string& source, std::vector<std::string>& targets, int color = 0);
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
 	const std::string DATA_FOLDER = "data/";
