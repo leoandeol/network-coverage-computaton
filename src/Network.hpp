@@ -320,26 +320,57 @@ boost::default_dijkstra_visitor());
   */
   Network* get_cycles(){
 
+  
+	typedef boost::graph_traits<network_graph>::edge_iterator EdgeIterator;
+	typedef std::pair<EdgeIterator, EdgeIterator> EdgePair;
+	typedef boost::graph_traits<network_graph>::vertex_descriptor VertexDescriptor;
+
+	
 	//!< The network which we're going to check its leafs
 	Network<Vertex, Edge>* n  = this->minimum_tree();
 	//!< The network that will be returned
     struct NetworkInfo net_info(get_network_name()+"_cycles", network_graph[boost::graph_bundle].location);
 	Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
-	typename std::vector<vertex_t> idlist;
-	typename vertex_list_t::iterator it;
-	typename std::vector<vertex_t>::iterator leafit, leafit2;
+	std::vector<vertex_t> idlist;
+	std::vector<vertex_t>::iterator leafit, leafit2;
+	typename boost::graph_traits<network_graph_t>::vertex_iterator it, it2, it3;
 	
 	//!< Checking all the vertices of the graph trhough iterators
 	for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
 	{
-		//!< If the degree of the vertex is 1 or 2 it means that it's a leaf so we push it into the leaf list
-		if(boost::out_degree(*it, network_graph)==1)
+		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
+		if(boost::in_degree(*it, network_graph)==(degree_size_type)1)
 		{
 			idlist.push_back(*it);
 		}
 	}
-
+	
+		
+	EdgePair ep;
+	VertexDescriptor u,v;
+	for (ep = edges(g); ep.first != ep.second; ++ep.first)
+	{
+		// Get the two vertices that are joined by this edge...
+		u=source(*ep.first,g);
+		v=target(*ep.first,g);
+		it2 = find(idList.begin(),idList.end(),u);
+		it3 = find(idList.begin(),idList.end(),v);
+		if(it2 != idList.end() && it3 != idList.end() && it2 != it3)
+		{
+			std::vector<std::string> cycle = n->get_path(network_graph[u].name,network_graph[v].name);
+			n1->add_cable(network_graph[u].name,network_graph[v].name,network_graph[*ep.first].length);
+			std::vector<std::string>::iterator verteces,verteces2;
+			verteces = cycle.begin();
+			verteces2 = verteces;
+			while(verteces2 != cycle.end()){
+				++verteces2;
+				n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
+				++verteces;
+			}						
+		}
+	}
+	/*
 	//!< Checking all the edges of each leaf from the initial graph (this)
 	for(leafit = idlist.begin(); leafit != idlist.end(); ++leafit)
 	{
@@ -351,8 +382,8 @@ boost::default_dijkstra_visitor());
 				//!< If the target of one of its vertices is a leaf we add the corresponding edge to the network we're going to return
 				if(boost::target(*edge_it, n->network_graph)==*leafit2)
 				{
-					std::vector<std::string> cycle = n1->get_path(network_graph[leafit->second].name,network_graph[leafit2->second].name);
-					n1->add_cable(network_graph[leafit->second].name,network_graph[leafit2->second].name,network_graph[*edge_it].length);
+					std::vector<std::string> cycle = n->get_path(network_graph[*leafit].name,network_graph[*leafit2].name);
+					n1->add_cable(network_graph[*	leafit].name,network_graph[*leafit2].name,network_graph[*edge_it].length);
 					std::vector<std::string>::iterator verteces;
 					for(verteces = cycle.begin(); verteces != cycle.end(); ++verteces)
 					{
@@ -365,6 +396,7 @@ boost::default_dijkstra_visitor());
 			}	
 		}
 	}
+	*/
 	return n1;
   }
   /**
