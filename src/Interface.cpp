@@ -100,6 +100,9 @@ void Interface::menu()
 
 			break;
 		case 8:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i:
+			id = stoi(i);
 			break;
 		/*case 4:
 			id = create();
@@ -296,5 +299,15 @@ int Interface::minimum_spanning_tree(int id){
 	int id2 = networks.size();
 	networks.push_back(min_tree);
 
+	return id2;
+}
+
+int Iterface::cycles(int id){
+	Network<Routeur,Cable>* cycles;
+	cycles = networks[id]->get_cycles();
+	
+	int id2 = networks.size();
+	networks.push_back(cycles);
+		
 	return id2;
 }
