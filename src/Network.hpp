@@ -238,7 +238,7 @@ public:
 
 		unsigned int zero = 0;
 	custom_dijkstra_visitor vis;
-
+/*
 		boost::dijkstra_shortest_paths_no_init(
 network_graph,
 start_node, 				
@@ -252,7 +252,7 @@ boost::closed_plus<int>(),
 std::numeric_limits<int>::max(), 
 zero, 
 boost::default_dijkstra_visitor());
-//*/	
+*/	
 //	typename boost::property_map<network_graph_t, boost::vertex_color_t>::type colorMap;
 //	int n = boost::num_vertices(network_graph);
 //	std::vector<int> colorMap(n, boost::white);
