@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <boost/graph/graph_traits.hpp> // vertex and edge descriptors
 #include <boost/graph/adjacency_list.hpp> // adjacency_list
-#include <boost/graph/stanford_graph.hpp> // out_eddes and out_degree
+#include <boost/tuple/tuple.hpp> // tie function
 #include <boost/graph/dijkstra_shortest_paths.hpp> // djikstra shortest paths
 #include <boost/graph/graphviz.hpp> // import/export .dot
 #include <boost/graph/kruskal_min_spanning_tree.hpp> //krustal minimum tree
@@ -362,7 +362,7 @@ boost::default_dijkstra_visitor());
 						
 					}
 				}
-			}
+			}	
 		}
 	}
 	return n1;
