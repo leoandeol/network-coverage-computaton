@@ -326,10 +326,10 @@ boost::default_dijkstra_visitor());
 	Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
 	vertex_list_t idlist;
-	typename vertex_list_t::iterator it, leafit, leaftit2
+	typename vertex_list_t::iterator it, leafit, leaftit2;
 	
 	//!< Checking all the vertices of the graph trhough iterators
-	for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
+	for(it = n->vertex_list.begin(); it != n->vertex_list.end(); it++)
 	{
 		//!< If the degree of the vertex is 1 or 2 it means that it's a leaf so we push it into the leaf list
 		if(out_degree(it,this)==1 || out_degree(it,this)==2)
@@ -349,7 +349,13 @@ boost::default_dijkstra_visitor());
 				//!< If the target of one of its vertices is a leaf we add the corresponding edge to the network we're going to return
 				if(boost::target(edge_it,*n)==leafit2)
 				{
+					std::vector<std::string> cycle = n1->get_path(network_graph[leafit].name,network_graph[leaftit2].name);
 					n1->add_cable(network_graph[leafit].name,network_graph[leafit2].name,network_graph[edge_it].length);
+					std::string::iterator verteces;
+					for(verteces = cycle.begin(); verteces != cycle.end()-1; verteces++)
+					{
+						n1->add_cable(verteces,verteces+1);
+					}
 				}
 			}
 		}
