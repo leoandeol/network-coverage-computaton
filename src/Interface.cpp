@@ -203,22 +203,7 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 	//!< Adding it to the network list
 	int id2 = networks.size();
 	networks.push_back(tree);
-/*		
-//!< ##########TEST
-		//!< In order to test the function, take the list of edges and verteces of the tree
-	std::vector<std::string> edges,verteces;
-	edges = networks[id2]->get_all_edges();
 
-	verteces = networks[id2]->get_all_verteces();
-	
-		//!< And color them in the Network
-	networks[id]->color_list_verteces(verteces, color,  source, targets);
-	networks[id]->color_list_edges(edges, color);
-//!< Problème avec le nom des cables A--B != B--A
-		//!< Export the network to see the result
-	export_graph(id2, name);
-	export_graph(id, networks[id]->get_network_name()+"0");
-*/
 	return id2;
 }
 
