@@ -9,11 +9,13 @@
 #include <unordered_map>
 #include <boost/graph/graph_traits.hpp> // vertex and edge descriptors
 #include <boost/graph/adjacency_list.hpp> // adjacency_list
+#include <boost/tuple/tuple.hpp> // tie function
 #include <boost/graph/dijkstra_shortest_paths.hpp> // djikstra shortest paths
 #include <boost/graph/graphviz.hpp> // import/export .dot
 #include <boost/graph/kruskal_min_spanning_tree.hpp> //krustal minimum tree
 
 #include "structs.hpp"
+
 
 /** The class handling the network representation (graph) */
 template <class Vertex = Default_Vertex, class Edge = Default_Edge> class Network {
@@ -98,7 +100,6 @@ public:
      \param id1 A routeur's name
      \param id2 Another routeur's name
      \param length The length of the cable
-     \param come_back True or false if you want to have a->b and b->a
      \return 0 in case of success, else -1
   */
 	
@@ -127,6 +128,7 @@ public:
     std::string nom1 = create_edge_name(id1, id2);
     std::string nom2 = create_edge_name(id2, id1);
     std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
+    std::pair<std::string, edge_t> t2 = {nom2, tmp1.first};
     edge_list.insert(t1);
     edge_list.insert(t2);
     
@@ -213,45 +215,190 @@ public:
 	    clean.add_edge(edge);
 	  }
       }
+
+		return &clean;
+	}
+	
+	/**
+	   \brief calculates the shortest path between two routeurs of the network
+	   \param source The source's name
+	   \param destination The destination's name
+	   \return a vector that represents the path between those routeurs
+	*/
+	std::vector<std::string> get_path2(std::string &source,std::string &destination)
+	{
+		vertex_t start_node = vertex_list[source];
+		vertex_t end_node = vertex_list[destination];
+
+
+		IndexMap id_map = boost::get(boost::vertex_index,network_graph);
+	
+		std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
+		std::vector<int> distances(boost::num_vertices(network_graph));
+		auto weightMap = boost::weight_map(boost::get(&Cable::length, network_graph));
+
+		unsigned int zero = 0;
+	custom_dijkstra_visitor vis;
+/*
+		boost::dijkstra_shortest_paths_no_init(
+network_graph,
+start_node, 				
+&predecessors[0], 
+&distances[0], 
+//boost::weight_map(boost::get(&Cable::length, network_graph)), 
+weightMap,
+id_map, 
+std::less<int>(),
+boost::closed_plus<int>(),
+std::numeric_limits<int>::max(), 
+zero, 
+boost::default_dijkstra_visitor());
+*/	
+//	typename boost::property_map<network_graph_t, boost::vertex_color_t>::type colorMap;
+//	int n = boost::num_vertices(network_graph);
+//	std::vector<int> colorMap(n, boost::white);
+
+	boost::dijkstra_shortest_paths(network_graph, start_node, boost::weight_map(boost::get(&Cable::length,network_graph))
+									   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
+									   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)).visitor(vis));//*/
+		typedef std::vector<std::string> path_t;
+		path_t path;
+	
+		path.push_back(destination);
+	
+		for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
+		{
+			path.push_back(network_graph[u].name);
+		}
+
+		std::reverse(path.begin(), path.end());
+
+		return path;
+	}
+
+	std::vector<std::string> get_path(std::string &source,std::string &destination)
+	{
+		vertex_t start_node = vertex_list[source];
+		vertex_t end_node = vertex_list[destination];
+
+		IndexMap id_map = boost::get(boost::vertex_index,network_graph);
+	
+		std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
+		std::vector<int> distances(boost::num_vertices(network_graph));
 		
-    return &clean;
-  }
+
+
+		boost::dijkstra_shortest_paths(network_graph, start_node,boost::weight_map(boost::get(&Cable::length,network_graph))
+									   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
+									   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
 	
+		typedef std::vector<std::string> path_t;
+		path_t path;
+	
+		path.push_back(destination);
+	
+		for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
+		{
+			path.push_back(network_graph[u].name);
+		}
+
+		std::reverse(path.begin(), path.end());
+
+		return path;
+	}
+	/**
+	   \brief Loads a graph in the DOT format, from the path given as parameter
+	   \param path The path to the .dot file
+	   \return 0 if the file was loaded successfully, else -1
+	*/
+
+
   /**
-     \brief calculates the shortest path between two routeurs of the network
-     \param source The source's name
-     \param destination The destination's name
-     \return a vector that represents the path between those routeurs
+     \brief Calculates the different cycles within the graph
+     \return a new graph with the calculated cycles
+
   */
-  std::vector<std::string> get_path(std::string &source,std::string &destination)
-  {
-    vertex_t start_node = vertex_list[source];
-    vertex_t end_node = vertex_list[destination];
+  Network* get_cycles(){
 
-    IndexMap id_map = boost::get(boost::vertex_index,network_graph);
-	
-    std::vector<vertex_t> predecessors(boost::num_vertices(network_graph));
-    std::vector<int> distances(boost::num_vertices(network_graph));
-	
-    boost::dijkstra_shortest_paths(network_graph,start_node,boost::weight_map(boost::get(&Cable::length,network_graph))
-				   .distance_map(boost::make_iterator_property_map(distances.begin(),id_map))
-				   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(),id_map)));
-	
-    typedef std::vector<std::string> path_t;
-    path_t path;
-	
-    path.push_back(destination);
-	
-    for(vertex_t u = predecessors[end_node]; u != end_node ; end_node =u, u=predecessors[end_node])
-      {
-	path.push_back(network_graph[u].name);
-      }
+  
+	typedef boost::graph_traits<network_graph>::edge_iterator EdgeIterator;
+	typedef std::pair<EdgeIterator, EdgeIterator> EdgePair;
+	typedef boost::graph_traits<network_graph>::vertex_descriptor VertexDescriptor;
 
-    std::reverse(path.begin(), path.end());
-
-    return path;
+	
+	//!< The network which we're going to check its leafs
+	Network<Vertex, Edge>* n  = this->minimum_tree();
+	//!< The network that will be returned
+    struct NetworkInfo net_info(get_network_name()+"_cycles", network_graph[boost::graph_bundle].location);
+	Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
+	
+	std::vector<vertex_t> idlist;
+	std::vector<vertex_t>::iterator leafit, leafit2;
+	typename boost::graph_traits<network_graph_t>::vertex_iterator it, it2, it3;
+	
+	//!< Checking all the vertices of the graph trhough iterators
+	for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
+	{
+		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
+		if(boost::in_degree(*it, network_graph)==(degree_size_type)1)
+		{
+			idlist.push_back(*it);
+		}
+	}
+	
+		
+	EdgePair ep;
+	VertexDescriptor u,v;
+	for (ep = edges(g); ep.first != ep.second; ++ep.first)
+	{
+		// Get the two vertices that are joined by this edge...
+		u=source(*ep.first,g);
+		v=target(*ep.first,g);
+		it2 = find(idList.begin(),idList.end(),u);
+		it3 = find(idList.begin(),idList.end(),v);
+		if(it2 != idList.end() && it3 != idList.end() && it2 != it3)
+		{
+			std::vector<std::string> cycle = n->get_path(network_graph[u].name,network_graph[v].name);
+			n1->add_cable(network_graph[u].name,network_graph[v].name,network_graph[*ep.first].length);
+			std::vector<std::string>::iterator verteces,verteces2;
+			verteces = cycle.begin();
+			verteces2 = verteces;
+			while(verteces2 != cycle.end()){
+				++verteces2;
+				n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
+				++verteces;
+			}						
+		}
+	}
+	/*
+	//!< Checking all the edges of each leaf from the initial graph (this)
+	for(leafit = idlist.begin(); leafit != idlist.end(); ++leafit)
+	{
+		typename boost::graph_traits<network_graph_t>::out_edge_iterator edge_it, edge_it_end;
+		for(boost::tie(edge_it,edge_it_end) = boost::out_edges(*leafit, network_graph); edge_it != edge_it_end; ++edge_it)
+		{
+			for(leafit2 = idlist.begin(); leafit2 != idlist.end() && leafit2!=leafit; ++leafit2)
+			{
+				//!< If the target of one of its vertices is a leaf we add the corresponding edge to the network we're going to return
+				if(boost::target(*edge_it, n->network_graph)==*leafit2)
+				{
+					std::vector<std::string> cycle = n->get_path(network_graph[*leafit].name,network_graph[*leafit2].name);
+					n1->add_cable(network_graph[*	leafit].name,network_graph[*leafit2].name,network_graph[*edge_it].length);
+					std::vector<std::string>::iterator verteces;
+					for(verteces = cycle.begin(); verteces != cycle.end(); ++verteces)
+					{
+						for(std::vector<std::string>::iterator verteces2 = verteces; verteces != cycle.end() && verteces2 != verteces; ++verteces2){
+							n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
+						}
+						
+					}
+				}
+			}	
+		}
+	}
+	*/
+	return n1;
   }
-
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
      \param path The path to the .dot file
@@ -539,14 +686,12 @@ public:
 
 
     typename std::unordered_map<std::string, edge_t>::iterator it;
-
+    /*
     for(it = edge_list.begin(); it != edge_list.end();++it){
       std::cout << it->first << std::endl;
-    }
-    std::cout << std::endl << std::endl;
+    }*/
     for(std::vector<std::string>::iterator it2 = edges.begin(); it2 != edges.end(); ++it2){
-      //	network_graph[edge_list[*it]].color = color;
-      std::cout << *it2 << std::endl;
+      network_graph[edge_list[*it2]].color = color;
     }	
   }
   /**

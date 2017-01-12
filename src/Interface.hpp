@@ -26,7 +26,7 @@ public:
 	   \brief Starts a graph creator, to write graphs manually
 	   \return The id of the new graph
 	*/
-	int create_graph_terminal();
+	int create_graph_terminal(std::string s);
 	/**
 	   \brief Imports a graph from a .dot file located in the data subfolder
 	   \param s The filename
@@ -63,6 +63,7 @@ public:
 	   \return A vector containing the name of the verteces ordered from the source to the target
 	*/
 	std::vector<std::string> shortest_path(int id, std::string& source, std::string& target);
+	std::vector<std::string> shortest_path2(int id, std::string& source, std::string& target);
 
 	/**
 	   \brief Calculate a minimum spanning tree of a graph (creating a new network added in the list)
@@ -75,7 +76,13 @@ public:
 	  \brief Create a partial tree
 	  \return The id of the tree
 	*/
-	int partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color = std::string("red"));
+	int partial_tree(int id, std::string& source, std::vector<std::string>& targets, int color = 0);
+	/**
+	  \brief Computes the cycles of the graph
+	  \param id The network's id
+	  \return The id of the network that contains the cycles
+	*/
+	int cycles(int id);
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
 	const std::string DATA_FOLDER = "data/";

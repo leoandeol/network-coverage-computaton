@@ -18,24 +18,34 @@ void Interface::menu()
 	std::cout << "**********************************************************************" << std::endl;
 	int input;
 	bool cont = true;
-	std::string s;
+	std::string s, t, i;
+	std::vector<std::string> targets;
 	int id;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t1 : Create a graph\n\t2 : Import a graph\n\t3 : Export a graph\n\t4 : Create a test graph\n\t5 : Exit" << std::endl;
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t \n\t9 : Exit" << std::endl;
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)
 		{
+		case 0:
+			std::cout << "List of the current graph : " << std::endl;
+			std::cout << "ID - name of the network" << std::endl;
+			for(unsigned int y = 0; y < networks.size(); y++){
+				std::cout << y << " - " << networks.at(y)->get_network_name() << std::endl;
+			} 
+			break;
 		case 1:
-			id = create_graph_terminal();
+			std::cout << "What's the name of the graph ?" << std::endl;
+			std::cin >> s;
+			id = create_graph_terminal(s);
 			std::cout << "The created graph is associated with the ID : " << id << std::endl;
 			break;
 		case 2:
 			std::cout << "What's the name of the file to import (without the extension, and the file should be located in the data folder) ?" << std::endl;
 		    std::cin >> s;
 			id = import_graph(s);
-			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			std::cout << "The imported graph is associated with the ID : " << id << std::endl;
 			break;
 		case 3:
 			std::cout << "What's the name of the file to export (without the extension, and the file will be located in the data folder) ?" << std::endl;
@@ -45,20 +55,91 @@ void Interface::menu()
 			export_graph(id,s);
 			break;
 		case 4:
-			id = create();
-			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = stoi(i);
+			std::cout << "What's the name of the source vertex ?" << std::endl;
+			std::cin >> s;
+			std::cout << "What's the name of the target vertex ?" << std::endl;
+			std::cin >> t;
+			std::cout << std::endl << std::endl;
+		
+			std::cout << "Following the shortest path to go from " << s << " to " << t << std::endl;
+			shortest_path(id, s, t);
 			break;
 		case 5:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = stoi(i);
+			std::cout << "What's the name of the source vertex ?" << std::endl;
+			std::cin >> s;
+			std::cout << "What's the name of the target vertex ?" << std::endl;
+			std::cin >> t;
+		
+			color_path(id, s, t);	
+			std::cout << "The path has been colored in the graph and exported. Check the data folder for the results. (The colored in the graph are reset to normal)" << std::endl;	
+			break;
+		case 6:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+
+			std::cout << "What's the name of the source vertex ?" << std::endl;
+			std::cin >> s;
+		
+			while(1){
+				std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph, enter \"done\" to end the list of targets)" << std::endl;
+				std::cin >> t;
+				if(t == "done"){break;}
+				targets.push_back(t);
+			}
+			std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=0" << std::endl;
+			std::cin >> i;
+			if(stoi(i) == 1){
+			std::cout << "You just say yes. The program will export the graph with the id " << id << " and will color the partial tree calculated. " << std::endl;
+			std::cout << "The source is colored in green wheares the targets are colored in blue. Please check the data folder for the result (.dot & .png provided). " << std::endl;
+				id = partial_tree(id, s, targets, 1);
+			}
+			else{
+				id = partial_tree(id, s, targets);
+			}
+			targets.clear();
+			std::cout << "The partial graph created is associated with the ID : " << id << std::endl;
+			break;
+		case 7:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = stoi(i);
+			id = minimum_spanning_tree(id);
+
+			std::cout << "The minimum spaning tree created from " << stoi(i) << " is associated with the ID : " << id << std::endl;
+
+			break;
+		case 8:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = stoi(i);
+			id = cycles(id);
+			
+			std::cout << "The network which contains the cycle of the graph" << stoi(i) << " is associated with the ID : " << id << std::endl;
+			break;
+		/*case 4:
+			id = create();
+			std::cout << "The created graph is associated with the ID : " << id << std::endl;
+			break;*/
+		case 9:
 			cont=false;
 			break;
 		}
+		std::cout << std::endl << std::endl;
 	} while(cont);
 }
 
-int Interface::create_graph_terminal()
+int Interface::create_graph_terminal(std::string s)
 {
+	
 	int id = networks.size();
 	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
+	n->set_network_name(s);
 
 	std::string input1, input2;
 	std::cout << "Network creation assistant" << std::endl;
@@ -181,15 +262,26 @@ std::vector<std::string> Interface::shortest_path(int id, std::string& source, s
 	}
 	return path;
 }
+std::vector<std::string> Interface::shortest_path2(int id, std::string& source, std::string& target)
+{
+	std::cout << "Shortest path 2nd version" << std::endl;
+	std::vector<std::string> path = networks[id]->get_path2(source, target);
+	
+	std::vector<std::string>::iterator it;
+	for(it = path.begin(); it != path.end(); ++it){
+		std::cout << *it << std::endl;
+	}
+	return path;
+}
 
 
-int Interface::partial_tree(int id, std::string& source, std::vector<std::string>& targets, std::string color)
+int Interface::partial_tree(int id, std::string& source, std::vector<std::string>& targets, int color)
 {
 	//!< Needed a vector of sources for the function
 	std::vector<std::string> sources;
 	sources.push_back(source);
 	//!< Create the name of the tree
-	std::string name = networks[id]->get_network_name()+"-SpanningTree";
+	std::string name = networks[id]->get_network_name()+"-PartialTree";
 	
 	//!< Creation of the futur tree
 	Network<Routeur, Cable>* tree = new Network<Routeur,Cable>();
@@ -199,6 +291,18 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 
 	//!< Setting the name of the tree
 	tree->set_network_name(name);
+
+	if(color == 1){
+		std::vector<std::string> verteces = tree->get_all_verteces();	
+		std::vector<std::string> edges = tree->get_all_edges();	
+		networks[id]->color_list_verteces(verteces, "red", source, targets);
+		networks[id]->color_list_edges(edges, "red");
+		export_graph(id, name+"_colored");
+		networks[id]->color_list_verteces(verteces, "", source, targets);
+		networks[id]->color_list_edges(edges, "");
+	
+	}
+	
 
 	//!< Adding it to the network list
 	int id2 = networks.size();
@@ -225,5 +329,15 @@ int Interface::minimum_spanning_tree(int id){
 	int id2 = networks.size();
 	networks.push_back(min_tree);
 
+	return id2;
+}
+
+int Interface::cycles(int id){
+	Network<Routeur,Cable>* cycles;
+	cycles = networks[id]->get_cycles();
+	
+	int id2 = networks.size();
+	networks.push_back(cycles);
+		
 	return id2;
 }

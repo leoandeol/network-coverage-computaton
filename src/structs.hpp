@@ -43,4 +43,24 @@ typedef struct Cable : Default_Edge {
   std::string color;
 } Cable;
 
+
+
+
+/**
+   Custom visitor implementing the "working" parameter
+*/
+class custom_dijkstra_visitor : public boost::default_dijkstra_visitor
+{
+    public:
+	template <typename Graph, typename Vertex = Default_Vertex>
+	void initialize_vertex(Vertex u, const Graph & g) const
+	{
+		if(!g[u].is_working){
+			std::cout << "Routeur " << g[u].name << " non fonctionnel. " << std::endl;
+			
+		}
+	}
+};
+
+
 #endif
