@@ -321,9 +321,9 @@ boost::default_dijkstra_visitor());
   Network* get_cycles(){
 
   
-    typename typedef boost::graph_traits<network_graph_t>::edge_iterator EdgeIterator;
+    typedef typename boost::graph_traits<network_graph_t>::edge_iterator EdgeIterator;
     typedef std::pair<EdgeIterator, EdgeIterator> EdgePair;
-    typename typedef boost::graph_traits<network_graph_t>::vertex_descriptor VertexDescriptor;
+    typedef typename  boost::graph_traits<network_graph_t>::vertex_descriptor VertexDescriptor;
 	
     //!< The network which we're going to check its leafs
     Network<Vertex, Edge>* n  = this->minimum_tree();
@@ -331,28 +331,29 @@ boost::default_dijkstra_visitor());
     struct NetworkInfo net_info(get_network_name()+"_cycles", network_graph[boost::graph_bundle].location);
     Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
-    std::vector<vertex_t> idlist;
-    std::vector<vertex_t>::iterator it,it2,it3,leafit, leafit2;
+    std::vector<vertex_t> idList;
+    typename std::vector<vertex_t>::iterator it2,it3,leafit, leafit2;
+    typename vertex_list_t::iterator it;
     //typename boost::graph_traits<network_graph_t>::vertex_iterator it, it2, it3;
 	
     //!< Checking all the vertices of the graph trhough iterators
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
 	//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
-	if(boost::in_degree(*it, network_graph)==(degree_size_type)1)
+	if(boost::in_degree(it->second, network_graph)== 1)
 	  {
-	    idlist.push_back(*it);
+	    idList.push_back(it->second);
 	  }
       }
 	
 		
     EdgePair ep;
     VertexDescriptor u,v;
-    for (ep = boost::edges(g); ep.first != ep.second; ++ep.first)
+    for (ep = boost::edges(n->network_graph); ep.first != ep.second; ++ep.first)
       {
 	// Get the two vertices that are joined by this edge...
-	u=boost::source(*ep.first,g);
-	v=boost::target(*ep.first,g);
+	u=boost::source(*ep.first,n->network_graph);
+	v=boost::target(*ep.first,n->network_graph);
 	it2 = std::find(idList.begin(),idList.end(),u);
 	it3 = std::find(idList.begin(),idList.end(),v);
 	if(it2 != idList.end() && it3 != idList.end() && it2 != it3)

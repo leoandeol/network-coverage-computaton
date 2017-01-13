@@ -82,7 +82,7 @@ public:
 	  \param id The network's id
 	  \return The id of the network that contains the cycles
 	*/
-	int cycles(int id);
+	int get_cycles(int id);
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
 	const std::string DATA_FOLDER = "data/";

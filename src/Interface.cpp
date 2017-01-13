@@ -118,7 +118,7 @@ void Interface::menu()
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = stoi(i);
-			id = cycles(id);
+			id = get_cycles(id);
 			
 			std::cout << "The network which contains the cycle of the graph" << stoi(i) << " is associated with the ID : " << id << std::endl;
 			break;
@@ -332,7 +332,7 @@ int Interface::minimum_spanning_tree(int id){
 	return id2;
 }
 
-int Interface::cycles(int id){
+int Interface::get_cycles(int id){
 	Network<Routeur,Cable>* cycles;
 	cycles = networks[id]->get_cycles();
 	
