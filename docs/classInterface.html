@@ -112,9 +112,9 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 <tr class="memitem:a637bbf229029322d9f03091863298529"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#a637bbf229029322d9f03091863298529">partial_tree</a> (int id, std::string &amp;source, std::vector&lt; std::string &gt; &amp;targets, int color=0)</td></tr>
 <tr class="memdesc:a637bbf229029322d9f03091863298529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a partial tree.  <a href="#a637bbf229029322d9f03091863298529">More...</a><br /></td></tr>
 <tr class="separator:a637bbf229029322d9f03091863298529"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05e9b6500153659beaf74844d70bf57a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#a05e9b6500153659beaf74844d70bf57a">cycles</a> (int id)</td></tr>
-<tr class="memdesc:a05e9b6500153659beaf74844d70bf57a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the cycles of the graph.  <a href="#a05e9b6500153659beaf74844d70bf57a">More...</a><br /></td></tr>
-<tr class="separator:a05e9b6500153659beaf74844d70bf57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d6c15715a85825681c327dba71f2acc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#a4d6c15715a85825681c327dba71f2acc">get_cycles</a> (int id)</td></tr>
+<tr class="memdesc:a4d6c15715a85825681c327dba71f2acc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the cycles of the graph.  <a href="#a4d6c15715a85825681c327dba71f2acc">More...</a><br /></td></tr>
+<tr class="separator:a4d6c15715a85825681c327dba71f2acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class handling the UI </p>
@@ -211,33 +211,6 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 
 </div>
 </div>
-<a id="a05e9b6500153659beaf74844d70bf57a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05e9b6500153659beaf74844d70bf57a">&#9670;&nbsp;</a></span>cycles()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Interface::cycles </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Computes the cycles of the graph. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>The network's id </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The id of the network that contains the cycles </dd></dl>
-
-</div>
-</div>
 <a id="a7b1de85041315a77dd48d3507c266def"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b1de85041315a77dd48d3507c266def">&#9670;&nbsp;</a></span>export_graph()</h2>
 
@@ -272,6 +245,33 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a4d6c15715a85825681c327dba71f2acc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d6c15715a85825681c327dba71f2acc">&#9670;&nbsp;</a></span>get_cycles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interface::get_cycles </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the cycles of the graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The network's id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The id of the network that contains the cycles </dd></dl>
 
 </div>
 </div>
