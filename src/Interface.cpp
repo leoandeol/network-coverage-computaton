@@ -31,9 +31,14 @@ void Interface::menu()
 		case 0:
 			std::cout << "List of the current graph : " << std::endl;
 			std::cout << "ID - name of the network" << std::endl;
-			for(unsigned int y = 0; y < networks.size(); y++){
-				std::cout << y << " - " << networks.at(y)->get_network_name() << std::endl;
-			} 
+			if(networks.size() != 0){
+				for(unsigned int y = 0; y < networks.size(); y++){
+					std::cout << y << " - " << networks.at(y)->get_network_name() << std::endl;
+				} 
+			}
+			else{
+				std::cout << "There are no graphs you are working on. " << std::endl;
+			}
 			break;
 		case 1:
 			std::cout << "What's the name of the graph ?" << std::endl;
@@ -52,12 +57,20 @@ void Interface::menu()
 		    std::cin >> s;
 			std::cout << "What's the ID of the graph to export ?" << std::endl;
 		    std::cin >> id;
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}	
 			export_graph(id,s);
 			break;
 		case 4:
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}	
 			std::cout << "What's the name of the source vertex ?" << std::endl;
 			std::cin >> s;
 			std::cout << "What's the name of the target vertex ?" << std::endl;
@@ -71,6 +84,10 @@ void Interface::menu()
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}	
 			std::cout << "What's the name of the source vertex ?" << std::endl;
 			std::cin >> s;
 			std::cout << "What's the name of the target vertex ?" << std::endl;
@@ -82,6 +99,11 @@ void Interface::menu()
 		case 6:
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
+			id = std::stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}	
 
 			std::cout << "What's the name of the source vertex ?" << std::endl;
 			std::cin >> s;
@@ -109,6 +131,10 @@ void Interface::menu()
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}	
 			id = minimum_spanning_tree(id);
 
 			std::cout << "The minimum spaning tree created from " << stoi(i) << " is associated with the ID : " << id << std::endl;
@@ -117,7 +143,11 @@ void Interface::menu()
 		case 8:
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
-			id = stoi(i);
+			id = std::stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}	
 			id = get_cycles(id);
 			
 			std::cout << "The network which contains the cycle of the graph" << stoi(i) << " is associated with the ID : " << id << std::endl;
