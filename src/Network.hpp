@@ -349,22 +349,31 @@ boost::default_dijkstra_visitor());
 		
     EdgePair ep;
     VertexDescriptor u,v;
+	//!< We check all the edges of the graph
     for (ep = boost::edges(n->network_graph); ep.first != ep.second; ++ep.first)
       {
-	// Get the two vertices that are joined by this edge...
+	//!< We get the source and the target of each edge
 	u=boost::source(*ep.first,n->network_graph);
 	v=boost::target(*ep.first,n->network_graph);
 	it2 = std::find(idList.begin(),idList.end(),u);
 	it3 = std::find(idList.begin(),idList.end(),v);
+	//!< If the source and the target are Leaves and if they're different it's mean that they are connected in the initial graph
 	if(it2 != idList.end() && it3 != idList.end() && it2 != it3)
 	  {
+		//!< We get the path between those two leaves from the minimal tree n
 	    std::vector<std::string> cycle = n->get_path(network_graph[u].name,network_graph[v].name);
+		//!< We add the routeurs corresponding to the leaves and the edge between those two leaves to the network we will return
+		n1->add_routeur(network_graph[u].name);
+		n1->add_routeur(network_graph[v].name);
 	    n1->add_cable(network_graph[u].name,network_graph[v].name,network_graph[*ep.first].length);
 	    std::vector<std::string>::iterator verteces,verteces2;
 	    verteces = cycle.begin();
 	    verteces2 = verteces;
+		//!< For each vertex in the patch 'cycle' we add their edges to n1
 	    while(verteces2 != cycle.end()){
 	      ++verteces2;
+		  n1->add_routeur(vertex_list[*verteces]].name);
+		  n1->add_routeur(vertex_list[*verteces2]].name);
 	      n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
 	      ++verteces;
 	    }						
