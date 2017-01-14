@@ -372,8 +372,8 @@ boost::default_dijkstra_visitor());
 		//!< For each vertex in the patch 'cycle' we add their edges to n1
 	    while(verteces2 != cycle.end()){
 	      ++verteces2;
-		  n1->add_routeur(vertex_list[*verteces]].name);
-		  n1->add_routeur(vertex_list[*verteces2]].name);
+		  n1->add_routeur(vertex_list[*verteces].name);
+		  n1->add_routeur(vertex_list[*verteces2].name);
 	      n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
 	      ++verteces;
 	    }						
