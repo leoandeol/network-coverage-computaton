@@ -4,6 +4,7 @@
 #include <vector>
 #include <dirent.h>
 #include <sys/types.h>
+#include <iostream>
 #include "Network.hpp"
 
 /** The class handling the UI */

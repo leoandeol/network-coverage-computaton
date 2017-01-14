@@ -21,6 +21,7 @@ void Interface::menu()
 	std::string s, t, i;
 	std::vector<std::string> targets;
 	int id;
+	char c;
 	do
 	{
 		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t \n\t9 : Exit" << std::endl;
@@ -160,6 +161,9 @@ void Interface::menu()
 			cont=false;
 			break;
 		}
+		std::cin.clear();
+		std::cin.get();
+		std::cin.get();
 		std::cout << std::endl << std::endl;
 	} while(cont);
 }
