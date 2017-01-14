@@ -339,12 +339,12 @@ boost::default_dijkstra_visitor());
     //!< Checking all the vertices of the graph trhough iterators
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
-	//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
-	if(boost::in_degree(it->second, network_graph)== 1)
-	  {
-	    idList.push_back(it->second);
-	  }
-      }
+		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
+		if(boost::in_degree(it->second, network_graph)== 1)
+		{
+			idList.push_back(it->second);
+		}
+	}
 	
 		
     EdgePair ep;
@@ -368,11 +368,11 @@ boost::default_dijkstra_visitor());
 	    n1->add_cable(network_graph[u].name,network_graph[v].name,network_graph[*ep.first].length);
 	    std::vector<std::string>::iterator verteces,verteces2;
 	    verteces = cycle.begin();
+		n1->add_routeur(network_graph[vertex_list[*verteces]].name);
 	    verteces2 = verteces;
 		//!< For each vertex in the patch 'cycle' we add their edges to n1
 	    while(verteces2 != cycle.end()){
 	      ++verteces2;
-		  n1->add_routeur(network_graph[vertex_list[*verteces]].name);
 		  n1->add_routeur(network_graph[vertex_list[*verteces2]].name);
 	      n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
 	      ++verteces;
