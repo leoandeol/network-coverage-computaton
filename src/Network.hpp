@@ -354,11 +354,13 @@ boost::default_dijkstra_visitor());
 		if(boost::in_degree(it->second, n->network_graph)== 1)// || boost::in_degree(it->second, n->network_graph)== 2)
 		{
 			idList.push_back(it->second);
+			std::cout << it->first << std::endl;
 		}
 	}
 
+			std::cout << std::endl << std::endl;
 	for(unsigned int z = 0; z < idList.size(); z++){
-		std::cout << network_graph[idList[z]].name << std::endl;
+		std::cout << network_graph[idList.at(z)].name << std::endl;
 	}
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
