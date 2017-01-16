@@ -124,7 +124,7 @@ public:
     c.length = length;
 	
     auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
-
+    
     std::string nom1 = create_edge_name(id1, id2);
     std::string nom2 = create_edge_name(id2, id1);
     std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
@@ -134,7 +134,7 @@ public:
     
     return (tmp1.second==false)?0:-1;
   }
-
+  
 
   /**
      \brief Gives the value of an attribute of an element, of type Structure

@@ -175,21 +175,22 @@ int Interface::create_graph_terminal(std::string s)
 	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
 	n->set_network_name(s);
 
-	std::string input1, input2;
+	std::string input1, input2,i3;
 	std::cout << "Network creation assistant" << std::endl;
 	std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
 	
 	while(true)
-    {
-		
-		//Ex: 1 -> 2
-	  
+	  {
+	    
+      
 		std::cout << "Node 1 : ";
 		//rentrer un chiffre
 		std::cin >> input1;
 		if(input1=="done") break;
+
+
 		std::cout << "Node 2 : ";
-		//rentrer chiffre
+
 		std::cin >> input2;
 		if(input2=="done") break;
 
@@ -202,7 +203,11 @@ int Interface::create_graph_terminal(std::string s)
 		    n->add_routeur(input2);
 		  }
 
-		n->add_cable(input1,input2);
+		std::cout << "Cable length ?" std::endl;
+		std::cin >> i3;
+		
+		
+		n->add_cable(input1,input2,stoi(i3));
     }
   
 	networks.push_back(n);
