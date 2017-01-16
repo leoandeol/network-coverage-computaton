@@ -175,7 +175,7 @@ int Interface::create_graph_terminal(std::string s)
 	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
 	n->set_network_name(s);
 
-	std::string input1, input2;
+	std::string input1, input2, input3;
 	std::cout << "Network creation assistant" << std::endl;
 	std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
 	
@@ -188,13 +188,24 @@ int Interface::create_graph_terminal(std::string s)
 		//rentrer un chiffre
 		std::cin >> input1;
 		if(input1=="done") break;
-
 		std::cout << "Node 2 : ";
 		//rentrer chiffre
 		std::cin >> input2;
 		if(input2=="done") break;
 
-		n->add_cable(input1,input2);
+		if(n->routeur_exists(input1)==-1)
+		  {
+		    n->add_routeur(input1);
+		  }
+		if(n->routeur_exists(input2)==-1)
+		  {
+		    n->add_routeur(input2);
+		  }
+		
+		std::cout << "Cable length" << std::endl;
+		std::cin >> input3;
+		
+		n->add_cable(input1,input2,stoi(input3));
     }
   
 	networks.push_back(n);
@@ -232,7 +243,8 @@ void Interface::export_graph(int id, std::string name)
 	}
 	networks[id]->save_to_file(path);
 	std::string img_path = DATA_FOLDER + name + std::to_string(id) + ".png";
-	std::string transform = "dot -Tpng "+path+" > "+img_path;
+	std::string transform = "dot -Tpng \""+path+"\" > \""+img_path+"\"";
+	std::cout << transform << std::endl;
 	system(transform.c_str());
 }
 

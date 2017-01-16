@@ -191,6 +191,23 @@ public:
   {
     return 0;
   }
+
+  /**
+     \brief Checks if a named routeur exists and returns its id
+     \param name The name of the routeur
+     \return the id of the asked routeur, or -1 if it doesnt exist
+   */
+
+  int routeur_exists(std::string name)
+  {
+    if(vertex_list.find(name)==vertex_list.end())
+      {
+	return -1;
+      }
+    return vertex_list[name];
+  }
+  
+
   /**
      \brief Checks the actuel graph and create a new one without routeurs/cables that are broken. If a routeur is broken, the cables linked to him wont be added
      \return a new graph with only routeurs and cables that are working
@@ -332,9 +349,9 @@ boost::default_dijkstra_visitor());
     Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
     std::vector<vertex_t> idList;
-    typename std::vector<vertex_t>::iterator it2,it3,leafit1, leafit2;
+
+    typename std::vector<vertex_t>::iterator it2,it3,leafit1,leafit2;
     typename vertex_list_t::iterator it;
-    //typename boost::graph_traits<network_graph_t>::vertex_iterator it, it2, it3;
 	
     //!< Checking all the vertices of the graph trhough iterators
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
@@ -346,12 +363,6 @@ boost::default_dijkstra_visitor());
 		}
 	}
 	
-		
-    EdgePair ep;
-    VertexDescriptor u,v;
-	
-	
-	leafit2 = idList.begin();
 	for(leafit1 = idList.begin(); leafit1 != idList.end(); ++leafit1)
 	{
 		for(leafit2 = idList.begin(); leafit2 != idList.end(); ++leafit2)
@@ -375,8 +386,7 @@ boost::default_dijkstra_visitor());
 					n1->add_cable(network_graph[*leafit1].name,network_graph[*leafit2].name);
 				}
 			}
-		}
-		
+		}		
 	}
 	
 	/*
