@@ -576,7 +576,7 @@ boost::default_dijkstra_visitor());
 //	if(network_graph[vertex_list[source.at(i)]].i
 		test = get_path(source.at(i), *it);
 		//				std::cout << "test" << std::endl;
-		if(p.size() == 0 || test.size() < p.size()){
+		if((p.size() == 0 || test.size() < p.size())&&network_graph[vertex_list[source[i]]].is_multicast){
 		  p = test;
 		  theChosenOne=it;
 		}
