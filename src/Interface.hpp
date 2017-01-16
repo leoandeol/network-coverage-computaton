@@ -46,6 +46,13 @@ public:
 	 */
 	int create();
 
+	/**
+	  \brief Return 1 if the vertex is in the graph, else -1
+	  \return 1 if the vertex is in the graph, else -1
+	*/
+	int is_in(int id, std::string name);
+
+
 	bool is_connected(int id);
 	
 	/**
