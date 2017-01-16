@@ -62,7 +62,7 @@ void Interface::menu()
 		    std::cin >> s;
 			std::cout << "What's the ID of the graph to export ?" << std::endl;
 		    std::cin >> id;
-unsigned 			if(id < 0 || id > static_cast<int>(networks.size())){
+			if(id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
 			}	
 			else{
@@ -279,7 +279,6 @@ void Interface::export_graph(int id, std::string name)
 	networks[id]->save_to_file(path);
 	std::string img_path = DATA_FOLDER + name + std::to_string(id) + ".png";
 	std::string transform = "dot -Tpng \""+path+"\" > \""+img_path+"\"";
-	std::cout << transform << std::endl;
 	system(transform.c_str());
 }
 

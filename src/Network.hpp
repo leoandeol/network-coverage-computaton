@@ -357,10 +357,14 @@ boost::default_dijkstra_visitor());
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
-		if(boost::in_degree(it->second, network_graph)== 1 || boost::in_degree(it->second, network_graph)== 2)
+		if(boost::in_degree(it->second, network_graph)== 1)// || boost::in_degree(it->second, network_graph)== 2)
 		{
 			idList.push_back(it->second);
 		}
+	}
+
+	for(unsigned int z = 0; z < idList.size(); z++){
+		std::cout << network_graph[idList[z]].name << std::endl;
 	}
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
@@ -371,27 +375,12 @@ boost::default_dijkstra_visitor());
 			{
 				if(boost::edge(idList[i],idList[j],network_graph).second == true)
 				{
-					std::cout << "in the boucle" << std::endl;
+					std::cout << "In the boucle" << std::endl;
 					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
-					for(unsigned int m = 0; m < cycle.size(); m++){
-						std::cout << cycle[m] << std::endl;
-					}
-					unsigned int k = 0;
-					unsigned int l = 0;
-					n1->add_routeur(cycle[0]);
-					std::cout << " routeur : " << cycle[0] << " added " << std::endl;
-					while(l < cycle.size())
-					{
-					  std::cout << "in the boucle 2" << std::endl;
-					  l++;
-					  n1->add_routeur(cycle[l]);
-					  std::cout << " routeur : " << cycle[l] << " added " << std::endl;
-					  n1->add_cable(cycle[k],cycle[l]);
-					  std::cout << " cable beteween " << cycle[k] << "and" << cycle[l] << " added " << std::endl;
-					  k++;
-					}
+					
+					n1->add_path(cycle);
 					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
-					std::cout << " cable beteween " << network_graph[idList[i]].name << "and" << network_graph[idList[j]].name << " added " << std::endl;
+					std::cout << "Cable between : " << network_graph[idList[i]].name << " and " << network_graph[idList[j]].name << " added " << std::endl;
 				}
 			}
 		}		
