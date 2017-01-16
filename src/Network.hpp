@@ -217,8 +217,7 @@ public:
 		
     std::string name = get_network_name() + "clean";
     Network clean = Network(NetworkInfo(name,"DefaultGraphPropertyLocation"));
-    //network_graph[boost::graph_bundle].location
-		
+    //network_graph[boost::graph_bundle].location	
     for(auto const &vertex : vertex_list)
       {
 	if(vertex->is_working == true){
@@ -369,10 +368,10 @@ boost::default_dijkstra_visitor());
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
 	{
-		std::cout << " visiting routeur i : " << network_graph[idList[i]].name
+		std::cout << " visiting routeur i : " << network_graph[idList[i]].name;
 		for(unsigned int j = i; j < idList.size(); j++)
 		{
-			std::cout << " visiting routeur j : " << network_graph[idList[j]].name
+			std::cout << " visiting routeur j : " << network_graph[idList[j]].name;
 			if(i != j)
 			{
 				if(boost::edge(idList[i],idList[j],network_graph).second == true)
