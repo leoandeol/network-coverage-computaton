@@ -322,11 +322,6 @@ boost::default_dijkstra_visitor());
 
 		return path;
 	}
-	/**
-	   \brief Loads a graph in the DOT format, from the path given as parameter
-	   \param path The path to the .dot file
-	   \return 0 if the file was loaded successfully, else -1
-	*/
 
 
   /**
@@ -356,7 +351,7 @@ boost::default_dijkstra_visitor());
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
-		if(boost::in_degree(it->second, network_graph)== 1)// || boost::in_degree(it->second, network_graph)== 2)
+		if(boost::in_degree(it->second, n->network_graph)== 1)// || boost::in_degree(it->second, n->network_graph)== 2)
 		{
 			idList.push_back(it->second);
 		}
@@ -379,7 +374,7 @@ boost::default_dijkstra_visitor());
 					std::cout << "In the boucle" << std::endl;
 					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
 					n1->add_path(cycle);
-					std::cout << " all cables from 'cycle' have been added " << std:endl;
+					std::cout << " all cables from 'cycle' have been added " << std::endl;
 					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
 					std::cout << "Cable between : " << network_graph[idList[i]].name << " and " << network_graph[idList[j]].name << " added " << std::endl;
 				}
@@ -389,11 +384,11 @@ boost::default_dijkstra_visitor());
 	std::vector<std::string> n1verteces, n1edges;
 	n1verteces = n1->get_all_verteces();
 	n1edges = n1->get_all_edges();
-	for(int i = 0; i < n1verteces.size(); i++)
+	for(unsigned int i = 0; i < n1verteces.size(); i++)
 	{
 		std::cout << " N1 : routeur - " << n1verteces[i] << std::endl;
 	}
-	for(int i = 0; i < n1verteces.size(); i++)
+	for(unsigned int i = 0; i < n1verteces.size(); i++)
 	{
 		std::cout << " N1 : cable - " << n1edges[i] << std::endl;
 	}
@@ -420,6 +415,8 @@ boost::default_dijkstra_visitor());
     for(std::pair<typename boost::graph_traits<network_graph_t>::vertex_iterator, typename boost::graph_traits<network_graph_t>::vertex_iterator> it = boost::vertices(network_graph); it.first != it.second; ++it.first){
       Routeur r = network_graph[*it.first];
       std::pair<std::string, vertex_t> v = {r.name, *it.first};
+	network_graph[*it.first].is_multicast = 1;	
+	network_graph[*it.first].is_working = 1;
       vertex_list.insert(v);
     }
 
@@ -428,12 +425,13 @@ boost::default_dijkstra_visitor());
       //!<In order to name the edge
       //!<We capture the source and the target of the edge
       //!<To access to their name
-      //!< Following the format : "source.name->target.name"
+      //!< Following the format : "source.name--target.name"
 
-      //TO FIX		
-      //!< length is set to 1 by default if lenght is not renseigner
+
+      //!< length is set to 1 by default if length is not renseigner
       if(network_graph[*it2.first].length < 0){
-	network_graph[*it2.first].length = 1;	
+	network_graph[*it2.first].length = 1;
+	network_graph[*it2.first].is_working = 1;	
       }
 
 				
