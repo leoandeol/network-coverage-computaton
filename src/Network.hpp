@@ -357,7 +357,7 @@ boost::default_dijkstra_visitor());
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
-		if(boost::in_degree(it->second, network_graph)== 1 || boost::in_degree(it->second, network_graph)== 2)
+		if(boost::in_degree(it->second, network_graph)== 1)
 		{
 			idList.push_back(it->second);
 		}
@@ -365,8 +365,10 @@ boost::default_dijkstra_visitor());
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
 	{
+		std::cout << " visiting routeur i : " << network_graph[idList[j]].name
 		for(unsigned int j = i; i < idList.size(); j++)
 		{
+			std::cout << " visiting routeur j : " << network_graph[idList[j]].name
 			if(i != j)
 			{
 				if(boost::edge(idList[i],idList[j],network_graph).second == true)
@@ -374,64 +376,24 @@ boost::default_dijkstra_visitor());
 					std::cout << "in the boucle" << std::endl;
 					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
 					n1->add_path(cycle);
-					/*
-					for(int m = 0; m < cycle.size(); m++){
-						std::cout << cycle[m] << std::endl;
-					}
-					unsigned int k = 0;
-					unsigned int l = 0;
-					n1->add_routeur(cycle[0]);
-					std::cout << " routeur : " << cycle[0] << " added " << std::endl;
-					while(l < cycle.size())
-					{
-					  std::cout << "in the boucle 2" << std::endl;
-					  l++;
-					  n1->add_routeur(cycle[l]);
-					  std::cout << " routeur : " << cycle[l] << " added " << std::endl;
-					  n1->add_cable(cycle[k],cycle[l]);
-					  std::cout << " cable beteween " << cycle[k] << "and" << cycle[l] << " added " << std::endl;
-					  k++;
-					}
-					*/
+					std::cout << " all cables from 'cycle' have been added " << std:endl;
 					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
 					std::cout << " cable beteween " << network_graph[idList[i]].name << "and" << network_graph[idList[j]].name << " added " << std::endl;
 				}
 			}
 		}		
 	}
-	/*
-	for(leafit1 = idList.begin(); leafit1 != idList.end(); ++leafit1)
+	std::vector<std::string> n1verteces, n1edges;
+	n1verteces = n1->get_all_verteces();
+	n1edges = n1->get_all_edges();
+	for(int i = 0; i < n1verteces.size(); i++)
 	{
-		for(leafit2 = leafit1; leafit2 != idList.end(); ++leafit2)
-		{
-			if(leafit2 != leafit1)
-			{
-				if(boost::edge(*leafit1,*leafit2,network_graph).second == true)
-				{
-					std::cout << "in the boucle" << std::endl;
-					std::vector<std::string> cycle = n->get_path(network_graph[*leafit1].name,network_graph[*leafit2].name);
-					std::vector<std::string>::iterator verteces1,verteces2;
-					verteces1 = cycle.begin();
-					verteces2 = cycle.begin();
-					n1->add_routeur(*verteces1);
-					std::cout << " routeur added "<< std::endl;
-					while(verteces2 != cycle.end())
-					{
-					  std::cout << "in the boucle 2" << std::endl;
-					  ++verteces2;
-					  n1->add_routeur(*verteces2);
-					  std::cout << " routeur added "<< std::endl;
-					  n1->add_cable(*verteces1,*verteces2);
-					  std::cout << " cable added "<< std::endl;
-					  ++verteces1;
-					}
-					n1->add_cable(network_graph[*leafit1].name,network_graph[*leafit2].name);
-					std::cout << " cable added "<< std::endl;
-				}
-			}
-		}		
+		std::cout << " N1 : routeur - " << n1verteces[i] << std::endl;
 	}
-	*/
+	for(int i = 0; i < n1verteces.size(); i++)
+	{
+		std::cout << " N1 : cable - " << n1edges[i] << std::endl;
+	}
 	return n1;
   }
   /**
