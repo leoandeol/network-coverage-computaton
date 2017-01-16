@@ -467,7 +467,7 @@ int Interface::edit_graph(int id)
 {	
 	std::string option;
 	int	optionINT;	
-	
+	auto n = networks[id];
 	std::cout << "\t ---------------------------------- " << std::endl;
 	std::cout << "\t -- Welcome to the graph editor. -- " << std::endl;
 	std::cout << "\t ---------------------------------- " << std::endl;

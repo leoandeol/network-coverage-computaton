@@ -1097,7 +1097,7 @@ int edge_contains(std::string name){
 		{
 			std::cout << " /---/ " << edges[i];
 		}
-		std::endl;
+		std::cout << std::endl;
 		bool loop = true;
 		do{
 			std::cout << "\t1 : Update an Edge's state\n\t2 : Exit" << std::endl;
