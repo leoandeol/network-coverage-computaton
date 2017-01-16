@@ -191,6 +191,23 @@ public:
   {
     return 0;
   }
+
+  /**
+     \brief Checks if a named routeur exists and returns its id
+     \param name The name of the routeur
+     \return the id of the asked routeur, or -1 if it doesnt exist
+   */
+
+  vertex_t routeur_exists(std::string name)
+  {
+    if(vertex_list.find(name)==vertex_list.end())
+      {
+	return -1;
+      }
+    return vertex_list[name];
+  }
+  
+
   /**
      \brief Checks the actuel graph and create a new one without routeurs/cables that are broken. If a routeur is broken, the cables linked to him wont be added
      \return a new graph with only routeurs and cables that are working
