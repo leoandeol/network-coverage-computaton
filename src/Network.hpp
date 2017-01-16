@@ -198,7 +198,7 @@ public:
      \return the id of the asked routeur, or -1 if it doesnt exist
    */
 
-  vertex_t routeur_exists(std::string name)
+  int routeur_exists(std::string name)
   {
     if(vertex_list.find(name)==vertex_list.end())
       {
