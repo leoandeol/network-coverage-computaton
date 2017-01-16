@@ -193,7 +193,7 @@ int Interface::create_graph_terminal(std::string s)
 		std::cin >> input2;
 		if(input2=="done") break;
 
-		if(n->routeur_exists(input1)==-1)
+		/*if(n->routeur_exists(input1)==-1)
 		  {
 		    n->add_routeur(input1);
 		  }
@@ -201,7 +201,7 @@ int Interface::create_graph_terminal(std::string s)
 		  {
 		    n->add_routeur(input2);
 		  }
-
+		*/
 		n->add_cable(input1,input2);
     }
   
