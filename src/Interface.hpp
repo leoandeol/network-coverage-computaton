@@ -86,7 +86,7 @@ public:
 	int get_cycles(int id);
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
-	const std::string DATA_FOLDER = "data/";
+	const std::string DATA_FOLDER = "./";
 	const std::string FILE_EXTENSION = ".dot";
 };
 
