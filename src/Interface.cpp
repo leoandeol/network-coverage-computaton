@@ -24,7 +24,7 @@ void Interface::menu()
 	char c;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t \n\t9 : Exit" << std::endl;
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t9 : Removing routeurs and cables that aren't working\n\t10 : Exit" << std::endl;
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)
@@ -200,7 +200,7 @@ void Interface::menu()
 			
 			break;
 		case 10:
-			cont=false;
+			cont = false;
 			break;
 		}
 		std::cin.clear();
