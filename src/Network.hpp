@@ -53,10 +53,15 @@ public:
 
     dp.property("color", boost::get(&Routeur::color, network_graph));
     dp.property("label", boost::get(&Routeur::name, network_graph));
-		
+	dp.property("working", boost::get(&Routeur::is_working, network_graph));
+	dp.property("multicast", boost::get(&Routeur::is_multicast, network_graph));
+	
+	
     /**< The property length linked to label is added for undirected networks */
     dp.property("label", boost::get(&Cable::length, network_graph));
     dp.property("color", boost::get(&Cable::color, network_graph));
+	dp.property("working", boost::get(&Cable::is_working, network_graph));
+	
   }
 	
   /**
@@ -87,10 +92,21 @@ public:
      \return 0 in case of success, else -1
   */
 	
-  int add_routeur(std::string& name)
+  int add_routeur(std::string& name, std::string isMC = "true")
   {
     Routeur r;
     r.name = name;
+	if(isMC == "true")
+	{
+		r.is_multicast = true;
+	}
+	else if(isMC == "false")
+	{
+		r.is_multicast = false;
+	}
+	else{
+		std::cout << " please type true or false for the Multicast capacity of the routeur " << std::endl;
+	}
     vertex_t v_desc = add_vertex(r,network_graph);
     vertex_list[name] = v_desc;
     return 0;
@@ -215,25 +231,28 @@ public:
   Network* get_clean_graph()
   {
 		
-    std::string name = get_network_name() + "clean";
-    Network clean = Network(NetworkInfo(name,"DefaultGraphPropertyLocation"));
-    //network_graph[boost::graph_bundle].location	
-    for(auto const &vertex : vertex_list)
-      {
-	if(vertex->is_working == true){
-	  clean.add_cable(vertex);
+	struct NetworkInfo net_info(get_network_name()+"_clean", network_graph[boost::graph_bundle].location);
+    Network<Vertex, Edge>* clean  = new Network<Vertex, Edge>(net_info);
+	
+	typename vertex_list_t::iterator itV;
+	typename edge_list_t::iterator itE;
+	
+    for(itV = vertex_list.begin(); itV != vertex_list.end(); ++itV)
+    {
+		if(network_graph[itV->second].is_working == true)
+		{
+			clean->add_routeur(network_graph[itV->second].name);
+		}
 	}
-      }
-    for(auto const &edge : edge_list)
-      {
-	if(edge->is_working == true)
-	  {
-	    clean.add_edge(edge);
-	  }
-      }
-
-		return &clean;
+    for(itE = edge_list.begin(); itE != edge_list.end(); ++itE)
+    {
+		if(network_graph[itE->second].is_working == true)
+		{
+			clean->add_cable(network_graph[boost::source(itE->second,network_graph)].name,network_graph[boost::target(itE->second,network_graph)].name);
+		}
 	}
+	return clean;
+  }
 	
 	/**
 	   \brief calculates the shortest path between two routeurs of the network
@@ -331,18 +350,13 @@ boost::default_dijkstra_visitor());
   */
   Network* get_cycles(){
 
-  
-    typedef typename boost::graph_traits<network_graph_t>::edge_iterator EdgeIterator;
-    typedef std::pair<EdgeIterator, EdgeIterator> EdgePair;
-    typedef typename  boost::graph_traits<network_graph_t>::vertex_descriptor VertexDescriptor;
-	
     //!< The network which we're going to check its leafs
     Network<Vertex, Edge>* n  = this->minimum_tree();
     //!< The network that will be returned
     struct NetworkInfo net_info(get_network_name()+"_cycles", network_graph[boost::graph_bundle].location);
     Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
-    std::vector<vertex_t> idList;
+    std::vector<std::string> idList;
 
     typename std::vector<vertex_t>::iterator it2,it3,leafit1,leafit2;
     typename vertex_list_t::iterator it;
@@ -351,38 +365,57 @@ boost::default_dijkstra_visitor());
 	std::cout << " going into idList loop " << std::endl;
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
-		std::cout << " Routeur : " << n->network_graph[it->second].name << " of degree " << boost::in_degree(it->second, n->network_graph) << std::endl; 
+//		std::cout << " Routeur : " << n->network_graph[it->second].name << " of degree " << boost::in_degree(it->second, n->network_graph) << std::endl; 
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
 		if(boost::in_degree(it->second, n->network_graph)== 1)// || boost::in_degree(it->second, n->network_graph)== 2)
 		{
-			idList.push_back(it->second);
-			std::cout << it->first << std::endl;
-
-			std::cout << std::endl << std::endl;
-			std::cout << " Routeur : " << n->network_graph[it->second].name << " added " << std::endl;
+			idList.push_back(it->first);
+//			std::cout << " Routeur : " << n->network_graph[it->second].name << " added " << std::endl;
 		}
 	}
-	std::cout << " idList loop done " << std::endl;
-	for(unsigned int z = 0; z < idList.size(); z++){
-		std::cout << network_graph[idList.at(z)].name << std::endl;
-	}
+//	std::cout << " idList loop done " << std::endl;
+//	for(unsigned int z = 0; z < idList.size(); z++){
+//		std::cout << idList[z] << std::endl;
+//	}
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
 	{
-		std::cout << " visiting routeur i : " << network_graph[idList[i]].name;
+//		std::cout << " visiting routeur i : " << idList[i];
 		for(unsigned int j = i; j < idList.size(); j++)
 		{
-			std::cout << " visiting routeur j : " << network_graph[idList[j]].name;
+//			std::cout << " visiting routeur j : " << idList[j];
 			if(i != j)
 			{
-				if(boost::edge(idList[i],idList[j],network_graph).second == true)
+				if(boost::edge(vertex_list[idList[i]],vertex_list[idList[j]],network_graph).second == true)
 				{
 					std::cout << "In the boucle" << std::endl;
-					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
-					n1->add_path(cycle);
-					std::cout << " all cables from 'cycle' have been added " << std::endl;
-					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
-					std::cout << "Cable between : " << network_graph[idList[i]].name << " and " << network_graph[idList[j]].name << " added " << std::endl;
+					std::vector<std::string> cycle = n->get_path(idList[i],idList[j]);
+					
+					    std::vector<std::string>::iterator c, c2;
+					    std::string name;
+					    c = cycle.begin();
+					    c2 = c+1;
+					    //	std::cout << "it2" << *it2 << std::endl;
+					    //	std::cout << "it" << *it << std::endl;
+					    for(; c2!=cycle.end() && c != cycle.end(); ++c, ++c2){
+					      n1->add_routeur(*c);
+					      if(c!=c2){
+						n1->add_routeur(*c2);
+						name= *c+"--"+ *c2;
+						
+						if(n1->edge_contains(name) == -1)
+							n1->add_cable(*c,*c2, network_graph[edge_list[name]].length);
+						
+					      }
+					    }
+
+					//std::cout << " all cables from 'cycle' have been added " << std::endl;
+					name = idList[i] + "--" + idList[j];
+					if(n1->edge_contains(name) == -1){
+						n1->add_cable(idList[i],idList[j], network_graph[edge_list[name]].length);
+						std::cout << "Cable between : " << idList[i] << " and " << idList[j] << " added " << std::endl;
+					}
+
 				}
 			}
 		}		
@@ -1003,6 +1036,15 @@ int contains(std::string name){
 			return 1;
 		}
 	}	
+	return -1;
+}
+int edge_contains(std::string name){
+
+	for(typename edge_list_t::iterator it = edge_list.begin(); it != edge_list.end(); ++it){
+		if(it->first == name){
+			return 1;
+		}
+	}
 	return -1;
 }
 

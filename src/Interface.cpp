@@ -24,7 +24,7 @@ void Interface::menu()
 	char c;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t \n\t9 : Exit" << std::endl;
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t9 : Removing routeurs and cables that aren't working\n\t10 : Exit" << std::endl;
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)
@@ -186,12 +186,21 @@ void Interface::menu()
 			
 			std::cout << "The network which contains the cycle of the graph" << stoi(i) << " is associated with the ID : " << id << std::endl;
 			break;
-		/*case 4:
-			id = create();
-			std::cout << "The created graph is associated with the ID : " << id << std::endl;
-			break;*/
 		case 9:
-			cont=false;
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = std::stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}	
+			id = get_clean_graph(id);
+			
+			std::cout << "The network which contains the clean network" << stoi(i) << " is associated with the ID : " << id << std::endl;
+			
+			break;
+		case 10:
+			cont = false;
 			break;
 		}
 		std::cin.clear();
@@ -209,7 +218,7 @@ int Interface::create_graph_terminal(std::string s)
 	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
 	n->set_network_name(s);
 
-	std::string input1, input2, input3;
+	std::string input1, input2, input3, input4, input5;
 	std::cout << "Network creation assistant" << std::endl;
 	std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
 	
@@ -231,17 +240,21 @@ int Interface::create_graph_terminal(std::string s)
 
 		if(n->routeur_exists(input1)==-1)
 		  {
-		    n->add_routeur(input1);
+			std::cout << " MulticastCapable (true or false) ? " << std::endl;
+			std::cin >> input3;
+			n->add_routeur(input1,input3);
 		  }
 		if(n->routeur_exists(input2)==-1)
 		  {
-		    n->add_routeur(input2);
+			std::cout << " MulticastCapable (true or false) ? " << std::endl;
+			std::cin >> input4;
+		    n->add_routeur(input2,input4);
 		  }
 		
 		std::cout << "Cable length" << std::endl;
-		std::cin >> input3;
+		std::cin >> input5;
 		
-		n->add_cable(input1,input2,stoi(input3));
+		n->add_cable(input1,input2,std::stoi(input5));
     }
   
   
@@ -427,5 +440,15 @@ int Interface::get_cycles(int id){
 	int id2 = networks.size();
 	networks.push_back(cycles);
 		
+	return id2;
+}
+
+int Interface::get_clean_graph(int id)
+{
+	auto n = networks[id]->get_clean_graph();
+	int id2 = networks.size();
+
+	networks.push_back(n);
+
 	return id2;
 }
