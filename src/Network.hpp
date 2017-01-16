@@ -92,11 +92,21 @@ public:
      \return 0 in case of success, else -1
   */
 	
-  int add_routeur(std::string& name, bool isMC = true)
+  int add_routeur(std::string& name, std::string isMC = "true")
   {
     Routeur r;
     r.name = name;
-	r.is_multicast = isMC;
+	if(isMC == "true")
+	{
+		r.is_multicast = true;
+	}
+	else if(isMC == "false")
+	{
+		r.is_multicast = false;
+	}
+	else{
+		std::cout << " please type true or false for the Multicast capacity of the routeur " << std::endl;
+	}
     vertex_t v_desc = add_vertex(r,network_graph);
     vertex_list[name] = v_desc;
     return 0;
@@ -224,20 +234,21 @@ public:
 	struct NetworkInfo net_info(get_network_name()+"_clean", network_graph[boost::graph_bundle].location);
     Network<Vertex, Edge>* clean  = new Network<Vertex, Edge>(net_info);
 	
-	typename vertex_list_t::iterator itV, itE;
+	typename vertex_list_t::iterator itV;
+	typename edge_list_t::iterator itE;
 	
     for(itV = vertex_list.begin(); itV != vertex_list.end(); ++itV)
     {
-		if(itV->second.is_working == true)
+		if(network_graph[itV->second].is_working == true)
 		{
-			clean.add_routeur(network_graph[vertex_list[itV->second]].name);
+			clean->add_routeur(network_graph[vertex_list[itV->second]].name);
 		}
 	}
     for(itE = edge_list.begin(); itE != edge_list.end(); ++itE)
     {
-		if(itE->second.is_working == true)
+		if(network_graph[itE->second].is_working == true)
 		{
-			clean.add_cable(network_graph[boost::source(itE->second,network_graph)].name,network_graph[boost::target(itE->second,network_graph)].name);
+			clean->add_cable(network_graph[boost::source(itE->second,network_graph)].name,network_graph[boost::target(itE->second,network_graph)].name);
 		}
 	}
 	return clean;
