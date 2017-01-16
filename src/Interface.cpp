@@ -186,11 +186,20 @@ void Interface::menu()
 			
 			std::cout << "The network which contains the cycle of the graph" << stoi(i) << " is associated with the ID : " << id << std::endl;
 			break;
-		/*case 4:
-			id = create();
-			std::cout << "The created graph is associated with the ID : " << id << std::endl;
-			break;*/
 		case 9:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = std::stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}	
+			id = get_clean_graph(id);
+			
+			std::cout << "The network which contains the clean network" << stoi(i) << " is associated with the ID : " << id << std::endl;
+			
+			break;
+		case 10:
 			cont=false;
 			break;
 		}
@@ -427,5 +436,15 @@ int Interface::get_cycles(int id){
 	int id2 = networks.size();
 	networks.push_back(cycles);
 		
+	return id2;
+}
+
+int Interface::get_clean_graph(int id)
+{
+	auto n = networks[id]->get_clean_graph();
+	int id2 = networks.size();
+
+	networks.push_back(n);
+
 	return id2;
 }
