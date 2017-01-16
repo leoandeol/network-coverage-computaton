@@ -215,25 +215,27 @@ public:
   Network* get_clean_graph()
   {
 		
-    std::string name = get_network_name() + "clean";
-    Network clean = Network(NetworkInfo(name,"DefaultGraphPropertyLocation"));
-    //network_graph[boost::graph_bundle].location	
-    for(auto const &vertex : vertex_list)
-      {
-	if(vertex->is_working == true){
-	  clean.add_cable(vertex);
+	struct NetworkInfo net_info(get_network_name()+"_clean", network_graph[boost::graph_bundle].location);
+    Network<Vertex, Edge>* clean  = new Network<Vertex, Edge>(net_info);
+	
+	typename vertex_list_t::iterator itV, itE;
+	
+    for(itV = vertex_list.begin(); itV != vertex_list.end(); ++itV)
+    {
+		if(itV->second.is_working == true)
+		{
+			clean.add_routeur(network_graph[vertex_list[itV->second]].name);
+		}
 	}
-      }
-    for(auto const &edge : edge_list)
-      {
-	if(edge->is_working == true)
-	  {
-	    clean.add_edge(edge);
-	  }
-      }
-
-		return &clean;
+    for(itE = edge_list.begin(); itE != edge_list.end(); ++itE)
+    {
+		if(itE->second.is_working == true)
+		{
+			clean.add_cable(network_graph[boost::source(itE->second,network_graph)].name,network_graph[boost::target(itE->second,network_graph)].name);
+		}
 	}
+	return clean;
+  }
 	
 	/**
 	   \brief calculates the shortest path between two routeurs of the network
@@ -331,55 +333,50 @@ boost::default_dijkstra_visitor());
   */
   Network* get_cycles(){
 
-  
-    typedef typename boost::graph_traits<network_graph_t>::edge_iterator EdgeIterator;
-    typedef std::pair<EdgeIterator, EdgeIterator> EdgePair;
-    typedef typename  boost::graph_traits<network_graph_t>::vertex_descriptor VertexDescriptor;
-	
     //!< The network which we're going to check its leafs
     Network<Vertex, Edge>* n  = this->minimum_tree();
     //!< The network that will be returned
     struct NetworkInfo net_info(get_network_name()+"_cycles", network_graph[boost::graph_bundle].location);
     Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
-    std::vector<vertex_t> idList;
+    std::vector<std::string> idList;
 
     typename std::vector<vertex_t>::iterator it2,it3,leafit1,leafit2;
     typename vertex_list_t::iterator it;
 	
     //!< Checking all the vertices of the graph trhough iterators
-	std::cout << " going into idList loop " << std:endl;
+	std::cout << " going into idList loop " << std::endl;
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
 		std::cout << " Routeur : " << n->network_graph[it->second].name << " of degree " << boost::in_degree(it->second, n->network_graph) << std::endl; 
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
 		if(boost::in_degree(it->second, n->network_graph)== 1)// || boost::in_degree(it->second, n->network_graph)== 2)
 		{
-			idList.push_back(it->second);
+			idList.push_back(it->first);
 			std::cout << " Routeur : " << n->network_graph[it->second].name << " added " << std::endl;
 		}
 	}
-	std::cout << " idList loop done " << std:endl;
+	std::cout << " idList loop done " << std::endl;
 	for(unsigned int z = 0; z < idList.size(); z++){
-		std::cout << network_graph[idList[z]].name << std::endl;
+		std::cout << idList[z] << std::endl;
 	}
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
 	{
-		std::cout << " visiting routeur i : " << network_graph[idList[i]].name;
+		std::cout << " visiting routeur i : " << nidList[i];
 		for(unsigned int j = i; j < idList.size(); j++)
 		{
-			std::cout << " visiting routeur j : " << network_graph[idList[j]].name;
+			std::cout << " visiting routeur j : " << idList[j];
 			if(i != j)
 			{
-				if(boost::edge(idList[i],idList[j],network_graph).second == true)
+				if(boost::edge(vertex_list[idList[i]],vertex_list[idList[j]],network_graph).second == true)
 				{
 					std::cout << "In the boucle" << std::endl;
-					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
+					std::vector<std::string> cycle = n->get_path(idList[i],idList[j]);
 					n1->add_path(cycle);
 					std::cout << " all cables from 'cycle' have been added " << std::endl;
-					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
-					std::cout << "Cable between : " << network_graph[idList[i]].name << " and " << network_graph[idList[j]].name << " added " << std::endl;
+					n1->add_cable(idList[i],idList[j]);
+					std::cout << "Cable between : " << idList[i] << " and " << idList[j] << " added " << std::endl;
 				}
 			}
 		}		
