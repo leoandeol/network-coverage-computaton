@@ -1048,7 +1048,231 @@ int edge_contains(std::string name){
 	return -1;
 }
 
-
+	/**
+	  \brief Allows the user to edit the graph's verteces
+	  \return 0 if everything was allright
+	*/
+	int edit_verteces()
+	{
+		std::cout << " /---- List of the graph's verteces ----/ " << std::endl;
+		std::string option;
+		int	optionINT;
+		std::vector<std::string> verteces = get_all_verteces();
+		for(unsigned int i = 0; i < verteces.size(); i++)
+		{
+			std::cout << " /---/ " << verteces[i];
+		}
+		std::cout << std::endl;
+		bool loop = true;
+		do{
+			std::cout << "\t1 : Update a Routeur's Multicast capacity\n\t2 : Update a Routeur's state\n\t3 : Exit" << std::endl;
+			std::cin >> option;
+			optionINT = std::stoi(option);
+			switch(optionINT){
+				case 1:
+					edit_MC();
+					break;
+				case 2:
+					edit_Vstate();
+					break;
+				case 3:
+					loop = false;
+					break;
+			}
+		}while(loop);
+		return 0;
+	}
+	
+	/**
+	  \brief Allows the user to edit the graph's edges
+	  \return 0 if everything was allright
+	*/
+	int edit_edges()
+	{
+		std::cout << " /---- List of the graph's edges ----/ " << std::endl;
+		std::string option;
+		int	optionINT;
+		std::vector<std::string> edges = get_all_edges();
+		for(unsigned int i = 0; i < edges.size(); i++)
+		{
+			std::cout << " /---/ " << edges[i];
+		}
+		std::endl;
+		bool loop = true;
+		do{
+			std::cout << "\t1 : Update an Edge's state\n\t2 : Exit" << std::endl;
+			std::cin >> option;
+			optionINT = std::stoi(option);
+			switch(optionINT){
+				case 1:
+					edit_Estate();
+					break;
+				case 2:
+					loop = false;
+					break;
+			}
+		}while(loop);
+		return 0;
+	}
+	
+	/**
+	  \brief Allows the user to edit the Multicast capacity of a routeur
+	  \return 0 if everything was allright
+	*/
+	int edit_MC()
+	{
+		std::string r_name;
+		std::cout << " What's the name of the routeur ? " << std::endl;
+		std::cin >> r_name;
+		while(routeur_exists(r_name)==-1)
+		{
+			std::cout << " Give the name of an existing routeur please " << std::endl;
+			std::cin.clear();
+			std::cin >> r_name;
+		}
+		std::string answer;
+		if(network_graph[vertex_list[r_name]].is_multicast == true)
+		{
+			std::cout << " This routeur is actually Multicast Capable (MC), do you want to change it to Multicast Incapable (MI) (yes or no)? " << std::endl;
+			std::cin >> answer;
+			while(answer != "yes" && answer != "no")
+			{
+				std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+				std::cin.clear();
+				std::cin >> answer;
+			}
+			if(answer == "yes")
+			{
+				network_graph[vertex_list[r_name]].is_multicast = false;
+				return 0;
+			}
+			else{
+				return 0;
+			}
+		}
+		else{
+			std::cout << " This routeur is actually Multicast Incapable (MI), do you want to change it to Multicast capable (MC) (yes or no)? " << std::endl;
+			std::cin >> answer;
+			while(answer != "yes" && answer != "no")
+			{
+				std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+				std::cin.clear();
+				std::cin >> answer;
+			}
+			if(answer == "yes")
+			{
+				network_graph[vertex_list[r_name]].is_multicast = true;
+				return 0;
+			}
+			else{
+				return 0;
+			}
+		}
+	}
+	
+	/**
+	  \brief Allows the user to edit the state of a routeur
+	  \return 0 if everything was allright
+	*/
+	int edit_Vstate()
+	{
+		std::string r_name;
+		std::cout << " What's the name of the routeur ? " << std::endl;
+		std::cin >> r_name;
+		while(routeur_exists(r_name)==-1)
+		{
+			std::cout << " Give the name of an existing routeur please " << std::endl;
+			std::cin.clear();
+			std::cin >> r_name;
+		}
+		std::string answer;
+		if(network_graph[vertex_list[r_name]].is_working == true)
+		{
+			std::cout << " This routeur is actually working, do you want to change it to non-working (yes or no)? " << std::endl;
+			std::cin >> answer;
+			while(answer != "yes" && answer != "no")
+			{
+				std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+				std::cin.clear();
+				std::cin >> answer;
+			}
+			if(answer == "yes")
+			{
+				network_graph[vertex_list[r_name]].is_working = false;
+				return 0;
+			}
+			else{
+				return 0;
+			}
+		}
+		else{
+			std::cout << " This routeur is actually not working, do you want to change it to working (yes or no)? " << std::endl;
+			std::cin >> answer;
+			while(answer != "yes" && answer != "no")
+			{
+				std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+				std::cin.clear();
+				std::cin >> answer;
+			}
+			if(answer == "yes")
+			{
+				network_graph[vertex_list[r_name]].is_working = true;
+				return 0;
+			}
+			else{
+				return 0;
+			}
+		}
+	}
+	
+	/**
+	  \brief Allows the user to edit the state of an edge
+	  \return 0 if everything was allright
+	*/
+	int edit_Estate()
+	{
+		std::string e_name;
+		std::cout << " What's the name of the edge ? " << std::endl;
+		std::cin >> e_name;
+		std::string answer;
+		if(network_graph[edge_list[e_name]].is_working == true)
+		{
+			std::cout << " This edge is actually working, do you want to change it to non-working (yes or no)? " << std::endl;
+			std::cin >> answer;
+			while(answer != "yes" && answer != "no")
+			{
+				std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+				std::cin.clear();
+				std::cin >> answer;
+			}
+			if(answer == "yes")
+			{
+				network_graph[edge_list[e_name]].is_working = false;
+				return 0;
+			}
+			else{
+				return 0;
+			}
+		}
+		else{
+			std::cout << " This edge is actually not working, do you want to change it to working (yes or no)? " << std::endl;
+			std::cin >> answer;
+			while(answer != "yes" && answer != "no")
+			{
+				std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+				std::cin.clear();
+				std::cin >> answer;
+			}
+			if(answer == "yes")
+			{
+				network_graph[edge_list[e_name]].is_working = true;
+				return 0;
+			}
+			else{
+				return 0;
+			}
+		}
+	}
 
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
