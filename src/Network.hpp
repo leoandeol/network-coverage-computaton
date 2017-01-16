@@ -373,6 +373,8 @@ boost::default_dijkstra_visitor());
 				{
 					std::cout << "in the boucle" << std::endl;
 					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
+					n1->add_path(cycle);
+					/*
 					for(int m = 0; m < cycle.size(); m++){
 						std::cout << cycle[m] << std::endl;
 					}
@@ -390,6 +392,7 @@ boost::default_dijkstra_visitor());
 					  std::cout << " cable beteween " << cycle[k] << "and" << cycle[l] << " added " << std::endl;
 					  k++;
 					}
+					*/
 					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
 					std::cout << " cable beteween " << network_graph[idList[i]].name << "and" << network_graph[idList[j]].name << " added " << std::endl;
 				}
