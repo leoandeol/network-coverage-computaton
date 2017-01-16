@@ -496,7 +496,7 @@ void Interface::edit_graph(int id)
 	}while(loop);
 }
 
-void Interface::edit_verteces(int id)
+int Interface::edit_verteces(int id)
 {
 	std::cout << " /---- List of the graph " << itoa(id) << "'s verteces ----/ " << std::endl;
 	auto n = networks[id];
@@ -523,6 +523,7 @@ void Interface::edit_verteces(int id)
 				break;
 		}
 	}while(loop);
+	return 0;
 }
 
 int Interface::edit_MC(int id)
@@ -550,7 +551,7 @@ int Interface::edit_MC(int id)
 		}
 		if(answer == "yes")
 		{
-			n->network_graph[vertex_list[r_name]].is_multicast == false;
+			n->network_graph[vertex_list[r_name]].is_multicast = false;
 			return 0;
 		}
 		else{
@@ -568,7 +569,7 @@ int Interface::edit_MC(int id)
 		}
 		if(answer == "yes")
 		{
-			n->network_graph[vertex_list[r_name]].is_multicast == true;
+			n->network_graph[vertex_list[r_name]].is_multicast = true;
 			return 0;
 		}
 		else{
@@ -602,7 +603,7 @@ int Interface::edit_Vstate(int id)
 		}
 		if(answer == "yes")
 		{
-			n->network_graph[vertex_list[r_name]].is_working == false;
+			n->network_graph[vertex_list[r_name]].is_working = false;
 			return 0;
 		}
 		else{
@@ -620,7 +621,7 @@ int Interface::edit_Vstate(int id)
 		}
 		if(answer == "yes")
 		{
-			n->network_graph[vertex_list[r_name]].is_working == true;
+			n->network_graph[vertex_list[r_name]].is_working = true;
 			return 0;
 		}
 		else{
@@ -629,7 +630,7 @@ int Interface::edit_Vstate(int id)
 	}
 }
 
-void Interface::edit_verteces(int id)
+int Interface::edit_verteces(int id)
 {
 	std::cout << " /---- List of the graph " << itoa(id) << "'s edges ----/ " << std::endl;
 	auto n = networks[id];
@@ -653,6 +654,53 @@ void Interface::edit_verteces(int id)
 				break;
 		}
 	}while(loop);
+	return 0;
+}
+
+int Interface::edit_Estate(int id)
+{
+	auto n = networks[id];
+	std::string e_name;
+	std::cout << " What's the name of the edge ? " << std::endl;
+	std::cin >> e_name;
+	std::string answer;
+	if(n->network_graph[edge_list[e_name]].is_working == true)
+	{
+		std::cout << " This edge is actually working, do you want to change it to non-working (yes or no)?
+		std::cin >> answer;
+		while(answer != "yes" && answer != "no")
+		{
+			std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+			std::cin.clear();
+			std::cin >> answer;
+		}
+		if(answer == "yes")
+		{
+			n->network_graph[edge_list[e_name]].is_working = false;
+			return 0;
+		}
+		else{
+			return 0;
+		}
+	}
+	else{
+		std::cout << " This edge is actually not working, do you want to change it to working (yes or no)?
+		std::cin >> answer;
+		while(answer != "yes" && answer != "no")
+		{
+			std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+			std::cin.clear();
+			std::cin >> answer;
+		}
+		if(answer == "yes")
+		{
+			n->network_graph[edge_list[e_name]].is_working = true;
+			return 0;
+		}
+		else{
+			return 0;
+		}
+	}
 }
 
 
