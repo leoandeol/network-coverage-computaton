@@ -363,9 +363,40 @@ boost::default_dijkstra_visitor());
 		}
 	}
 	
+	for(int i = 0; i < idList.size(); i++)
+	{
+		for(int j = i; i < idList.size(); j++)
+		{
+			if(i != j)
+			{
+				if(boost::edge(idList[i],idList[j],network_graph).second == true)
+				{
+					std::cout << "in the boucle" << std::endl;
+					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
+					int k = 0;
+					int l = 0;
+					n1->add_routeur(cycle[0]);
+					std::cout << " routeur added "<< std::endl;
+					while(l != cycle.size())
+					{
+					  std::cout << "in the boucle 2" << std::endl;
+					  l++;
+					  n1->add_routeur(cycle[l]);
+					  std::cout << " routeur added "<< std::endl;
+					  n1->add_cable(cycle[k],cycle[l]);
+					  std::cout << " cable added "<< std::endl;
+					  k++;
+					}
+					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
+					std::cout << " cable added "<< std::endl;
+				}
+			}
+		}		
+	}
+	/*
 	for(leafit1 = idList.begin(); leafit1 != idList.end(); ++leafit1)
 	{
-		for(leafit2 = idList.begin(); leafit2 != idList.end(); ++leafit2)
+		for(leafit2 = leafit1; leafit2 != idList.end(); ++leafit2)
 		{
 			if(leafit2 != leafit1)
 			{
@@ -375,25 +406,26 @@ boost::default_dijkstra_visitor());
 					std::vector<std::string> cycle = n->get_path(network_graph[*leafit1].name,network_graph[*leafit2].name);
 					std::vector<std::string>::iterator verteces1,verteces2;
 					verteces1 = cycle.begin();
-					verteces2 = verteces1;
+					verteces2 = cycle.begin();
 					n1->add_routeur(*verteces1);
-					std::cout << " routeur added ";
+					std::cout << " routeur added "<< std::endl;
 					while(verteces2 != cycle.end())
 					{
 					  std::cout << "in the boucle 2" << std::endl;
 					  ++verteces2;
 					  n1->add_routeur(*verteces2);
-					  std::cout << " routeur added ";
+					  std::cout << " routeur added "<< std::endl;
 					  n1->add_cable(*verteces1,*verteces2);
-					  std::cout << " cable added ";
+					  std::cout << " cable added "<< std::endl;
 					  ++verteces1;
 					}
 					n1->add_cable(network_graph[*leafit1].name,network_graph[*leafit2].name);
-					std::cout << " cable added ";
+					std::cout << " cable added "<< std::endl;
 				}
 			}
 		}		
 	}
+	*/
 	return n1;
   }
   /**
