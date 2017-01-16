@@ -248,7 +248,7 @@ public:
 		{
 			if(network_graph[itE->second].is_working == true)
 			{
-				if(boost::edge(boost::source(itE->second,network_graph),boost::target(itE->second,network_graph),network_graph).second == false)
+				if(boost::edge(boost::source(itE->second,network_graph),boost::target(itE->second,network_graph),clean->network_graph).second == false)
 				{
 					clean->add_cable(network_graph[boost::source(itE->second,network_graph)].name,network_graph[boost::target(itE->second,network_graph)].name);
 				}
