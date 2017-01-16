@@ -357,7 +357,7 @@ boost::default_dijkstra_visitor());
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
-		if(boost::in_degree(it->second, network_graph)== 1)
+		if(boost::in_degree(it->second, network_graph)== 1 || boost::in_degree(it->second, network_graph)== 2)
 		{
 			idList.push_back(it->second);
 		}
