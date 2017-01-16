@@ -464,14 +464,9 @@ int Interface::get_clean_graph(int id)
 }
 
 int Interface::edit_graph(int id)
-[
-	
+{	
 	std::string option;
-	int	optionINT;
-	
-	typename edge_list_t::iterator edgeIT;
-	
-	edgeIT = n->edge_list.begin();	
+	int	optionINT;	
 	
 	std::cout << "\t ---------------------------------- " << std::endl;
 	std::cout << "\t -- Welcome to the graph editor. -- " << std::endl;
