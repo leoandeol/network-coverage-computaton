@@ -541,7 +541,7 @@ int Interface::edit_MC(int id)
 	std::string answer;
 	if(n->network_graph[vertex_list[r_name]].is_multicast == true)
 	{
-		std::cout << " This routeur is actually Multicast Capable (MC), do you want to change it to Multicast Incapable (MI) (yes or no)?
+		std::cout << " This routeur is actually Multicast Capable (MC), do you want to change it to Multicast Incapable (MI) (yes or no)? " << std::endl;
 		std::cin >> answer;
 		while(answer != "yes" && answer != "no")
 		{
@@ -559,7 +559,7 @@ int Interface::edit_MC(int id)
 		}
 	}
 	else{
-		std::cout << " This routeur is actually Multicast Incapable (MI), do you want to change it to Multicast capable (MC) (yes or no)?
+		std::cout << " This routeur is actually Multicast Incapable (MI), do you want to change it to Multicast capable (MC) (yes or no)? " << std::endl;
 		std::cin >> answer;
 		while(answer != "yes" && answer != "no")
 		{
@@ -593,7 +593,7 @@ int Interface::edit_Vstate(int id)
 	std::string answer;
 	if(n->network_graph[vertex_list[r_name]].is_working == true)
 	{
-		std::cout << " This routeur is actually working, do you want to change it to non-working (yes or no)?
+		std::cout << " This routeur is actually working, do you want to change it to non-working (yes or no)? " << std::endl;
 		std::cin >> answer;
 		while(answer != "yes" && answer != "no")
 		{
@@ -611,7 +611,7 @@ int Interface::edit_Vstate(int id)
 		}
 	}
 	else{
-		std::cout << " This routeur is actually not working, do you want to change it to working (yes or no)?
+		std::cout << " This routeur is actually not working, do you want to change it to working (yes or no)? " << std::endl;
 		std::cin >> answer;
 		while(answer != "yes" && answer != "no")
 		{
@@ -666,7 +666,7 @@ int Interface::edit_Estate(int id)
 	std::string answer;
 	if(n->network_graph[edge_list[e_name]].is_working == true)
 	{
-		std::cout << " This edge is actually working, do you want to change it to non-working (yes or no)?
+		std::cout << " This edge is actually working, do you want to change it to non-working (yes or no)? " << std::endl;
 		std::cin >> answer;
 		while(answer != "yes" && answer != "no")
 		{
@@ -684,7 +684,7 @@ int Interface::edit_Estate(int id)
 		}
 	}
 	else{
-		std::cout << " This edge is actually not working, do you want to change it to working (yes or no)?
+		std::cout << " This edge is actually not working, do you want to change it to working (yes or no)? " << std::endl;
 		std::cin >> answer;
 		while(answer != "yes" && answer != "no")
 		{
