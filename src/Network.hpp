@@ -369,8 +369,8 @@ boost::default_dijkstra_visitor());
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
 	{
-		std::cout << " visiting routeur i : " << network_graph[idList[j]].name
-		for(unsigned int j = i; i < idList.size(); j++)
+		std::cout << " visiting routeur i : " << network_graph[idList[i]].name
+		for(unsigned int j = i; j < idList.size(); j++)
 		{
 			std::cout << " visiting routeur j : " << network_graph[idList[j]].name
 			if(i != j)
