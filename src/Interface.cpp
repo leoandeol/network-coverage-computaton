@@ -493,10 +493,11 @@ int Interface::edit_graph(int id)
 
 int Interface::edit_verteces(int id)
 {
-	std::cout << " /---- List of the graph " << itoa(id) << "'s verteces ----/ " << std::endl;
+	std::cout << " /---- List of the graph " << std::itoa(id) << "'s verteces ----/ " << std::endl;
 	auto n = networks[id];
+	int	optionINT;
 	std::vector<std::string> verteces = n->get_all_verteces();
-	for(int i = 0; i < verteces.size(); i++)
+	for(unsigned int i = 0; i < verteces.size(); i++)
 	{
 		std::cout << " /---/ " << verteces[i];
 	}
@@ -625,12 +626,13 @@ int Interface::edit_Vstate(int id)
 	}
 }
 
-int Interface::edit_verteces(int id)
+int Interface::edit_edges(int id)
 {
-	std::cout << " /---- List of the graph " << itoa(id) << "'s edges ----/ " << std::endl;
+	std::cout << " /---- List of the graph " << std::itoa(id) << "'s edges ----/ " << std::endl;
 	auto n = networks[id];
+	int	optionINT;
 	std::vector<std::string> edges = n->get_all_edges();
-	for(int i = 0; i < edges.size(); i++)
+	for(unsigned int i = 0; i < edges.size(); i++)
 	{
 		std::cout << " /---/ " << edges[i];
 	}

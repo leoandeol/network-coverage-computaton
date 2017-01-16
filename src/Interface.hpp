@@ -125,21 +125,21 @@ public:
 	  \param id The network's id
 	  \return 0 if everything was allright
 	*/
-	void edit_MC(int id);
+	int edit_MC(int id);
 	
 	/**
 	  \brief Allows the user to edit the state of a routeur
 	  \param id The network's id
 	  \return 0 if everything was allright
 	*/
-	void edit_Vstate(int id);
+	int edit_Vstate(int id);
 	
 	/**
 	  \brief Allows the user to edit the state of an edge
 	  \param id The network's id
 	  \return 0 if everything was allright
 	*/
-	void edit_Estate(int id);
+	int edit_Estate(int id);
 
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
