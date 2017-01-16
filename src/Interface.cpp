@@ -24,7 +24,7 @@ void Interface::menu()
 	char c;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t9 : Removing routeurs and cables that aren't working\n\t10 : Exit" << std::endl;
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t9 : Removing routeurs and cables that aren't working\n\t10 : Edit graph\n\t11 : Exit" << std::endl;
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)
@@ -200,6 +200,17 @@ void Interface::menu()
 			
 			break;
 		case 10:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = std::stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}
+			edit_graph(id);
+			break;
+		}
+		case 11:
 			cont = false;
 			break;
 		}
@@ -452,3 +463,196 @@ int Interface::get_clean_graph(int id)
 
 	return id2;
 }
+
+void Interface::edit_graph(int id)
+[
+	
+	std::string option;
+	int	optionINT;
+	
+	typename edge_list_t::iterator edgeIT;
+	
+	edgeIT = n->edge_list.begin();	
+	
+	std::cout << "\t ---------------------------------- " << std::endl;
+	std::cout << "\t -- Welcome to the graph editor. -- " << std::endl;
+	std::cout << "\t ---------------------------------- " << std::endl;
+	bool loop = true;
+	do{
+		std::cout << "\t1 : Edit the verteces\n\t2 : Edit the edges\n\t3 : Exit" << std::endl;
+		std::cin >> option;
+		optionINT = std::stoi(option);
+		switch(optionINT){
+			case 1:
+				edit_verteces(id);
+				break;
+			case 2:
+				edit_edges(id);
+				break;
+			case 3:
+				loop = false;
+				break;
+		}
+	}while(loop);
+}
+
+void Interface::edit_verteces(int id)
+{
+	std::cout << " /---- List of the graph " << itoa(id) << "'s verteces ----/ " << std::endl;
+	auto n = networks[id];
+	std::vector<std::string> verteces = n->get_all_verteces();
+	for(int i = 0; i < verteces.size(); i++)
+	{
+		std::cout << " /---/ " << verteces[i];
+	}
+	std::endl;
+	bool loop = true;
+	do{
+		std::cout << "\t1 : Update a Routeur's Multicast capacity\n\t2 : Update a Routeur's state\n\t3 : Exit" << std::endl;
+		std::cin >> option;
+		optionINT = std::stoi(option);
+		switch(optionINT){
+			case 1:
+				edit_MC(id);
+				break;
+			case 2:
+				edit_Vstate(id);
+				break;
+			case 3:
+				loop = false;
+				break;
+		}
+	}while(loop);
+}
+
+int Interface::edit_MC(int id)
+{
+	auto n = networks[id];
+	std::string r_name;
+	std::cout << " What's the name of the routeur ? " << std::endl;
+	std::cin >> r_name;
+	while(n->routeur_exists(r_name)==-1)
+	{
+		std::cout << " Give the name of an existing routeur please " << std::endl;
+		std::cin.clear();
+		std::cin >> r_name;
+	}
+	std::string answer;
+	if(n->network_graph[vertex_list[r_name]].is_multicast == true)
+	{
+		std::cout << " This routeur is actually Multicast Capable (MC), do you want to change it to Multicast Incapable (MI) (yes or no)?
+		std::cin >> answer;
+		while(answer != "yes" && answer != "no")
+		{
+			std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+			std::cin.clear();
+			std::cin >> answer;
+		}
+		if(answer == "yes")
+		{
+			n->network_graph[vertex_list[r_name]].is_multicast == false;
+			return 0;
+		}
+		else{
+			return 0;
+		}
+	}
+	else{
+		std::cout << " This routeur is actually Multicast Incapable (MI), do you want to change it to Multicast capable (MC) (yes or no)?
+		std::cin >> answer;
+		while(answer != "yes" && answer != "no")
+		{
+			std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+			std::cin.clear();
+			std::cin >> answer;
+		}
+		if(answer == "yes")
+		{
+			n->network_graph[vertex_list[r_name]].is_multicast == true;
+			return 0;
+		}
+		else{
+			return 0;
+		}
+	}
+}
+
+int Interface::edit_Vstate(int id)
+{
+	auto n = networks[id];
+	std::string r_name;
+	std::cout << " What's the name of the routeur ? " << std::endl;
+	std::cin >> r_name;
+	while(n->routeur_exists(r_name)==-1)
+	{
+		std::cout << " Give the name of an existing routeur please " << std::endl;
+		std::cin.clear();
+		std::cin >> r_name;
+	}
+	std::string answer;
+	if(n->network_graph[vertex_list[r_name]].is_working == true)
+	{
+		std::cout << " This routeur is actually working, do you want to change it to non-working (yes or no)?
+		std::cin >> answer;
+		while(answer != "yes" && answer != "no")
+		{
+			std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+			std::cin.clear();
+			std::cin >> answer;
+		}
+		if(answer == "yes")
+		{
+			n->network_graph[vertex_list[r_name]].is_working == false;
+			return 0;
+		}
+		else{
+			return 0;
+		}
+	}
+	else{
+		std::cout << " This routeur is actually not working, do you want to change it to working (yes or no)?
+		std::cin >> answer;
+		while(answer != "yes" && answer != "no")
+		{
+			std::cout << " Please type in a correct answer (yes or no) " << std::endl;
+			std::cin.clear();
+			std::cin >> answer;
+		}
+		if(answer == "yes")
+		{
+			n->network_graph[vertex_list[r_name]].is_working == true;
+			return 0;
+		}
+		else{
+			return 0;
+		}
+	}
+}
+
+void Interface::edit_verteces(int id)
+{
+	std::cout << " /---- List of the graph " << itoa(id) << "'s edges ----/ " << std::endl;
+	auto n = networks[id];
+	std::vector<std::string> edges = n->get_all_edges();
+	for(int i = 0; i < edges.size(); i++)
+	{
+		std::cout << " /---/ " << edges[i];
+	}
+	std::endl;
+	bool loop = true;
+	do{
+		std::cout << "\t1 : Update an Edge's state\n\t2 : Exit" << std::endl;
+		std::cin >> option;
+		optionINT = std::stoi(option);
+		switch(optionINT){
+			case 1:
+				edit_Estate(id);
+				break;
+			case 2:
+				loop = false;
+				break;
+		}
+	}while(loop);
+}
+
+

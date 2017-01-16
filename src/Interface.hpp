@@ -98,6 +98,42 @@ public:
 	  \return The id of the cleant network
 	*/
 	int get_clean_graph(int id);
+	
+	/**
+	  \brief Allows the user to edit its graph
+	  \param id The network's id
+	*/
+	void edit_graph(int id);
+	
+	/**
+	  \brief Allows the user to edit the graph's verteces
+	  \param id The network's id
+	*/
+	void edit_verteces(int id);
+	
+	/**
+	  \brief Allows the user to edit the graph's edges
+	  \param id The network's id
+	*/
+	void edit_edges(int id);
+	
+	/**
+	  \brief Allows the user to edit the Multicast capacity of a routeur
+	  \param id The network's id
+	*/
+	void edit_MC(int id);
+	
+	/**
+	  \brief Allows the user to edit the state of a routeur
+	  \param id The network's id
+	*/
+	void edit_Vstate(int id);
+	
+	/**
+	  \brief Allows the user to edit the state of an edge
+	  \param id The network's id
+	*/
+	void edit_Estate(int id);
 
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
