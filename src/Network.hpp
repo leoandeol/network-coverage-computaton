@@ -363,9 +363,9 @@ boost::default_dijkstra_visitor());
 		}
 	}
 	
-	for(int i = 0; i < idList.size(); i++)
+	for(unsigned int i = 0; i < idList.size(); i++)
 	{
-		for(int j = i; i < idList.size(); j++)
+		for(unsigned int j = i; i < idList.size(); j++)
 		{
 			if(i != j)
 			{
@@ -373,8 +373,8 @@ boost::default_dijkstra_visitor());
 				{
 					std::cout << "in the boucle" << std::endl;
 					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
-					int k = 0;
-					int l = 0;
+					unsigned int k = 0;
+					unsigned int l = 0;
 					n1->add_routeur(cycle[0]);
 					std::cout << " routeur added "<< std::endl;
 					while(l != cycle.size())
