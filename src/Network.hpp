@@ -217,8 +217,7 @@ public:
 		
     std::string name = get_network_name() + "clean";
     Network clean = Network(NetworkInfo(name,"DefaultGraphPropertyLocation"));
-    //network_graph[boost::graph_bundle].location
-		
+    //network_graph[boost::graph_bundle].location	
     for(auto const &vertex : vertex_list)
       {
 	if(vertex->is_working == true){
@@ -382,6 +381,7 @@ boost::default_dijkstra_visitor());
 			}
 		}		
 	}
+	/*
 	std::vector<std::string> n1verteces, n1edges;
 	n1verteces = n1->get_all_verteces();
 	n1edges = n1->get_all_edges();
@@ -393,6 +393,7 @@ boost::default_dijkstra_visitor());
 	{
 		std::cout << " N1 : cable - " << n1edges[i] << std::endl;
 	}
+	*/
 	return n1;
   }
   /**
