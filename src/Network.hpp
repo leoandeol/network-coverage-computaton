@@ -53,10 +53,15 @@ public:
 
     dp.property("color", boost::get(&Routeur::color, network_graph));
     dp.property("label", boost::get(&Routeur::name, network_graph));
-		
+	dp.property("working", boost::get(&Routeur::is_working, network_graph));
+	dp.property("multicast", boost::get(&Routeur::is_multicast, network_graph));
+	
+	
     /**< The property length linked to label is added for undirected networks */
     dp.property("label", boost::get(&Cable::length, network_graph));
     dp.property("color", boost::get(&Cable::color, network_graph));
+	dp.property("working", boost::get(&Cable::is_working, network_graph));
+	
   }
 	
   /**
@@ -377,7 +382,7 @@ boost::default_dijkstra_visitor());
 					unsigned int l = 0;
 					n1->add_routeur(cycle[0]);
 					std::cout << " routeur added "<< std::endl;
-					while(l != cycle.size())
+					while(l < cycle.size())
 					{
 					  std::cout << "in the boucle 2" << std::endl;
 					  l++;
