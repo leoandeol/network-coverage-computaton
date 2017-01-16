@@ -51,7 +51,11 @@ void Interface::menu()
 			std::cout << "What's the name of the file to import (without the extension, and the file should be located in the data folder) ?" << std::endl;
 		    std::cin >> s;
 			id = import_graph(s);
-			std::cout << "The imported graph is associated with the ID : " << id << std::endl;
+			if(id == -1){
+				std::cout << "Error, please make sure you have entered the right name. (Located in the data folder) " << std::endl;
+			}
+			else
+				std::cout << "The imported graph is associated with the ID : " << id << std::endl;
 			break;
 		case 3:
 			std::cout << "What's the name of the file to export (without the extension, and the file will be located in the data folder) ?" << std::endl;
@@ -60,9 +64,10 @@ void Interface::menu()
 		    std::cin >> id;
 			if(id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
-				break;
 			}	
-			export_graph(id,s);
+			else{
+				export_graph(id,s);
+			}
 			break;
 		case 4:
 			std::cout << "What's the id of the graph ?" << std::endl;
@@ -74,12 +79,21 @@ void Interface::menu()
 			}	
 			std::cout << "What's the name of the source vertex ?" << std::endl;
 			std::cin >> s;
-			std::cout << "What's the name of the target vertex ?" << std::endl;
-			std::cin >> t;
-			std::cout << std::endl << std::endl;
-		
-			std::cout << "Following the shortest path to go from " << s << " to " << t << std::endl;
-			shortest_path(id, s, t);
+			if(is_in(id, s) == -1){
+				std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+			}else{
+				std::cout << "What's the name of the target vertex ?" << std::endl;
+				std::cin >> t;
+				if(is_in(id, t)==-1){
+					std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+				}
+				else{
+					std::cout << std::endl << std::endl;
+				
+					std::cout << "Following the shortest path to go from " << s << " to " << t << std::endl;
+					shortest_path(id, s, t);
+				}
+			}
 			break;
 		case 5:
 			std::cout << "What's the id of the graph ?" << std::endl;
@@ -91,11 +105,18 @@ void Interface::menu()
 			}	
 			std::cout << "What's the name of the source vertex ?" << std::endl;
 			std::cin >> s;
-			std::cout << "What's the name of the target vertex ?" << std::endl;
-			std::cin >> t;
-		
-			color_path(id, s, t);	
-			std::cout << "The path has been colored in the graph and exported. Check the data folder for the results. (The colored in the graph are reset to normal)" << std::endl;	
+			if(is_in(id, s) == -1){
+				std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+			}else{
+				std::cout << "What's the name of the target vertex ?" << std::endl;
+				std::cin >> t;
+				if(is_in(id, s) == -1){
+					std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+				}else{
+					color_path(id, s, t);	
+					std::cout << "The path has been colored in the graph and exported. Check the data folder for the results. (The colored in the graph are reset to normal)" << std::endl;	
+				}
+			}
 			break;
 		case 6:
 			std::cout << "What's the id of the graph ?" << std::endl;
@@ -108,25 +129,37 @@ void Interface::menu()
 
 			std::cout << "What's the name of the source vertex ?" << std::endl;
 			std::cin >> s;
-		
-			while(1){
-				std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph, enter \"done\" to end the list of targets)" << std::endl;
-				std::cin >> t;
-				if(t == "done"){break;}
-				targets.push_back(t);
-			}
-			std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=0" << std::endl;
-			std::cin >> i;
-			if(stoi(i) == 1){
-			std::cout << "You just say yes. The program will export the graph with the id " << id << " and will color the partial tree calculated. " << std::endl;
-			std::cout << "The source is colored in green wheares the targets are colored in blue. Please check the data folder for the result (.dot & .png provided). " << std::endl;
-				id = partial_tree(id, s, targets, 1);
-			}
-			else{
-				id = partial_tree(id, s, targets);
+			if(is_in(id, s) == -1){
+				std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+			}else{
+				int test = 1;	
+				while(1){
+					std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph, enter \"done\" to end the list of targets)" << std::endl;
+					std::cin >> t;
+					if(t == "done"){break;}
+					test = is_in(id, t);
+					if(test == -1){
+						std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+						break;
+					}else{
+						targets.push_back(t);
+					}
+				}
+				if(test == 1){
+					std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=0" << std::endl;
+					std::cin >> i;
+					if(stoi(i) == 1){
+					std::cout << "You just say yes. The program will export the graph with the id " << id << " and will color the partial tree calculated. " << std::endl;
+					std::cout << "The source is colored in green wheares the targets are colored in blue. Please check the data folder for the result (.dot & .png provided). " << std::endl;
+						id = partial_tree(id, s, targets, 1);
+					}
+					else{
+						id = partial_tree(id, s, targets);
+					}
+				std::cout << "The partial graph created is associated with the ID : " << id << std::endl;
+				}
 			}
 			targets.clear();
-			std::cout << "The partial graph created is associated with the ID : " << id << std::endl;
 			break;
 		case 7:
 			std::cout << "What's the id of the graph ?" << std::endl;
@@ -168,6 +201,7 @@ void Interface::menu()
 	} while(cont);
 }
 
+
 int Interface::create_graph_terminal(std::string s)
 {
 	
@@ -179,6 +213,8 @@ int Interface::create_graph_terminal(std::string s)
 	std::cout << "Network creation assistant" << std::endl;
 	std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
 	
+	networks.push_back(n);
+	
 	while(true)
     {
 		
@@ -189,15 +225,21 @@ int Interface::create_graph_terminal(std::string s)
 		std::cin >> input1;
 		if(input1=="done") break;
 
+		if(is_in(id, input1) == -1){
+		}
+
+
 		std::cout << "Node 2 : ";
 		//rentrer chiffre
 		std::cin >> input2;
 		if(input2=="done") break;
 
+		if(is_in(id, input1) == -1){
+		}
+
 		n->add_cable(input1,input2);
     }
   
-	networks.push_back(n);
   
 	return id;
 }
@@ -220,7 +262,7 @@ int Interface::import_graph(std::string name)
 
 void Interface::export_graph(int id, std::string name)
 {
-	std::string path = DATA_FOLDER + name + std::to_string(id) + FILE_EXTENSION;
+	std::string path = DATA_FOLDER + networks[id]->get_network_name() + std::to_string(id) + FILE_EXTENSION;
 	static const std::string command = "mkdir data";
 
 	// Test if the folder can be accessed
@@ -235,6 +277,11 @@ void Interface::export_graph(int id, std::string name)
 	std::string transform = "dot -Tpng "+path+" > "+img_path;
 	system(transform.c_str());
 }
+
+int Interface::is_in(int id, std::string name){
+	return networks[id]->contains(name);
+}
+
 
 int Interface::create()
 {	
@@ -327,11 +374,15 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 	tree->set_network_name(name);
 
 	if(color == 1){
+		std::string s;
+		std::cout << "What's the name of the colored graph to export ? (without the extension, and the file will be located in the data folder) ?" << std::endl;
+		std::cin >> s;
+
 		std::vector<std::string> verteces = tree->get_all_verteces();	
 		std::vector<std::string> edges = tree->get_all_edges();	
 		networks[id]->color_list_verteces(verteces, "red", source, targets);
 		networks[id]->color_list_edges(edges, "red");
-		export_graph(id, name+"_colored");
+		export_graph(id, s);
 		networks[id]->color_list_verteces(verteces, "", source, targets);
 		networks[id]->color_list_edges(edges, "");
 	
@@ -350,8 +401,7 @@ void Interface::color_path(int id, std::string& source, std::string& destination
 	std::vector<std::string> path = networks[id]->get_path(source, destination);
 	
 	networks[id]->color_path(path, color);
-	std::string name = networks[id]->get_network_name()+ " - " + source + "->" + destination;
-
+	std::string name = networks[id]->get_network_name()+ "-" + source + "--" + destination;
 	export_graph(id, name);
 	networks[id]->clean_all_colors(path);
 }

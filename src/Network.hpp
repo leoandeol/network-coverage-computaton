@@ -564,12 +564,14 @@ boost::default_dijkstra_visitor());
     //!< We choose the first smallest path from a source to a target
     for(path::iterator it = targets.begin(); it != targets.end(); ++it){
       for(int unsigned i = 0; i < source.size(); i++){	
-	test = get_path(source.at(i), *it);
-	//				std::cout << "test" << std::endl;
-	if(p.size() == 0 || test.size() < p.size()){
-	  p = test;
-	  theChosenOne=it;
-	}
+//	if(network_graph[vertex_list[source.at(i)]].i
+		test = get_path(source.at(i), *it);
+		//				std::cout << "test" << std::endl;
+		if(p.size() == 0 || test.size() < p.size()){
+		  p = test;
+		  theChosenOne=it;
+		}
+0	//}
       }
     }
     //!< The smallest path take a source and a target, we remove the target from the list
@@ -662,6 +664,8 @@ boost::default_dijkstra_visitor());
 	network_graph[edge_list[name]].color = color;
       }
     }
+	network_graph[vertex_list[*path.begin()]].color = "chartreuse";
+	network_graph[vertex_list[*(--path.end())]].color = "aquamarine";
   }
 
   /**
@@ -991,6 +995,19 @@ boost::default_dijkstra_visitor());
 
     return minimum_spanning_tree;
   }
+/**
+	\brief Say if the vertex name is a vertex in the graph or not
+	\param name A vertex name
+	\return 1 if the graph contains the vertex, else -1
+*/
+int contains(std::string name){
+	for(typename vertex_list_t::iterator it = vertex_list.begin(); it != vertex_list.end(); ++it){
+		if(it->first == name){
+			return 1;
+		}
+	}	
+	return -1;
+}
 
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
