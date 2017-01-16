@@ -334,79 +334,50 @@ boost::default_dijkstra_visitor());
     std::vector<vertex_t> idList;
     typename std::vector<vertex_t>::iterator it2,it3,leafit, leafit2;
     typename vertex_list_t::iterator it;
-    //typename boost::graph_traits<network_graph_t>::vertex_iterator it, it2, it3;
 	
     //!< Checking all the vertices of the graph trhough iterators
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
-		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
-		if(boost::in_degree(it->second, network_graph)== 1)
-		{
-			idList.push_back(it->second);
-		}
-	}
-	
-		
+	//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
+	if(boost::in_degree(it->second, n->network_graph)== 1)
+	  {
+	    idList.push_back(it->second);
+	  }
+      }
+    
     EdgePair ep;
     VertexDescriptor u,v;
-	//!< We check all the edges of the graph
-    for (ep = boost::edges(n->network_graph); ep.first != ep.second; ++ep.first)
+    //!< We check all the edges of the graph
+    for (ep = boost::edges(network_graph); ep.first != ep.second; ++ep.first)
       {
 	//!< We get the source and the target of each edge
-	u=boost::source(*ep.first,n->network_graph);
-	v=boost::target(*ep.first,n->network_graph);
+	u=boost::source(*ep.first,network_graph);
+	v=boost::target(*ep.first,network_graph);
 	it2 = std::find(idList.begin(),idList.end(),u);
 	it3 = std::find(idList.begin(),idList.end(),v);
 	//!< If the source and the target are Leaves and if they're different it's mean that they are connected in the initial graph
 	if(it2 != idList.end() && it3 != idList.end() && it2 != it3)
 	  {
-		//!< We get the path between those two leaves from the minimal tree n
-	    std::vector<std::string> cycle = n->get_path(network_graph[u].name,network_graph[v].name);
-		//!< We add the routeurs corresponding to the leaves and the edge between those two leaves to the network we will return
-		n1->add_routeur(network_graph[u].name);
-		n1->add_routeur(network_graph[v].name);
-	    n1->add_cable(network_graph[u].name,network_graph[v].name,network_graph[*ep.first].length);
+	    //!< We get the path between those two leaves from the minimal tree n
+	    std::vector<std::string> cycle = n->get_path(n->network_graph[u].name,n->network_graph[v].name);
+	    //!< We add the routeurs corresponding to the leaves and the edge between those two leaves to the network we will return
+	    n1->add_routeur(n->network_graph[u].name);
+	    n1->add_routeur(n->network_graph[v].name);
+	    n1->add_cable(n->network_graph[u].name,n->network_graph[v].name,n->network_graph[*ep.first].length);
 	    std::vector<std::string>::iterator verteces,verteces2;
 	    verteces = cycle.begin();
-		n1->add_routeur(network_graph[vertex_list[*verteces]].name);
+	    n1->add_routeur(*verteces);
 	    verteces2 = verteces;
-		//!< For each vertex in the patch 'cycle' we add their edges to n1
+	    //!< For each vertex in the patch 'cycle' we add their edges to n1
 	    while(verteces2 != cycle.end()){
 	      ++verteces2;
-		  n1->add_routeur(network_graph[vertex_list[*verteces2]].name);
-	      n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
+	      n1->add_routeur(*verteces2);
+	      n1->add_cable(*verteces,*verteces2);
 	      ++verteces;
 	    }						
 	  }
       }
-	/*
-	//!< Checking all the edges of each leaf from the initial graph (this)
-	for(leafit = idlist.begin(); leafit != idlist.end(); ++leafit)
-	{
-		typename boost::graph_traits<network_graph_t>::out_edge_iterator edge_it, edge_it_end;
-		for(boost::tie(edge_it,edge_it_end) = boost::out_edges(*leafit, network_graph); edge_it != edge_it_end; ++edge_it)
-		{
-			for(leafit2 = idlist.begin(); leafit2 != idlist.end() && leafit2!=leafit; ++leafit2)
-			{
-				//!< If the target of one of its vertices is a leaf we add the corresponding edge to the network we're going to return
-				if(boost::target(*edge_it, n->network_graph)==*leafit2)
-				{
-					std::vector<std::string> cycle = n->get_path(network_graph[*leafit].name,network_graph[*leafit2].name);
-					n1->add_cable(network_graph[*	leafit].name,network_graph[*leafit2].name,network_graph[*edge_it].length);
-					std::vector<std::string>::iterator verteces;
-					for(verteces = cycle.begin(); verteces != cycle.end(); ++verteces)
-					{
-						for(std::vector<std::string>::iterator verteces2 = verteces; verteces != cycle.end() && verteces2 != verteces; ++verteces2){
-							n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
-						}
-						
-					}
-				}
-			}	
-		}
-	}
-	*/
-	return n1;
+    return n1;
   }
   /**
      \brief Loads a graph in the DOT format, from the path given as parameter
