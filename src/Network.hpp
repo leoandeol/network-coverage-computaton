@@ -365,35 +365,56 @@ boost::default_dijkstra_visitor());
 	std::cout << " going into idList loop " << std::endl;
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
-		std::cout << " Routeur : " << n->network_graph[it->second].name << " of degree " << boost::in_degree(it->second, n->network_graph) << std::endl; 
+//		std::cout << " Routeur : " << n->network_graph[it->second].name << " of degree " << boost::in_degree(it->second, n->network_graph) << std::endl; 
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
 		if(boost::in_degree(it->second, n->network_graph)== 1)// || boost::in_degree(it->second, n->network_graph)== 2)
 		{
 			idList.push_back(it->first);
-			std::cout << " Routeur : " << n->network_graph[it->second].name << " added " << std::endl;
+//			std::cout << " Routeur : " << n->network_graph[it->second].name << " added " << std::endl;
 		}
 	}
-	std::cout << " idList loop done " << std::endl;
-	for(unsigned int z = 0; z < idList.size(); z++){
-		std::cout << idList[z] << std::endl;
-	}
+//	std::cout << " idList loop done " << std::endl;
+//	for(unsigned int z = 0; z < idList.size(); z++){
+//		std::cout << idList[z] << std::endl;
+//	}
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
 	{
-		std::cout << " visiting routeur i : " << idList[i];
+//		std::cout << " visiting routeur i : " << idList[i];
 		for(unsigned int j = i; j < idList.size(); j++)
 		{
-			std::cout << " visiting routeur j : " << idList[j];
+//			std::cout << " visiting routeur j : " << idList[j];
 			if(i != j)
 			{
 				if(boost::edge(vertex_list[idList[i]],vertex_list[idList[j]],network_graph).second == true)
 				{
 					std::cout << "In the boucle" << std::endl;
 					std::vector<std::string> cycle = n->get_path(idList[i],idList[j]);
-					n1->add_path(cycle);
-					std::cout << " all cables from 'cycle' have been added " << std::endl;
-					n1->add_cable(idList[i],idList[j]);
-					std::cout << "Cable between : " << idList[i] << " and " << idList[j] << " added " << std::endl;
+					
+					    std::vector<std::string>::iterator c, c2;
+					    std::string name;
+					    c = cycle.begin();
+					    c2 = c+1;
+					    //	std::cout << "it2" << *it2 << std::endl;
+					    //	std::cout << "it" << *it << std::endl;
+					    for(; c2!=cycle.end() && c != cycle.end(); ++c, ++c2){
+					      n1->add_routeur(*c);
+					      if(c!=c2){
+						n1->add_routeur(*c2);
+						name= *c+"--"+ *c2;
+						
+						if(n1->edge_contains(name) == -1)
+							n1->add_cable(*c,*c2, network_graph[edge_list[name]].length);
+						
+					      }
+					    }
+
+					//std::cout << " all cables from 'cycle' have been added " << std::endl;
+					name = idList[i] + "--" + idList[j];
+					if(n1->edge_contains(name) == -1){
+						n1->add_cable(idList[i],idList[j], network_graph[edge_list[name]].length);
+						std::cout << "Cable between : " << idList[i] << " and " << idList[j] << " added " << std::endl;
+					}
 
 				}
 			}
@@ -576,7 +597,7 @@ boost::default_dijkstra_visitor());
 //	if(network_graph[vertex_list[source.at(i)]].i
 		test = get_path(source.at(i), *it);
 		//				std::cout << "test" << std::endl;
-		if(p.size() == 0 || test.size() < p.size()){
+		if((p.size() == 0 || test.size() < p.size())&&network_graph[vertex_list[source[i]]].is_multicast){
 		  p = test;
 		  theChosenOne=it;
 		}
@@ -1017,6 +1038,17 @@ int contains(std::string name){
 	}	
 	return -1;
 }
+int edge_contains(std::string name){
+
+	for(typename edge_list_t::iterator it = edge_list.begin(); it != edge_list.end(); ++it){
+		if(it->first == name){
+			return 1;
+		}
+	}
+	return -1;
+}
+
+
 
 private:
   network_graph_t network_graph;/**< The adjacency list adapted to our struct*/
