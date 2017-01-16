@@ -348,17 +348,21 @@ boost::default_dijkstra_visitor());
     typename vertex_list_t::iterator it;
 	
     //!< Checking all the vertices of the graph trhough iterators
+	std::cout << " going into idList loop " << std::endl;
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
+		std::cout << " Routeur : " << n->network_graph[it->second].name << " of degree " << boost::in_degree(it->second, n->network_graph) << std::endl; 
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
 		if(boost::in_degree(it->second, n->network_graph)== 1)// || boost::in_degree(it->second, n->network_graph)== 2)
 		{
 			idList.push_back(it->second);
 			std::cout << it->first << std::endl;
-		}
-	}
 
 			std::cout << std::endl << std::endl;
+			std::cout << " Routeur : " << n->network_graph[it->second].name << " added " << std::endl;
+		}
+	}
+	std::cout << " idList loop done " << std::endl;
 	for(unsigned int z = 0; z < idList.size(); z++){
 		std::cout << network_graph[idList.at(z)].name << std::endl;
 	}
