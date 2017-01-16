@@ -379,19 +379,19 @@ boost::default_dijkstra_visitor());
 					unsigned int k = 0;
 					unsigned int l = 0;
 					n1->add_routeur(cycle[0]);
-					std::cout << " routeur added "<< std::endl;
+					std::cout << " routeur : " << cycle[0] << " added " << std::endl;
 					while(l < cycle.size())
 					{
 					  std::cout << "in the boucle 2" << std::endl;
 					  l++;
 					  n1->add_routeur(cycle[l]);
-					  std::cout << " routeur added "<< std::endl;
+					  std::cout << " routeur : " << cycle[l] << " added " << std::endl;
 					  n1->add_cable(cycle[k],cycle[l]);
-					  std::cout << " cable added "<< std::endl;
+					  std::cout << " cable beteween " << cycle[k] << "and" << cycle[l] << " added " << std::endl;
 					  k++;
 					}
 					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
-					std::cout << " cable added "<< std::endl;
+					std::cout << " cable beteween " << network_graph[idList[i]].name << "and" << network_graph[idList[j]].name << " added " << std::endl;
 				}
 			}
 		}		
