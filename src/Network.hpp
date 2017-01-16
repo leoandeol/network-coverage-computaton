@@ -373,11 +373,14 @@ boost::default_dijkstra_visitor());
 				{
 					std::cout << "in the boucle" << std::endl;
 					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
+					for(int m = 0; m < cycle.size(); m++){
+						std::cout << cycle[m] << std::endl;
+					}
 					unsigned int k = 0;
 					unsigned int l = 0;
 					n1->add_routeur(cycle[0]);
 					std::cout << " routeur added "<< std::endl;
-					while(l != cycle.size())
+					while(l < cycle.size())
 					{
 					  std::cout << "in the boucle 2" << std::endl;
 					  l++;
