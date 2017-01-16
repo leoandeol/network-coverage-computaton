@@ -102,8 +102,9 @@ public:
 	/**
 	  \brief Allows the user to edit its graph
 	  \param id The network's id
+	  \return 0 if everything was allright
 	*/
-	void edit_graph(int id);
+	int edit_graph(int id);
 	
 	/**
 	  \brief Allows the user to edit the graph's verteces

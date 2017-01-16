@@ -209,7 +209,6 @@ void Interface::menu()
 			}
 			edit_graph(id);
 			break;
-		}
 		case 11:
 			cont = false;
 			break;
@@ -464,7 +463,7 @@ int Interface::get_clean_graph(int id)
 	return id2;
 }
 
-void Interface::edit_graph(int id)
+int Interface::edit_graph(int id)
 [
 	
 	std::string option;
@@ -494,6 +493,7 @@ void Interface::edit_graph(int id)
 				break;
 		}
 	}while(loop);
+	return 0;
 }
 
 int Interface::edit_verteces(int id)
