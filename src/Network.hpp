@@ -369,9 +369,9 @@ boost::default_dijkstra_visitor());
 		{
 			if(leafit2 != leafit1)
 			{
-				if(boost::edge(network_graph[*leafit1],network_graph[*leafit2],network_graph).second == true)
+				if(boost::edge(*leafit1,*leafit2,network_graph).second == true)
 				{
-					std::vector<std::string> cycle = n->get_path(*leafit1,*leafit2);
+					std::vector<std::string> cycle = n->get_path(network_graph[*leafit1].name,network_graph[*leafit2].name);
 					std::vector<std::string>::iterator verteces1,verteces2;
 					verteces1 = cycle.begin();
 					verteces2 = verteces1;
