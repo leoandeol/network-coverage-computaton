@@ -1,6 +1,10 @@
 #ifndef NETWORK_HPP
 #define NETWORK_HPP
 
+/*
+#include <list> // std::list
+#include <cstring> // std::strtok
+*/
 #include <iostream> // std::cout
 #include <fstream> // std::i/ofstream
 #include <utility>
@@ -748,166 +752,166 @@ boost::default_dijkstra_visitor());
     }
     return l;
   }
-  /*
-    void conversionCsvInDot(string read, string write = "CSV_convert.dot",char separator = ',', string graphName = "graphName", bool digraph = false)){//false = graph; true = digraph)){
+ 
+/**
+    \ brief Convert a .csv graph in .dot to be readable
+    \ some requirement are needed for the basic file: 5 lines leading; mandatory syntax: start<separator>end<separator>value; the separator char must'n be in values;
+    \ param Path of the csv file.
+    \ param name of the dot file
+    \ param symbol of the separator
+    \ param name of the graph
+    \ param indicated if digraph or not (false = graph; true = digraph)
+*/
+	
+/*
+void conversionCsvInDot(string read, string write = "CSV_convert.dot",char separator = ',', string graphName = "graphName", bool digraph = false){
 
-    ifstream fichierR(read.c_str(), ios::in);//opening of reading file
-    ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
+    ifstream fichierR(read.c_str(), ios::in);
+    ofstream fichierW(write.c_str(), ios::out | ios::app);
 
-    if(fichierR) { // test opening file succeed
-    if(fichierW) { // test opening file succeed
+    if(fichierR) {
+        if(fichierW) {
 
-    string typeGraph; // "graph" or "digraph" depends parameter
-    string flux; // "--" or "->" depends of parameter
+        string typeGraph;
+        string flux;
 
-    if(!digraph){//assignment of typeGraph and flux
-    typeGraph = "graph";
-    flux = " -- ";
-    }
-    else{ typeGraph = "digraph"; flux = " -> ";}
+        if(!digraph){
+            typeGraph = "graph";
+            flux = " -- ";
+        }
+        else{ typeGraph = "digraph"; flux = " -> ";}
 
-    fichierW << typeGraph << " " << graphName << " {\n\t"; // writing of the first line
+        fichierW << typeGraph << " " << graphName << " {\n\t";
 
-    string contentS; //read string storage
-    char contentC; //read char storage
+        string contentS;
+        char *contentLine;
+        char *contentTab;
 
-    getline(fichierR, contentS);
-    getline(fichierR, contentS);
-    getline(fichierR, contentS);
-    getline(fichierR, contentS);
-    getline(fichierR, contentS);//5 lines leading
+        getline(fichierR, contentS);
+        getline(fichierR, contentS);
+        getline(fichierR, contentS);
+        getline(fichierR, contentS);
+        getline(fichierR, contentS);
 
-    int nbSeparatorFind;
+        while(fichierR){
 
-    while(fichierR){
+        getline(fichierR, contentS);
+        contentLine = (char*)contentS.c_str();
+        contentTab = std::strtok(contentLine, &separator);
+        fichierW << contentTab << flux;
+        contentTab = std::strtok(NULL, &separator);
+        fichierW << contentTab << " [label=" ;
+        contentTab = std::strtok(NULL, &separator);
+        fichierW << contentTab << "];\n\t";
+        }
 
-    nbSeparatorFind = 0;//number of Separator already found in a line, useful to know where you are in a sentence
-    fichierR.get(contentC);
-    while(contentC != '\n'){//for each line
+        fichierW << '}';
 
-    if(contentC == separator){//when a Separator is found...
-    nbSeparatorFind++;
-    switch(nbSeparatorFind){
-
-    case 1:
-    fichierW << flux;
-    break;
-    case 2:
-    fichierW << " [label=";
-    break;
-    default:
-    fichierW << contentC;
-    break;
-    }
-    }
-    else{//if the char is not a Separator, just write it
-    fichierW << contentC;
-    }
-
-    fichierR.get(contentC);//reading of the next char
-    if(contentC == '\n'){
-    fichierW << "];\n\t";//if it's the end of the line we write this
-    }
-    }
-    }
-    fichierW << '}';//end of the file
-
-    fichierR.close();
-    fichierW.close();
+        fichierR.close();
+        fichierW.close();
+        }
+        else{
+                cerr << "Error, file opening/creation impossible !" << endl;
+        }
     }
     else{
-    cerr << "Error, file opening/creation impossible !" << endl;
+                cerr << "Error, file opening impossible !" << endl;
     }
+}
+*/
+	
+/**
+    \ brief Convert .dat graph in .dot to be readable
+    \ some requirement are needed for the basic file: 1 lines leading;
+    \ same number of label values(cost) and segment
+    \ Mandatory syntaxe : Edges = {<1,3>,<2,3>,<3,1>,<3,2>,<3,6>,...   } /n Cost = [5 3 5 1 2 1 1 2 5 4 2....   ]
+    \ param Path of the csv file.
+    \ param name of the dot file
+    \ param name of the graph
+    \ param indicated if digraph or not (false = graph; true = digraph)
+*/
+
+/*
+void conversionDatInDot(string read, string write = "CSV_convert.dot", string graphName = "graphName", bool digraph = false)//false = graph; true = digraph
+
+    ifstream fichierREdge(read.c_str(), ios::in);
+    ifstream fichierRLabel(read.c_str(), ios::in);
+    ofstream fichierW(write.c_str(), ios::out | ios::app);
+
+    if(fichierREdge) {
+        if(fichierW) {
+
+        string typeGraph;
+        string flux;
+
+        if(!digraph){
+            typeGraph = "graph";
+            flux = " -- ";
+        }
+        else{ typeGraph = "digraph"; flux = " -> ";}
+
+        fichierW << typeGraph << " " << graphName << " {\n";
+
+        string contentE;
+        string contentL;
+        char *contentLabel;
+        char *contentTabLabel;
+        char *contentEdge;
+        char *contentTabEdge;
+        char label;
+        std::list<string> listLabel;
+
+        getline(fichierREdge, contentE);
+        getline(fichierREdge, contentE);
+        getline(fichierRLabel, contentL);
+        getline(fichierRLabel, contentL);
+        getline(fichierRLabel, contentL);
+
+        contentE.erase(0,9);
+        contentE.erase(contentE.size()-1);
+        contentEdge = (char*)contentE.c_str();
+
+        contentL.erase(0,8);
+        contentL.erase(contentL.size()-1);
+        contentLabel = (char*)contentL.c_str();
+
+        contentTabLabel = std::strtok(contentLabel," ");
+
+        while(contentTabLabel != NULL){
+            listLabel.push_back((string)contentTabLabel);
+            contentTabLabel = std::strtok(NULL," ");
+        }
+
+        std::list<string>::const_iterator
+        lit (listLabel.begin());
+
+        contentTabEdge = std::strtok(contentEdge,",");
+
+        int n=0;
+        while(contentTabEdge != NULL){
+
+            fichierW << "\t" << ((string)contentTabEdge).substr(1,((string)contentTabEdge).size()) << flux;
+            contentTabEdge = std::strtok(NULL,",");
+            fichierW << ((string)contentTabEdge).substr(0,((string)contentTabEdge).size()-1) << " [label=" << *lit << "];\n";
+            contentTabEdge = std::strtok(NULL,",");
+            ++lit;
+            n++;
+        }
+        fichierW << '}';
+
+        fichierREdge.close();
+        fichierRLabel.close();
+        fichierW.close();
+        }
+        else{
+                cerr << "Error, file opening/creation impossible !" << endl;
+        }
     }
     else{
-    cerr << "Error, file opening impossible !" << endl;
+                cerr << "Error, file opening impossible !" << endl;
     }
-    }
-
-    //pré-requis : 1 lignes d'entête (n=55)
-    //same number of label values(cost) and segment
-    //Mandatory syntaxe : Edges = {<1,3>,<2,3>, <3,1>, <3,2>, <3,6>,...   }
-    //                    Cost = [5 3 5 1 2 1 1 2 5 4 2....   ]
-
-    void conversionDatInDot(string read, string write = "CSV_convert.dot", string graphName = "graphName", bool digraph = false){//false = graph; true = digraph)){
-
-    ifstream fichierR(read.c_str(), ios::in);//opening of reading file
-    ofstream fichierW(write.c_str(), ios::out | ios::app);//opening of writing file
-    ifstream fichierRLabel(read.c_str(), ios::in);//opening of reading label values file
-
-    if(fichierR) { // test opening file succeed
-    if(fichierW) { // test opening file succeed
-
-    string typeGraph; // "graph" or "digraph" depends parameter
-    string flux; // "--" or "->" depends of parameter
-
-    if(!digraph){//assignment of typeGraph and flux
-    typeGraph = "graph";
-    flux = " -- ";
-    }
-    else{ typeGraph = "digraph"; flux = " -> ";}
-
-    fichierW << typeGraph << " " << graphName << " {\n\t"; // writing of the first line
-
-    string contentS; //read string storage
-    char contentC; //read char storage
-    string fullLabel = ""; //label of each segment
-    char label;//each char of fullLabel
-
-    fichierRLabel.get(label);
-    while(label != '['){//reaching label values
-    fichierRLabel.get(label);
-    }
-    fichierRLabel.get(label);
-
-    getline(fichierR, contentS);//entête
-
-    fichierR.get(contentC);
-    while(contentC != '}'){//while this is not end of file
-    //while this is not the end of values list
-    while(contentC != '<'){//while we didn't find a starting value...
-    fichierR.get(contentC);//...we moving curseur forward
-    }
-    fichierR.get(contentC);
-    while(contentC != ','){//while this is not the end of the first value...
-    fichierW << contentC;//...we write numbers...
-    fichierR.get(contentC);//...then we move forward.
-    }
-    fichierW << flux;
-    fichierR.get(contentC);
-    while(contentC != '>'){//while this is not the end of the second value...
-    fichierW << contentC;//...we write numbers...
-    fichierR.get(contentC);//...then we move forward.
-    }
-
-    while(label != ' '){//fullLabel constructing
-    fullLabel += label;
-    fichierRLabel.get(label);
-    }
-    fichierRLabel.get(label);//move to the next label
-
-    fichierW << " [label=" << fullLabel << "];\n\t";//end of line
-    fichierR.get(contentC);
-    fullLabel = "";//resetting of fullLabel
-
-    }
-    fichierW << '}';
-
-    fichierR.close();
-    fichierW.close();
-    fichierRLabel.close();
-    }
-    else{
-    cerr << "Error, file opening/creation impossible !" << endl;
-    }
-    }
-    else{
-    cerr << "Error, file opening impossible !" << endl;
-    }
-    }*/
-
-
-
+}
+*/
 
   /**
      \brief Gives a list of verteces
