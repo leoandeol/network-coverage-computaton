@@ -241,7 +241,7 @@ public:
     {
 		if(network_graph[itV->second].is_working == true)
 		{
-			clean->add_routeur(network_graph[vertex_list[itV->second]].name);
+			clean->add_routeur(network_graph[itV->second].name);
 		}
 	}
     for(itE = edge_list.begin(); itE != edge_list.end(); ++itE)
@@ -380,7 +380,7 @@ boost::default_dijkstra_visitor());
 	
 	for(unsigned int i = 0; i < idList.size(); i++)
 	{
-		std::cout << " visiting routeur i : " << nidList[i];
+		std::cout << " visiting routeur i : " << idList[i];
 		for(unsigned int j = i; j < idList.size(); j++)
 		{
 			std::cout << " visiting routeur j : " << idList[j];
