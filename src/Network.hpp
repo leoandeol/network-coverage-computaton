@@ -92,10 +92,11 @@ public:
      \return 0 in case of success, else -1
   */
 	
-  int add_routeur(std::string& name)
+  int add_routeur(std::string& name, bool isMC = true)
   {
     Routeur r;
     r.name = name;
+	r.is_multicast = isMC;
     vertex_t v_desc = add_vertex(r,network_graph);
     vertex_list[name] = v_desc;
     return 0;

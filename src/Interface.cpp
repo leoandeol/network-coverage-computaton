@@ -240,17 +240,21 @@ int Interface::create_graph_terminal(std::string s)
 
 		if(n->routeur_exists(input1)==-1)
 		  {
-		    n->add_routeur(input1);
+			std::cout << " MulticastCapable (true or false) ? " << std::endl;
+			std::cin >> input3;
+			n->add_routeur(input1,input3);
 		  }
 		if(n->routeur_exists(input2)==-1)
 		  {
-		    n->add_routeur(input2);
+			std::cout << " MulticastCapable (true or false) ? " << std::endl;
+			std::cin >> input4;
+		    n->add_routeur(input2,input4);
 		  }
 		
 		std::cout << "Cable length" << std::endl;
-		std::cin >> input3;
+		std::cin >> input5;
 		
-		n->add_cable(input1,input2,stoi(input3));
+		n->add_cable(input1,input2,stoi(input5));
     }
   
   
