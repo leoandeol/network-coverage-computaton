@@ -191,6 +191,23 @@ public:
   {
     return 0;
   }
+
+  /**
+     \brief Checks if a named routeur exists and returns its id
+     \param name The name of the routeur
+     \return the id of the asked routeur, or -1 if it doesnt exist
+   */
+
+  int routeur_exists(std::string name)
+  {
+    if(vertex_list.find(name)==vertex_list.end())
+      {
+	return -1;
+      }
+    return vertex_list[name];
+  }
+  
+
   /**
      \brief Checks the actuel graph and create a new one without routeurs/cables that are broken. If a routeur is broken, the cables linked to him wont be added
      \return a new graph with only routeurs and cables that are working
@@ -332,78 +349,84 @@ boost::default_dijkstra_visitor());
     Network<Vertex, Edge>* n1  = new Network<Vertex, Edge>(net_info);
 	
     std::vector<vertex_t> idList;
-    typename std::vector<vertex_t>::iterator it2,it3,leafit, leafit2;
+
+    typename std::vector<vertex_t>::iterator it2,it3,leafit1,leafit2;
     typename vertex_list_t::iterator it;
-    //typename boost::graph_traits<network_graph_t>::vertex_iterator it, it2, it3;
 	
     //!< Checking all the vertices of the graph trhough iterators
     for(it = n->vertex_list.begin(); it != n->vertex_list.end(); ++it)
       {
 		//!< If the degree of the vertex is 1 it means that it's a leaf so we push it into the leaf list
-		if(boost::in_degree(it->second, network_graph)== 1)
+		if(boost::in_degree(it->second, network_graph)== 1 || boost::in_degree(it->second, network_graph)== 2)
 		{
 			idList.push_back(it->second);
 		}
 	}
 	
-		
-    EdgePair ep;
-    VertexDescriptor u,v;
-	//!< We check all the edges of the graph
-    for (ep = boost::edges(n->network_graph); ep.first != ep.second; ++ep.first)
-      {
-	//!< We get the source and the target of each edge
-	u=boost::source(*ep.first,n->network_graph);
-	v=boost::target(*ep.first,n->network_graph);
-	it2 = std::find(idList.begin(),idList.end(),u);
-	it3 = std::find(idList.begin(),idList.end(),v);
-	//!< If the source and the target are Leaves and if they're different it's mean that they are connected in the initial graph
-	if(it2 != idList.end() && it3 != idList.end() && it2 != it3)
-	  {
-		//!< We get the path between those two leaves from the minimal tree n
-	    std::vector<std::string> cycle = n->get_path(network_graph[u].name,network_graph[v].name);
-		//!< We add the routeurs corresponding to the leaves and the edge between those two leaves to the network we will return
-		n1->add_routeur(network_graph[u].name);
-		n1->add_routeur(network_graph[v].name);
-	    n1->add_cable(network_graph[u].name,network_graph[v].name,network_graph[*ep.first].length);
-	    std::vector<std::string>::iterator verteces,verteces2;
-	    verteces = cycle.begin();
-		n1->add_routeur(network_graph[vertex_list[*verteces]].name);
-	    verteces2 = verteces;
-		//!< For each vertex in the patch 'cycle' we add their edges to n1
-	    while(verteces2 != cycle.end()){
-	      ++verteces2;
-		  n1->add_routeur(network_graph[vertex_list[*verteces2]].name);
-	      n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
-	      ++verteces;
-	    }						
-	  }
-      }
-	/*
-	//!< Checking all the edges of each leaf from the initial graph (this)
-	for(leafit = idlist.begin(); leafit != idlist.end(); ++leafit)
+	for(unsigned int i = 0; i < idList.size(); i++)
 	{
-		typename boost::graph_traits<network_graph_t>::out_edge_iterator edge_it, edge_it_end;
-		for(boost::tie(edge_it,edge_it_end) = boost::out_edges(*leafit, network_graph); edge_it != edge_it_end; ++edge_it)
+		for(unsigned int j = i; i < idList.size(); j++)
 		{
-			for(leafit2 = idlist.begin(); leafit2 != idlist.end() && leafit2!=leafit; ++leafit2)
+			if(i != j)
 			{
-				//!< If the target of one of its vertices is a leaf we add the corresponding edge to the network we're going to return
-				if(boost::target(*edge_it, n->network_graph)==*leafit2)
+				if(boost::edge(idList[i],idList[j],network_graph).second == true)
 				{
-					std::vector<std::string> cycle = n->get_path(network_graph[*leafit].name,network_graph[*leafit2].name);
-					n1->add_cable(network_graph[*	leafit].name,network_graph[*leafit2].name,network_graph[*edge_it].length);
-					std::vector<std::string>::iterator verteces;
-					for(verteces = cycle.begin(); verteces != cycle.end(); ++verteces)
-					{
-						for(std::vector<std::string>::iterator verteces2 = verteces; verteces != cycle.end() && verteces2 != verteces; ++verteces2){
-							n1->add_cable(network_graph[vertex_list[*verteces]].name,network_graph[vertex_list[*verteces2]].name);
-						}
-						
+					std::cout << "in the boucle" << std::endl;
+					std::vector<std::string> cycle = n->get_path(network_graph[idList[i]].name,network_graph[idList[j]].name);
+					for(unsigned int m = 0; m < cycle.size(); m++){
+						std::cout << cycle[m] << std::endl;
 					}
+					unsigned int k = 0;
+					unsigned int l = 0;
+					n1->add_routeur(cycle[0]);
+					std::cout << " routeur added "<< std::endl;
+					while(l < cycle.size())
+					{
+					  std::cout << "in the boucle 2" << std::endl;
+					  l++;
+					  n1->add_routeur(cycle[l]);
+					  std::cout << " routeur added "<< std::endl;
+					  n1->add_cable(cycle[k],cycle[l]);
+					  std::cout << " cable added "<< std::endl;
+					  k++;
+					}
+					n1->add_cable(network_graph[idList[i]].name,network_graph[idList[j]].name);
+					std::cout << " cable added "<< std::endl;
 				}
-			}	
-		}
+			}
+		}		
+	}
+	/*
+	for(leafit1 = idList.begin(); leafit1 != idList.end(); ++leafit1)
+	{
+		for(leafit2 = leafit1; leafit2 != idList.end(); ++leafit2)
+		{
+			if(leafit2 != leafit1)
+			{
+				if(boost::edge(*leafit1,*leafit2,network_graph).second == true)
+				{
+					std::cout << "in the boucle" << std::endl;
+					std::vector<std::string> cycle = n->get_path(network_graph[*leafit1].name,network_graph[*leafit2].name);
+					std::vector<std::string>::iterator verteces1,verteces2;
+					verteces1 = cycle.begin();
+					verteces2 = cycle.begin();
+					n1->add_routeur(*verteces1);
+					std::cout << " routeur added "<< std::endl;
+					while(verteces2 != cycle.end())
+					{
+					  std::cout << "in the boucle 2" << std::endl;
+					  ++verteces2;
+					  n1->add_routeur(*verteces2);
+					  std::cout << " routeur added "<< std::endl;
+					  n1->add_cable(*verteces1,*verteces2);
+					  std::cout << " cable added "<< std::endl;
+					  ++verteces1;
+					}
+					n1->add_cable(network_graph[*leafit1].name,network_graph[*leafit2].name);
+					std::cout << " cable added "<< std::endl;
+				}
+			}
+		}		
 	}
 	*/
 	return n1;
@@ -571,7 +594,7 @@ boost::default_dijkstra_visitor());
 		  p = test;
 		  theChosenOne=it;
 		}
-0	//}
+	//}
       }
     }
     //!< The smallest path take a source and a target, we remove the target from the list

@@ -62,7 +62,7 @@ void Interface::menu()
 		    std::cin >> s;
 			std::cout << "What's the ID of the graph to export ?" << std::endl;
 		    std::cin >> id;
-			if(id < 0 || id > static_cast<int>(networks.size())){
+unsigned 			if(id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
 			}	
 			else{
@@ -209,7 +209,7 @@ int Interface::create_graph_terminal(std::string s)
 	Network<Routeur,Cable>* n = new Network<Routeur,Cable>();
 	n->set_network_name(s);
 
-	std::string input1, input2;
+	std::string input1, input2, input3;
 	std::cout << "Network creation assistant" << std::endl;
 	std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
 	
@@ -224,20 +224,24 @@ int Interface::create_graph_terminal(std::string s)
 		//rentrer un chiffre
 		std::cin >> input1;
 		if(input1=="done") break;
-
-		if(is_in(id, input1) == -1){
-		}
-
-
 		std::cout << "Node 2 : ";
 		//rentrer chiffre
 		std::cin >> input2;
 		if(input2=="done") break;
 
-		if(is_in(id, input1) == -1){
-		}
-
-		n->add_cable(input1,input2);
+		if(n->routeur_exists(input1)==-1)
+		  {
+		    n->add_routeur(input1);
+		  }
+		if(n->routeur_exists(input2)==-1)
+		  {
+		    n->add_routeur(input2);
+		  }
+		
+		std::cout << "Cable length" << std::endl;
+		std::cin >> input3;
+		
+		n->add_cable(input1,input2,stoi(input3));
     }
   
   
@@ -274,7 +278,8 @@ void Interface::export_graph(int id, std::string name)
 	}
 	networks[id]->save_to_file(path);
 	std::string img_path = DATA_FOLDER + name + std::to_string(id) + ".png";
-	std::string transform = "dot -Tpng "+path+" > "+img_path;
+	std::string transform = "dot -Tpng \""+path+"\" > \""+img_path+"\"";
+	std::cout << transform << std::endl;
 	system(transform.c_str());
 }
 
