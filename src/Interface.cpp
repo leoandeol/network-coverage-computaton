@@ -24,7 +24,7 @@ void Interface::menu()
 	char c;
 	do
 	{
-		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t9 : Removing routeurs and cables that aren't working\n\t10 : Exit" << std::endl;
+		std::cout << "Menu :" << std::endl << "Type a number to start its related routine" << std::endl << "\t0 : List of the current graphs\n\t1 : Graph creation\n\t2 : Graph importation\n\t3 : Graph exportation\n\t4 : Shortest-path algorithm\n\t5 : Shortest-path algorithm colouring\n\t6 : Partial tree for multicasting\n\t7 : Minimum spanning tree\n\t8 : Minimum cycles computation\n\t9 : Removing routeurs and cables that aren't working\n\t10 : Edit graph\n\t11 : Exit" << std::endl;
 		std::cin >> s;
 		input = stoi(s);
 		switch(input)
@@ -200,6 +200,16 @@ void Interface::menu()
 			
 			break;
 		case 10:
+			std::cout << "What's the id of the graph ?" << std::endl;
+			std::cin >> i;
+			id = std::stoi(i);
+			if(id < 0 || id > static_cast<int>(networks.size())){
+				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
+				break;
+			}
+			edit_graph(id);
+			break;
+		case 11:
 			cont = false;
 			break;
 		}
@@ -452,3 +462,33 @@ int Interface::get_clean_graph(int id)
 
 	return id2;
 }
+
+int Interface::edit_graph(int id)
+{	
+	std::string option;
+	int	optionINT;	
+	auto n = networks[id];
+	std::cout << "\t ---------------------------------- " << std::endl;
+	std::cout << "\t -- Welcome to the graph editor. -- " << std::endl;
+	std::cout << "\t ---------------------------------- " << std::endl;
+	bool loop = true;
+	do{
+		std::cout << "\t1 : Edit the verteces\n\t2 : Edit the edges\n\t3 : Exit" << std::endl;
+		std::cin >> option;
+		optionINT = std::stoi(option);
+		switch(optionINT){
+			case 1:
+				n->edit_verteces();
+				break;
+			case 2:
+				n->edit_edges();
+				break;
+			case 3:
+				loop = false;
+				break;
+		}
+	}while(loop);
+	return 0;
+}
+
+

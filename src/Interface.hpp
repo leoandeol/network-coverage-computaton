@@ -98,6 +98,15 @@ public:
 	  \return The id of the cleant network
 	*/
 	int get_clean_graph(int id);
+	
+	/**
+	  \brief Allows the user to edit its graph
+	  \param id The network's id
+	  \return 0 if everything was allright
+	*/
+	int edit_graph(int id);
+	
+
 
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
