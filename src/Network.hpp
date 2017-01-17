@@ -1256,6 +1256,11 @@ public:
 		std::cout << " What's the name of the edge ? " << std::endl;
 		std::cin >> e_name;
 		std::string answer;
+		while(edge_contains(e_name)==-1){
+			std::cout << "Give the name of an existing edge please. " << std::endl;
+			std::cin.clear();
+			std::cin >> e_name;
+		}
 		if(network_graph[edge_list[e_name]].is_working == true)
 		{
 			std::cout << " This edge is actually working, do you want to change it to non-working (yes or no)? " << std::endl;
