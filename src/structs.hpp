@@ -2,6 +2,7 @@
 #define STRUCTS_HPP
 
 #include <string>
+#include <boost/graph/adjacency_list.hpp>
 
 typedef struct NetworkInfo
 {
@@ -39,8 +40,8 @@ typedef struct Routeur : Default_Vertex {
 } Routeur;
 
 typedef struct Cable : Default_Edge {
-  unsigned int length;
-  std::string color;
+	std::string color;
+	unsigned int length;
 } Cable;
 
 

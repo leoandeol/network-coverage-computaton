@@ -46,6 +46,13 @@ public:
 	 */
 	int create();
 
+	/**
+	  \brief Return 1 if the vertex is in the graph, else -1
+	  \return 1 if the vertex is in the graph, else -1
+	*/
+	int is_in(int id, std::string name);
+
+
 	bool is_connected(int id);
 	
 	/**
@@ -84,9 +91,26 @@ public:
 	  \return The id of the network that contains the cycles
 	*/
 	int get_cycles(int id);
+
+	/**
+	  \brief Computes a version of the graph without the disabled routeurs
+	  \param id The network's id
+	  \return The id of the cleant network
+	*/
+	int get_clean_graph(int id);
+	
+	/**
+	  \brief Allows the user to edit its graph
+	  \param id The network's id
+	  \return 0 if everything was allright
+	*/
+	int edit_graph(int id);
+	
+
+
 private:
 	std::vector<Network<Routeur, Cable>* > networks;
-	const std::string DATA_FOLDER = "./";
+	const std::string DATA_FOLDER = "data/";
 	const std::string FILE_EXTENSION = ".dot";
 };
 
