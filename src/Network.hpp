@@ -41,8 +41,9 @@ public:
 	*/
 	Network() : Network(NetworkInfo("DefaultGraphPropertyName","DefaultGraphPropertyLocation"))
 	{
-		
+
 	}
+
 	/**
 	   \brief Constructor
 	   \param i struct containing informations about the graph such as its name

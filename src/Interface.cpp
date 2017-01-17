@@ -234,22 +234,24 @@ int Interface::create_graph_terminal(std::string s)
 	n->set_network_name(s);
 
 	std::string input1, input2, input3, input4, input5;
+
 	std::cout << "Network creation assistant" << std::endl;
 	std::cout << "Type in \"done\" anytime to finish the creation" << std::endl;
 	
 	networks.push_back(n);
 	
 	while(true)
-    {
-		
-		//Ex: 1 -> 2
-	  
+	  {
+	    
+      
 		std::cout << "Node 1 : ";
 		//rentrer un chiffre
 		std::cin >> input1;
 		if(input1=="done") break;
+
+
 		std::cout << "Node 2 : ";
-		//rentrer chiffre
+
 		std::cin >> input2;
 		if(input2=="done") break;
 
