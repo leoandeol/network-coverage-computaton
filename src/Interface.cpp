@@ -62,7 +62,7 @@ void Interface::menu()
 		    std::cin >> s;
 			std::cout << "What's the ID of the graph to export ?" << std::endl;
 		    std::cin >> id;
-			if(id < 0 || id > static_cast<int>(networks.size())){
+			if(networks.size() == 0 || id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
 			}	
 			else{
@@ -72,49 +72,52 @@ void Interface::menu()
 		case 4:
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
-			id = stoi(i);
-			if(id < 0 || id > static_cast<int>(networks.size())){
+			id = stoi(i); 
+			if(networks.size() == 0 || id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
 				break;
-			}	
-			std::cout << "What's the name of the source vertex ?" << std::endl;
-			std::cin >> s;
-			if(is_in(id, s) == -1){
-				std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
-			}else{
-				std::cout << "What's the name of the target vertex ?" << std::endl;
-				std::cin >> t;
-				if(is_in(id, t)==-1){
+			}
+			else{
+				std::cout << "What's the name of the source vertex ?" << std::endl;
+				std::cin >> s;
+				if(is_in(id, s) == -1){
 					std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
-				}
-				else{
-					std::cout << std::endl << std::endl;
-				
-					std::cout << "Following the shortest path to go from " << s << " to " << t << std::endl;
-					shortest_path(id, s, t);
+				}else{
+					std::cout << "What's the name of the target vertex ?" << std::endl;
+					std::cin >> t;
+					if(is_in(id, t)==-1){
+						std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+					}
+					else{
+						std::cout << std::endl << std::endl;
+					
+						std::cout << "Following the shortest path to go from " << s << " to " << t << std::endl;
+						shortest_path(id, s, t);
+					}
 				}
 			}
 			break;
 		case 5:
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
-			id = stoi(i);
-			if(id < 0 || id > static_cast<int>(networks.size())){
+			id = stoi(i); 
+			if(networks.size() == 0 || id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
 				break;
-			}	
-			std::cout << "What's the name of the source vertex ?" << std::endl;
-			std::cin >> s;
-			if(is_in(id, s) == -1){
-				std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
 			}else{
-				std::cout << "What's the name of the target vertex ?" << std::endl;
-				std::cin >> t;
+				std::cout << "What's the name of the source vertex ?" << std::endl;
+				std::cin >> s;
 				if(is_in(id, s) == -1){
 					std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
 				}else{
-					color_path(id, s, t);	
-					std::cout << "The path has been colored in the graph and exported. Check the data folder for the results. (The colored in the graph are reset to normal)" << std::endl;	
+					std::cout << "What's the name of the target vertex ?" << std::endl;
+					std::cin >> t;
+					if(is_in(id, s) == -1){
+						std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+					}else{
+						color_path(id, s, t);	
+						std::cout << "The path has been colored in the graph and exported. Check the data folder for the results. (The colored in the graph are reset to normal)" << std::endl;	
+					}
 				}
 			}
 			break;
@@ -122,41 +125,41 @@ void Interface::menu()
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = std::stoi(i);
-			if(id < 0 || id > static_cast<int>(networks.size())){
+			if(networks.size() == 0 || id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
-				break;
 			}	
-
-			std::cout << "What's the name of the source vertex ?" << std::endl;
-			std::cin >> s;
-			if(is_in(id, s) == -1){
-				std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
-			}else{
-				int test = 1;	
-				while(1){
-					std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph, enter \"done\" to end the list of targets)" << std::endl;
-					std::cin >> t;
-					if(t == "done"){break;}
-					test = is_in(id, t);
-					if(test == -1){
-						std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
-						break;
-					}else{
-						targets.push_back(t);
+			else{
+				std::cout << "What's the name of the source vertex ?" << std::endl;
+				std::cin >> s;
+				if(is_in(id, s) == -1){
+					std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+				}else{
+					int test = 1;	
+					while(1){
+						std::cout << "What's the name of the target vertex ? (Make sure the vertex are in the graph, enter \"done\" to end the list of targets)" << std::endl;
+						std::cin >> t;
+						if(t == "done"){break;}
+						test = is_in(id, t);
+						if(test == -1){
+							std::cout << "The vertex has not been found in the graph. Please make sure this is the correct name. " << std::endl;
+							break;
+						}else{
+							targets.push_back(t);
+						}
 					}
-				}
-				if(test == 1){
-					std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=0" << std::endl;
-					std::cin >> i;
-					if(stoi(i) == 1){
-					std::cout << "You just say yes. The program will export the graph with the id " << id << " and will color the partial tree calculated. " << std::endl;
-					std::cout << "The source is colored in green wheares the targets are colored in blue. Please check the data folder for the result (.dot & .png provided). " << std::endl;
-						id = partial_tree(id, s, targets, 1);
+					if(test == 1){
+						std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=0" << std::endl;
+						std::cin >> i;
+						if(stoi(i) == 1){
+						std::cout << "You just say yes. The program will export the graph with the id " << id << " and will color the partial tree calculated. " << std::endl;
+						std::cout << "The source is colored in green wheares the targets are colored in blue. Please check the data folder for the result (.dot & .png provided). " << std::endl;
+							id = partial_tree(id, s, targets, 1);
+						}
+						else{
+							id = partial_tree(id, s, targets);
+						}
+					std::cout << "The partial graph created is associated with the ID : " << id << std::endl;
 					}
-					else{
-						id = partial_tree(id, s, targets);
-					}
-				std::cout << "The partial graph created is associated with the ID : " << id << std::endl;
 				}
 			}
 			targets.clear();
@@ -165,49 +168,51 @@ void Interface::menu()
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = stoi(i);
-			if(id < 0 || id > static_cast<int>(networks.size())){
+			if(networks.size() == 0 || id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
-				break;
-			}	
-			id = minimum_spanning_tree(id);
+			}
+			else{
+				id = minimum_spanning_tree(id);
 
-			std::cout << "The minimum spaning tree created from " << stoi(i) << " is associated with the ID : " << id << std::endl;
+				std::cout << "The minimum spaning tree created from " << stoi(i) << " is associated with the ID : " << id << std::endl;
+			}
 
 			break;
 		case 8:
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = std::stoi(i);
-			if(id < 0 || id > static_cast<int>(networks.size())){
+			if(networks.size() == 0 || id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
-				break;
-			}	
-			id = get_cycles(id);
+			}else{
+				id = get_cycles(id);
 			
-			std::cout << "The network which contains the cycle of the graph" << stoi(i) << " is associated with the ID : " << id << std::endl;
+				std::cout << "The network which contains the cycle of the graph" << stoi(i) << " is associated with the ID : " << id << std::endl;
+			}
 			break;
 		case 9:
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = std::stoi(i);
-			if(id < 0 || id > static_cast<int>(networks.size())){
+			if(networks.size() == 0 || id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
-				break;
-			}	
-			id = get_clean_graph(id);
+			}else{
+				id = get_clean_graph(id);
+				std::cout << "The network which contains the clean network" << stoi(i) << " is associated with the ID : " << id << std::endl;
+			}
 			
-			std::cout << "The network which contains the clean network" << stoi(i) << " is associated with the ID : " << id << std::endl;
 			
 			break;
 		case 10:
 			std::cout << "What's the id of the graph ?" << std::endl;
 			std::cin >> i;
 			id = std::stoi(i);
-			if(id < 0 || id > static_cast<int>(networks.size())){
+			if(networks.size() == 0 || id < 0 || id > static_cast<int>(networks.size())){
 				std::cout << "The graph id is incorrect. Please check the list of the graph running task number 0. " << std::endl; 
-				break;
 			}
-			edit_graph(id);
+			else{
+				edit_graph(id);
+			}
 			break;
 		case 11:
 			cont = false;
@@ -385,12 +390,15 @@ std::vector<std::string> Interface::shortest_path2(int id, std::string& source, 
 
 int Interface::partial_tree(int id, std::string& source, std::vector<std::string>& targets, int color)
 {
+	int id2 = networks.size();
 	//!< Needed a vector of sources for the function
 	std::vector<std::string> sources;
 	sources.push_back(source);
 	//!< Create the name of the tree
-	std::string name = networks[id]->get_network_name()+"-PartialTree";
-	
+	std::string name = networks[id]->get_network_name()+"-PartialTree:"+source+"->"+targets.at(0);
+	for(std::vector<std::string>::iterator it = ++targets.begin(); it != targets.end(); ++it){
+		name = "-" + name+ *it;
+	}
 	//!< Creation of the futur tree
 	Network<Routeur, Cable>* tree = new Network<Routeur,Cable>();
 
@@ -402,7 +410,8 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 
 	if(color == 1){
 		std::string s;
-		std::cout << "What's the name of the colored graph to export ? (without the extension, and the file will be located in the data folder) ?" << std::endl;
+		std::cout << std::endl << "What's the name of the colored graph to export ? (without the extension, and the file will be located in the data folder) ?" << std::endl;
+
 		std::cin >> s;
 
 		std::vector<std::string> verteces = tree->get_all_verteces();	
@@ -414,10 +423,13 @@ int Interface::partial_tree(int id, std::string& source, std::vector<std::string
 		networks[id]->color_list_edges(edges, "");
 	
 	}
-	
+
+
+
+	tree->color_source(source);
+	tree->color_targets(targets);
 
 	//!< Adding it to the network list
-	int id2 = networks.size();
 	networks.push_back(tree);
 
 	return id2;

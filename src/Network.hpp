@@ -107,6 +107,7 @@ public:
 		else{
 			std::cout << " please type true or false for the Multicast capacity of the routeur " << std::endl;
 		}
+		r.is_working = 1;
 		vertex_t v_desc = add_vertex(r,network_graph);
 		vertex_list[name] = v_desc;
 		return 0;
@@ -138,9 +139,10 @@ public:
 
 		Cable c;
 		c.length = length;
+		c.is_working = 1;
 	
 		auto tmp1 = add_edge(vertex_list[id1], vertex_list[id2], c, network_graph);
-
+		
 		std::string nom1 = create_edge_name(id1, id2);
 		std::string nom2 = create_edge_name(id2, id1);
 		std::pair<std::string, edge_t> t1 = {nom1, tmp1.first};
@@ -248,9 +250,10 @@ public:
 		{
 			if(network_graph[itE->second].is_working == true)
 			{
-				if(boost::edge(boost::source(itE->second,network_graph),boost::target(itE->second,network_graph),clean->network_graph).second == false)
+				
+				if(clean->edge_contains(itE->first) == -1)
 				{
-					clean->add_cable(network_graph[boost::source(itE->second,network_graph)].name,network_graph[boost::target(itE->second,network_graph)].name);
+					clean->add_cable(network_graph[boost::source(itE->second,network_graph)].name,network_graph[boost::target(itE->second,network_graph)].name, network_graph[itE->second].length);
 				}
 			}
 		}
@@ -475,8 +478,8 @@ public:
 			//!< length is set to 1 by default if length is not renseigner
 			if(network_graph[*it2.first].length < 0){
 				network_graph[*it2.first].length = 1;
-				network_graph[*it2.first].is_working = 1;	
 			}
+				network_graph[*it2.first].is_working = 1;	
 
 				
 			std::string edge_name = create_edge_name(*it2.first);
@@ -597,21 +600,35 @@ public:
 		//!< We choose the first smallest path from a source to a target
 		for(path::iterator it = targets.begin(); it != targets.end(); ++it){
 			for(int unsigned i = 0; i < source.size(); i++){	
-				//	if(network_graph[vertex_list[source.at(i)]].i
-				test = get_path(source.at(i), *it);
-				//				std::cout << "test" << std::endl;
-				if((p.size() == 0 || test.size() < p.size())&&network_graph[vertex_list[source[i]]].is_multicast){
-					p = test;
-					theChosenOne=it;
+					if(source.size() == 1 || network_graph[vertex_list[source.at(i)]].is_multicast){
+					test = get_path(source.at(i), *it);
+					//				std::cout << "test" << std::endl;
+					if((p.size() == 0 || test.size() < p.size())){
+						p = test;
+						theChosenOne=it;
+					}
 				}
-				//}
 			}
 		}
 		//!< The smallest path take a source and a target, we remove the target from the list
 		targets.erase(theChosenOne);
 
 		//!< The smallest path is added to the tree (the network)
-		tree->add_path(p);
+		    std::vector<std::string>::iterator c, c2;
+		    std::string name;
+		    c = p.begin();
+		    c2 = c+1;
+		    for(; c2!=p.end() && c != p.end(); ++c, ++c2){
+				tree->add_routeur(*c);
+				if(c!=c2){
+					tree->add_routeur(*c2);
+					name= *c+"--"+ *c2;
+			
+					if(tree->edge_contains(name) == -1)
+						tree->add_cable(*c,*c2, network_graph[edge_list[name]].length);
+			
+				}
+		    }
 		
 		//!< Is added the path's routers to the list of source
 		source.insert(source.end(), ++p.begin(),p.end());	
@@ -1275,6 +1292,14 @@ public:
 				return 0;
 			}
 		}
+	}
+	void color_source(std::string s){		
+		network_graph[vertex_list[s]].color = "chartreuse";
+	}
+	void color_targets(std::vector<std::string> t){
+		for(std::vector<std::string>::iterator it = t.begin(); it != t.end(); ++it){
+			network_graph[vertex_list[*it]].color = "aquamarine";
+		}	
 	}
 
 private:
