@@ -84,9 +84,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a181eb716b492eb654282782841de33ec"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a181eb716b492eb654282782841de33ec">add_routeur</a> ()</td></tr>
 <tr class="memdesc:a181eb716b492eb654282782841de33ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new routeur and returns its id.  <a href="#a181eb716b492eb654282782841de33ec">More...</a><br /></td></tr>
 <tr class="separator:a181eb716b492eb654282782841de33ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8254d70880b2ca3634ec310eec835475"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a8254d70880b2ca3634ec310eec835475">add_routeur</a> (std::string &amp;name)</td></tr>
-<tr class="memdesc:a8254d70880b2ca3634ec310eec835475"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new routeur with a set name and returns its id.  <a href="#a8254d70880b2ca3634ec310eec835475">More...</a><br /></td></tr>
-<tr class="separator:a8254d70880b2ca3634ec310eec835475"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e69479e21762f5ce13e5d9c22ff26a8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a6e69479e21762f5ce13e5d9c22ff26a8">add_routeur</a> (std::string &amp;name, std::string isMC=&quot;true&quot;)</td></tr>
+<tr class="memdesc:a6e69479e21762f5ce13e5d9c22ff26a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new routeur with a set name and returns its id.  <a href="#a6e69479e21762f5ce13e5d9c22ff26a8">More...</a><br /></td></tr>
+<tr class="separator:a6e69479e21762f5ce13e5d9c22ff26a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16b4fe4c6d98f3c4d81753a8ea84f5b2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a16b4fe4c6d98f3c4d81753a8ea84f5b2">add_cable</a> (std::string &amp;id1, std::string &amp;id2, int length=1)</td></tr>
 <tr class="memdesc:a16b4fe4c6d98f3c4d81753a8ea84f5b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new cable between two routeurs, and returns its id.  <a href="#a16b4fe4c6d98f3c4d81753a8ea84f5b2">More...</a><br /></td></tr>
 <tr class="separator:a16b4fe4c6d98f3c4d81753a8ea84f5b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,6 +111,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a332f27ad45c3297484b9a6f6fe9592fe"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a332f27ad45c3297484b9a6f6fe9592fe">remove_cable</a> (std::string &amp;id)</td></tr>
 <tr class="memdesc:a332f27ad45c3297484b9a6f6fe9592fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the cable with the given ID.  <a href="#a332f27ad45c3297484b9a6f6fe9592fe">More...</a><br /></td></tr>
 <tr class="separator:a332f27ad45c3297484b9a6f6fe9592fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac020efc058b88be75509e4d6851d43f8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#ac020efc058b88be75509e4d6851d43f8">routeur_exists</a> (std::string name)</td></tr>
+<tr class="memdesc:ac020efc058b88be75509e4d6851d43f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a named routeur exists and returns its id.  <a href="#ac020efc058b88be75509e4d6851d43f8">More...</a><br /></td></tr>
+<tr class="separator:ac020efc058b88be75509e4d6851d43f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a045c1ade7565996663093a6595b96d66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNetwork.html">Network</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a045c1ade7565996663093a6595b96d66">get_clean_graph</a> ()</td></tr>
 <tr class="memdesc:a045c1ade7565996663093a6595b96d66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the actuel graph and create a new one without routeurs/cables that are broken. If a routeur is broken, the cables linked to him wont be added.  <a href="#a045c1ade7565996663093a6595b96d66">More...</a><br /></td></tr>
 <tr class="separator:a045c1ade7565996663093a6595b96d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,7 +124,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_path</b> (std::string &amp;source, std::string &amp;destination)</td></tr>
 <tr class="separator:a455bfcf63e3c2c4ed412f21f4bffae7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a881683486d7e233ea8a8f68090462686"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNetwork.html">Network</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a881683486d7e233ea8a8f68090462686">get_cycles</a> ()</td></tr>
-<tr class="memdesc:a881683486d7e233ea8a8f68090462686"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a graph in the DOT format, from the path given as parameter.  <a href="#a881683486d7e233ea8a8f68090462686">More...</a><br /></td></tr>
+<tr class="memdesc:a881683486d7e233ea8a8f68090462686"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the different cycles within the graph.  <a href="#a881683486d7e233ea8a8f68090462686">More...</a><br /></td></tr>
 <tr class="separator:a881683486d7e233ea8a8f68090462686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33ba9327f4ceb4a00e6b1a3f1536f30c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a33ba9327f4ceb4a00e6b1a3f1536f30c">load_from_file</a> (std::string &amp;path)</td></tr>
 <tr class="memdesc:a33ba9327f4ceb4a00e6b1a3f1536f30c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a graph in the DOT format, from the path given as parameter.  <a href="#a33ba9327f4ceb4a00e6b1a3f1536f30c">More...</a><br /></td></tr>
@@ -177,6 +180,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a74383f1254752f86559d4452507eb0e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNetwork.html">Network</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a74383f1254752f86559d4452507eb0e6">minimum_tree</a> ()</td></tr>
 <tr class="memdesc:a74383f1254752f86559d4452507eb0e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the network graph into an undirected network graph.  <a href="#a74383f1254752f86559d4452507eb0e6">More...</a><br /></td></tr>
 <tr class="separator:a74383f1254752f86559d4452507eb0e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50c829bb2727582ea01212522422e2ff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a50c829bb2727582ea01212522422e2ff">contains</a> (std::string name)</td></tr>
+<tr class="memdesc:a50c829bb2727582ea01212522422e2ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Say if the vertex name is a vertex in the graph or not.  <a href="#a50c829bb2727582ea01212522422e2ff">More...</a><br /></td></tr>
+<tr class="separator:a50c829bb2727582ea01212522422e2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bd3d9ecee274ef274afb7e69e6b2ecd"><td class="memItemLeft" align="right" valign="top"><a id="a6bd3d9ecee274ef274afb7e69e6b2ecd"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>edge_contains</b> (std::string name)</td></tr>
+<tr class="separator:a6bd3d9ecee274ef274afb7e69e6b2ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa470b08378c6c58565fa2d95e06fd1d6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#aa470b08378c6c58565fa2d95e06fd1d6">edit_verteces</a> ()</td></tr>
+<tr class="memdesc:aa470b08378c6c58565fa2d95e06fd1d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to edit the graph's verteces.  <a href="#aa470b08378c6c58565fa2d95e06fd1d6">More...</a><br /></td></tr>
+<tr class="separator:aa470b08378c6c58565fa2d95e06fd1d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72cbe12763db771abc98c984c4321942"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a72cbe12763db771abc98c984c4321942">edit_edges</a> ()</td></tr>
+<tr class="memdesc:a72cbe12763db771abc98c984c4321942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to edit the graph's edges.  <a href="#a72cbe12763db771abc98c984c4321942">More...</a><br /></td></tr>
+<tr class="separator:a72cbe12763db771abc98c984c4321942"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab952d1007e56ebe7a5bfe3d3828e184a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#ab952d1007e56ebe7a5bfe3d3828e184a">edit_MC</a> ()</td></tr>
+<tr class="memdesc:ab952d1007e56ebe7a5bfe3d3828e184a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to edit the Multicast capacity of a routeur.  <a href="#ab952d1007e56ebe7a5bfe3d3828e184a">More...</a><br /></td></tr>
+<tr class="separator:ab952d1007e56ebe7a5bfe3d3828e184a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae8200d66af7e9602c656262c90dc6fb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#aae8200d66af7e9602c656262c90dc6fb">edit_Vstate</a> ()</td></tr>
+<tr class="memdesc:aae8200d66af7e9602c656262c90dc6fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to edit the state of a routeur.  <a href="#aae8200d66af7e9602c656262c90dc6fb">More...</a><br /></td></tr>
+<tr class="separator:aae8200d66af7e9602c656262c90dc6fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac951eefcc5044ab3f74abcbb9f62c485"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#ac951eefcc5044ab3f74abcbb9f62c485">edit_Estate</a> ()</td></tr>
+<tr class="memdesc:ac951eefcc5044ab3f74abcbb9f62c485"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to edit the state of an edge.  <a href="#ac951eefcc5044ab3f74abcbb9f62c485">More...</a><br /></td></tr>
+<tr class="separator:ac951eefcc5044ab3f74abcbb9f62c485"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96847ede0f78df2a6e7a63527d0035a6"><td class="memItemLeft" align="right" valign="top"><a id="a96847ede0f78df2a6e7a63527d0035a6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>color_source</b> (std::string s)</td></tr>
+<tr class="separator:a96847ede0f78df2a6e7a63527d0035a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb1ebb9fdd3d66d83c49bcff8ddb848"><td class="memItemLeft" align="right" valign="top"><a id="aecb1ebb9fdd3d66d83c49bcff8ddb848"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>color_targets</b> (std::vector&lt; std::string &gt; t)</td></tr>
+<tr class="separator:aecb1ebb9fdd3d66d83c49bcff8ddb848"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt;<br />
@@ -343,8 +373,8 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 
 </div>
 </div>
-<a id="a8254d70880b2ca3634ec310eec835475"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8254d70880b2ca3634ec310eec835475">&#9670;&nbsp;</a></span>add_routeur() <span class="overload">[2/2]</span></h2>
+<a id="a6e69479e21762f5ce13e5d9c22ff26a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e69479e21762f5ce13e5d9c22ff26a8">&#9670;&nbsp;</a></span>add_routeur() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,8 +388,18 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
           <td class="memname">int <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::add_routeur </td>
           <td>(</td>
           <td class="paramtype">std::string &amp;&#160;</td>
-          <td class="paramname"><em>name</em></td><td>)</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>isMC</em> = <code>&quot;true&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -571,6 +611,43 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 
 </div>
 </div>
+<a id="a50c829bb2727582ea01212522422e2ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50c829bb2727582ea01212522422e2ff">&#9670;&nbsp;</a></span>contains()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::contains </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Say if the vertex name is a vertex in the graph or not. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>A vertex name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if the graph contains the vertex, else -1 </dd></dl>
+
+</div>
+</div>
 <a id="ab282c541c042d60d4e88f50df5ed0764"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab282c541c042d60d4e88f50df5ed0764">&#9670;&nbsp;</a></span>create_edge_name() <span class="overload">[1/2]</span></h2>
 
@@ -664,6 +741,156 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a string : source-&gt;target </dd></dl>
+
+</div>
+</div>
+<a id="a72cbe12763db771abc98c984c4321942"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72cbe12763db771abc98c984c4321942">&#9670;&nbsp;</a></span>edit_edges()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::edit_edges </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allows the user to edit the graph's edges. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 if everything was allright </dd></dl>
+
+</div>
+</div>
+<a id="ac951eefcc5044ab3f74abcbb9f62c485"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac951eefcc5044ab3f74abcbb9f62c485">&#9670;&nbsp;</a></span>edit_Estate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::edit_Estate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allows the user to edit the state of an edge. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 if everything was allright </dd></dl>
+
+</div>
+</div>
+<a id="ab952d1007e56ebe7a5bfe3d3828e184a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab952d1007e56ebe7a5bfe3d3828e184a">&#9670;&nbsp;</a></span>edit_MC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::edit_MC </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allows the user to edit the Multicast capacity of a routeur. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 if everything was allright </dd></dl>
+
+</div>
+</div>
+<a id="aa470b08378c6c58565fa2d95e06fd1d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa470b08378c6c58565fa2d95e06fd1d6">&#9670;&nbsp;</a></span>edit_verteces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::edit_verteces </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allows the user to edit the graph's verteces. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 if everything was allright </dd></dl>
+
+</div>
+</div>
+<a id="aae8200d66af7e9602c656262c90dc6fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae8200d66af7e9602c656262c90dc6fb">&#9670;&nbsp;</a></span>edit_Vstate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::edit_Vstate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allows the user to edit the state of a routeur. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 if everything was allright </dd></dl>
 
 </div>
 </div>
@@ -821,16 +1048,8 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Loads a graph in the DOT format, from the path given as parameter. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>The path to the .dot file </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if the file was loaded successfully, else -1 Calculates the different cycles within the graph </dd>
-<dd>
-a new graph with the calculated cycles </dd></dl>
+<p>Calculates the different cycles within the graph. </p>
+<dl class="section return"><dt>Returns</dt><dd>a new graph with the calculated cycles </dd></dl>
 <p>&lt; The network which we're going to check its leafs</p>
 <p>&lt; The network that will be returned</p>
 <p>&lt; Checking all the vertices of the graph trhough iterators</p>
@@ -981,8 +1200,8 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if the file was loaded successfully, else -1 </dd></dl>
 <p>&lt; Inserting the verteces in the vertex_list_t</p>
-<p>&lt;In order to name the edge We capture the source and the target of the edge To access to their name Following the format : "source.name-&gt;target.name"</p>
-<p>&lt; length is set to 1 by default if lenght is not renseigner </p>
+<p>&lt;In order to name the edge We capture the source and the target of the edge To access to their name Following the format : "source.name--target.name"</p>
+<p>&lt; length is set to 1 by default if length is not renseigner </p>
 
 </div>
 </div>
@@ -1074,8 +1293,7 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The tree as a <a class="el" href="classNetwork.html">Network</a> </dd></dl>
 <p>&lt; Takahashi Matsuyama algorithm implementation</p>
 <p>&lt; We choose the first smallest path from a source to a target</p>
-<p>&lt; The smallest path is added to the tree (the network)</p>
-<p>&lt; Is added the path's routers to the list of source </p>
+<p>&lt; The smallest path is added to the tree (the network) </p>
 
 </div>
 </div>
@@ -1150,6 +1368,43 @@ template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the wanted cable, or nullptr if non-existent </dd></dl>
+
+</div>
+</div>
+<a id="ac020efc058b88be75509e4d6851d43f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac020efc058b88be75509e4d6851d43f8">&#9670;&nbsp;</a></span>routeur_exists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Vertex = Default_Vertex, class Edge = Default_Edge&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classNetwork.html">Network</a>&lt; Vertex, Edge &gt;::routeur_exists </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks if a named routeur exists and returns its id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the routeur </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the id of the asked routeur, or -1 if it doesnt exist </dd></dl>
 
 </div>
 </div>

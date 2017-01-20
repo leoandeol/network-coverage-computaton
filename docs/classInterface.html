@@ -94,6 +94,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:acd0bb755b65fb16aa3dd8517548cfb98"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#acd0bb755b65fb16aa3dd8517548cfb98">create</a> ()</td></tr>
 <tr class="memdesc:acd0bb755b65fb16aa3dd8517548cfb98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports a graph to a .dot file located in the data subfolder.  <a href="#acd0bb755b65fb16aa3dd8517548cfb98">More...</a><br /></td></tr>
 <tr class="separator:acd0bb755b65fb16aa3dd8517548cfb98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fcae8eda27b62fbbdf91bb803a84a70"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#a6fcae8eda27b62fbbdf91bb803a84a70">is_in</a> (int id, std::string name)</td></tr>
+<tr class="memdesc:a6fcae8eda27b62fbbdf91bb803a84a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return 1 if the vertex is in the graph, else -1.  <a href="#a6fcae8eda27b62fbbdf91bb803a84a70">More...</a><br /></td></tr>
+<tr class="separator:a6fcae8eda27b62fbbdf91bb803a84a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af64e745387e18976aadbbd5357a8b341"><td class="memItemLeft" align="right" valign="top"><a id="af64e745387e18976aadbbd5357a8b341"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_connected</b> (int id)</td></tr>
 <tr class="separator:af64e745387e18976aadbbd5357a8b341"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -115,6 +118,12 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 <tr class="memitem:a4d6c15715a85825681c327dba71f2acc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#a4d6c15715a85825681c327dba71f2acc">get_cycles</a> (int id)</td></tr>
 <tr class="memdesc:a4d6c15715a85825681c327dba71f2acc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the cycles of the graph.  <a href="#a4d6c15715a85825681c327dba71f2acc">More...</a><br /></td></tr>
 <tr class="separator:a4d6c15715a85825681c327dba71f2acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a154d152deb7e90c55b386c70342b4b56"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#a154d152deb7e90c55b386c70342b4b56">get_clean_graph</a> (int id)</td></tr>
+<tr class="memdesc:a154d152deb7e90c55b386c70342b4b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a version of the graph without the disabled routeurs.  <a href="#a154d152deb7e90c55b386c70342b4b56">More...</a><br /></td></tr>
+<tr class="separator:a154d152deb7e90c55b386c70342b4b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13c176000ac4110a73cc755dd609bca2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterface.html#a13c176000ac4110a73cc755dd609bca2">edit_graph</a> (int id)</td></tr>
+<tr class="memdesc:a13c176000ac4110a73cc755dd609bca2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to edit its graph.  <a href="#a13c176000ac4110a73cc755dd609bca2">More...</a><br /></td></tr>
+<tr class="separator:a13c176000ac4110a73cc755dd609bca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class handling the UI </p>
@@ -211,6 +220,33 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 
 </div>
 </div>
+<a id="a13c176000ac4110a73cc755dd609bca2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13c176000ac4110a73cc755dd609bca2">&#9670;&nbsp;</a></span>edit_graph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interface::edit_graph </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allows the user to edit its graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The network's id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if everything was allright </dd></dl>
+
+</div>
+</div>
 <a id="a7b1de85041315a77dd48d3507c266def"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b1de85041315a77dd48d3507c266def">&#9670;&nbsp;</a></span>export_graph()</h2>
 
@@ -245,6 +281,33 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a154d152deb7e90c55b386c70342b4b56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a154d152deb7e90c55b386c70342b4b56">&#9670;&nbsp;</a></span>get_clean_graph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interface::get_clean_graph </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes a version of the graph without the disabled routeurs. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The network's id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The id of the cleant network </dd></dl>
 
 </div>
 </div>
@@ -299,6 +362,37 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The id of the graph in case of success else -1 </dd></dl>
+
+</div>
+</div>
+<a id="a6fcae8eda27b62fbbdf91bb803a84a70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fcae8eda27b62fbbdf91bb803a84a70">&#9670;&nbsp;</a></span>is_in()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interface::is_in </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return 1 if the vertex is in the graph, else -1. </p>
+<dl class="section return"><dt>Returns</dt><dd>1 if the vertex is in the graph, else -1 </dd></dl>
 
 </div>
 </div>
@@ -371,9 +465,9 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 <dl class="section return"><dt>Returns</dt><dd>The id of the tree </dd></dl>
 <p>&lt; Needed a vector of sources for the function</p>
 <p>&lt; Create the name of the tree</p>
-<p>&lt; Creation of the futur tree</p>
 <p>&lt; Partial_minimum_tree return the tree, adding the verteces and edges to the tree</p>
-<p>&lt; Setting the name of the tree </p>
+<p>&lt; Setting the name of the tree</p>
+<p>&lt; Adding it to the network list </p>
 
 </div>
 </div>
