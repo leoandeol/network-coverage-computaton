@@ -395,7 +395,6 @@ public:
 				{
 					if(boost::edge(vertex_list[idList[i]],vertex_list[idList[j]],network_graph).second == true)
 					{
-						std::cout << "In the boucle" << std::endl;
 						std::vector<std::string> cycle = n->get_path(idList[i],idList[j]);
 					
 					    std::vector<std::string>::iterator c, c2;
@@ -420,7 +419,6 @@ public:
 						name = idList[i] + "--" + idList[j];
 						if(n1->edge_contains(name) == -1){
 							n1->add_cable(idList[i],idList[j], network_graph[edge_list[name]].length);
-							std::cout << "Cable between : " << idList[i] << " and " << idList[j] << " added " << std::endl;
 						}
 
 					}
@@ -463,7 +461,7 @@ public:
 		for(std::pair<typename boost::graph_traits<network_graph_t>::vertex_iterator, typename boost::graph_traits<network_graph_t>::vertex_iterator> it = boost::vertices(network_graph); it.first != it.second; ++it.first){
 			Routeur r = network_graph[*it.first];
 			std::pair<std::string, vertex_t> v = {r.name, *it.first};
-			network_graph[*it.first].is_multicast = 1;	
+
 			network_graph[*it.first].is_working = 1;
 			vertex_list.insert(v);
 		}
@@ -588,6 +586,12 @@ public:
 	Network* partial_minimum_tree(std::vector<std::string> source, std::vector<std::string> targets, Network<Routeur, Cable>* tree)
 	{
 		//!< Takahashi Matsuyama algorithm implementation
+
+		//!< Problème après réflexion et plusieurs tests complémentaires : 
+		//!< NB : Si on a A -> B-> C-> D
+		//!<		           C-> E comme résultat
+		//!< Si C et A ne sont pas multicast, imaginons un premier signal partant de A et allant vers D. Le signal allant vers E et passant par C a été émis par B. 
+		//!< Est-ce un problème ? Est-ce comme ça que cela se passe dans la réalité ? A discuter
 		typedef std::vector<std::string> path;
 
 		
@@ -600,10 +604,13 @@ public:
 
 		//!< We choose the first smallest path from a source to a target
 		for(path::iterator it = targets.begin(); it != targets.end(); ++it){
-			for(int unsigned i = 0; i < source.size(); i++){	
-					if(source.size() == 1 || network_graph[vertex_list[source.at(i)]].is_multicast){
+			for(int unsigned i = 0; i < source.size(); i++){
+				//!< If this is the last of the list, it means that he is a leaf so we can use him as a source even if it is not mc
+				if(i == source.size()-1 || network_graph[vertex_list[source.at(i)]].is_multicast){
+//					std::cout << "Source at : " << source.at(i) << std::endl;
+//					std::cout << "Number : " << i << std::endl;
+//					std::cout << "Size : " << source.size() << std::endl;
 					test = get_path(source.at(i), *it);
-					//				std::cout << "test" << std::endl;
 					if((p.size() == 0 || test.size() < p.size())){
 						p = test;
 						theChosenOne=it;
@@ -620,9 +627,19 @@ public:
 		    c = p.begin();
 		    c2 = c+1;
 		    for(; c2!=p.end() && c != p.end(); ++c, ++c2){
-				tree->add_routeur(*c);
+				if(tree->routeur_exists(*c) == -1){
+						if(network_graph[vertex_list[*c]].is_multicast)
+							tree->add_routeur(*c);
+						else
+							tree->add_routeur(*c, "false");
+				}
 				if(c!=c2){
-					tree->add_routeur(*c2);
+					if(tree->routeur_exists(*c2) == -1){
+						if(network_graph[vertex_list[*c2]].is_multicast)
+							tree->add_routeur(*c2);
+						else
+							tree->add_routeur(*c2, "false");
+					}
 					name= *c+"--"+ *c2;
 			
 					if(tree->edge_contains(name) == -1)
@@ -631,8 +648,19 @@ public:
 				}
 		    }
 		
-		//!< Is added the path's routers to the list of source
-		source.insert(source.end(), ++p.begin(),p.end());	
+		//!< Is added the path's routers that are MC to the list of source
+		for(path::iterator mc = p.begin(); mc != p.end(); ++mc){
+//			std::cout << "Add in source : " << *mc << std::endl;
+			if(network_graph[vertex_list[*mc]].is_multicast){
+				source.push_back(*mc);
+//				std::cout << *mc << std::endl;
+			}
+		}
+
+		//!< Is added the last of the path which can send the signal even if it is not mc
+		if(network_graph[vertex_list[p.at(p.size()-1)]].is_multicast == 0)
+			source.push_back(p.at(p.size()-1));
+//		std::cout << "Dernier du chemin pour la continuité : " << *(p.end()-1) << std::endl;
 	
 		return partial_minimum_tree(source, targets, tree);
 	}
@@ -1046,21 +1074,13 @@ public:
 
 		return minimum_spanning_tree;
 	}
-	/**
-	   \brief Say if the vertex name is a vertex in the graph or not
-	   \param name A vertex name
-	   \return 1 if the graph contains the vertex, else -1
-	*/
-	int contains(std::string name){
-		for(typename vertex_list_t::iterator it = vertex_list.begin(); it != vertex_list.end(); ++it){
-			if(it->first == name){
-				return 1;
-			}
-		}	
-		return -1;
-	}
-	int edge_contains(std::string name){
 
+	/**
+	   \brief Checks if a named edge exists and return1
+	   \param name The name of the routeur
+	   \return 1 if it exist or -1 if it doesn't exist
+	*/	
+	int edge_contains(std::string name){
 		for(typename edge_list_t::iterator it = edge_list.begin(); it != edge_list.end(); ++it){
 			if(it->first == name){
 				return 1;

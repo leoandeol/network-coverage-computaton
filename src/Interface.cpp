@@ -147,7 +147,7 @@ void Interface::menu()
 							targets.push_back(t);
 						}
 					}
-					if(test == 1){
+					if(test > 0){
 						std::cout << "Do you want to color the partial tree in the network ? yes=1 & no=0" << std::endl;
 						std::cin >> i;
 						if(stoi(i) == 1){
@@ -257,18 +257,20 @@ int Interface::create_graph_terminal(std::string s)
 
 		if(n->routeur_exists(input1)==-1)
 		  {
-			std::cout << " MulticastCapable (true or false) ? " << std::endl;
+			std::cout << "The router " << input1 << " doesn't exist and will be created. " << std::endl;
+			std::cout <<"Would you like to create it Multicast Capable (true or false) ? " << std::endl;
 			std::cin >> input3;
 			n->add_routeur(input1,input3);
 		  }
 		if(n->routeur_exists(input2)==-1)
 		  {
-			std::cout << " MulticastCapable (true or false) ? " << std::endl;
+			std::cout << "The router " << input2 << " doesn't exist and will be created. " << std::endl;
+			std::cout <<"Would you like to create it Multicast Capable (true or false) ? " << std::endl;
 			std::cin >> input4;
 		    n->add_routeur(input2,input4);
 		  }
 		
-		std::cout << "Cable length" << std::endl;
+		std::cout << "What is the length of the cable ? " << std::endl;
 		std::cin >> input5;
 		
 		n->add_cable(input1,input2,std::stoi(input5));
@@ -313,7 +315,7 @@ void Interface::export_graph(int id, std::string name)
 }
 
 int Interface::is_in(int id, std::string name){
-	return networks[id]->contains(name);
+	return networks[id]->routeur_exists(name);
 }
 
 
